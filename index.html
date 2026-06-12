@@ -4,368 +4,382 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Câu lạc bộ LSCM - HUNRE</title>
-    <!-- Thư viện icon FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Thư viện hiệu ứng cuộn trang AOS -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <style>
-        /* === BIẾN MÀU SẮC & GIAO DIỆN (DARK/LIGHT MODE) === */
+        /* === BIẾN MÀU SẮC CLB === */
         :root {
-            --primary-color: #008C4A; /* Màu xanh lá chủ đạo */
-            --secondary-color: #F29111; /* Màu cam logo */
-            --bg-color: #ffffff;
-            --text-color: #333333;
-            --card-bg: #f9f9f9;
+            --primary-color: #008C4A; /* Xanh lá LSCM */
+            --secondary-color: #F29111; /* Cam LSCM */
+            --bg-color: #f9fbff;
+            --text-main: #2c3e50;
+            --text-muted: #555;
+            --card-bg: #ffffff;
             --nav-bg: rgba(255, 255, 255, 0.95);
-            --transition: all 0.3s ease;
+            --transition: 0.3s ease;
         }
 
-        /* Giao diện tối (Dark Mode) */
+        /* Chế độ Tối (Dark Mode) */
         body.dark-mode {
             --bg-color: #121212;
-            --text-color: #f1f1f1;
+            --text-main: #f1f1f1;
+            --text-muted: #bbb;
             --card-bg: #1e1e1e;
             --nav-bg: rgba(18, 18, 18, 0.95);
         }
 
-        /* === RESET & CƠ BẢN === */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; transition: var(--transition); scroll-behavior: smooth; }
+        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; transition: var(--transition); }
         a { text-decoration: none; color: inherit; }
-        ul { list-style: none; }
-        img { max-width: 100%; height: auto; border-radius: 8px; }
+        img { max-width: 100%; border-radius: 10px; }
 
-        /* === 1. PRELOADER (MÀN HÌNH CHỜ) === */
-        #preloader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-            background-color: var(--primary-color); z-index: 9999;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
-        }
-        .preloader-logo { width: 120px; border-radius: 50%; animation: pulse 2s infinite; margin-bottom: 20px; }
-        .typing-text { color: white; font-size: 24px; font-weight: bold; border-right: 3px solid white; white-space: nowrap; overflow: hidden; animation: typing 2s steps(20) forwards, blink 0.7s infinite; }
-        @keyframes pulse { 0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(255,255,255,0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 20px rgba(255,255,255,0); } 100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(255,255,255,0); } }
-        @keyframes typing { from { width: 0 } to { width: 250px } }
-        @keyframes blink { 50% { border-color: transparent } }
+        /* === 1. PRELOADER === */
+        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: var(--primary-color); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: 0.8s ease; }
+        .preloader-logo { width: 130px; border-radius: 50%; animation: pulse 2s infinite; margin-bottom: 20px; box-shadow: 0 0 20px rgba(255,255,255,0.2); }
+        .typing-text { color: white; font-size: 26px; font-weight: bold; letter-spacing: 1px; }
+        @keyframes pulse { 0% { transform: scale(0.95); } 50% { transform: scale(1.05); } 100% { transform: scale(0.95); } }
 
-        /* === 2. NAVBAR (THANH ĐIỀU HƯỚNG) === */
-        header { position: fixed; top: 0; width: 100%; background: var(--nav-bg); backdrop-filter: blur(10px); box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 1000; transition: var(--transition); }
-        .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; max-width: 1200px; margin: auto; }
-        .logo-area { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 20px; color: var(--primary-color); }
-        .logo-area img { width: 40px; border-radius: 50%; }
-        .nav-links { display: flex; gap: 25px; align-items: center; }
-        .nav-links a { font-weight: 500; transition: color 0.3s; }
-        .nav-links a:hover { color: var(--secondary-color); }
-        .theme-toggle { cursor: pointer; font-size: 20px; color: var(--text-color); background: none; border: none; outline: none; }
-
-        /* === CẤU TRÚC SECTION CHUNG === */
-        section { padding: 80px 5%; max-width: 1200px; margin: auto; }
-        .section-title { text-align: center; font-size: 36px; margin-bottom: 40px; color: var(--primary-color); position: relative; }
-        .section-title::after { content: ''; width: 60px; height: 4px; background: var(--secondary-color); display: block; margin: 10px auto; border-radius: 2px; }
-
-        /* === 3. HERO SECTION (TRANG CHỦ) === */
-        #hero { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('images/tin-tuc/demo-bg.jpg') center/cover; color: white; margin-top: 0; max-width: 100%; padding: 0 20px; }
-        .hero-content h1 { font-size: 50px; margin-bottom: 20px; text-transform: uppercase; }
-        .hero-content p { font-size: 20px; margin-bottom: 30px; }
-        .btn { padding: 12px 30px; background: var(--secondary-color); color: white; border-radius: 25px; font-weight: bold; transition: background 0.3s; display: inline-block; }
-        .btn:hover { background: #d17a0d; }
-
-        /* === 4. GIỚI THIỆU 4 BAN === */
-        .departments-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
-        .dept-card { background: var(--card-bg); padding: 30px; border-radius: 10px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: transform 0.3s; cursor: pointer; }
-        .dept-card:hover { transform: translateY(-10px); border-bottom: 4px solid var(--secondary-color); }
-        .dept-icon { font-size: 40px; color: var(--primary-color); margin-bottom: 15px; }
-
-        /* === 5. BAN CHỦ NHIỆM & CỰU THÀNH VIÊN === */
-        .board-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; justify-items: center; }
-        .member-card { width: 100%; max-width: 250px; background: var(--card-bg); border-radius: 15px; overflow: hidden; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: var(--transition); }
-        .member-card:hover { transform: scale(1.05); }
-        .member-img { width: 100%; height: 250px; object-fit: cover; background-color: #ddd; }
-        .member-info { padding: 20px; }
-        .member-info h3 { color: var(--primary-color); margin-bottom: 5px; }
-        .member-info .role { font-weight: bold; color: var(--secondary-color); font-size: 14px; margin-bottom: 10px; }
-        .member-info .quote { font-style: italic; font-size: 13px; opacity: 0.8; }
-        .social-link { display: inline-block; margin-top: 10px; color: #1877f2; font-size: 20px; }
-
-        /* === 6. TẤT CẢ THÀNH VIÊN (CÓ BỘ LỌC) === */
-        .filter-btns { text-align: center; margin-bottom: 30px; }
-        .filter-btn { padding: 8px 20px; margin: 5px; border: none; border-radius: 20px; background: var(--card-bg); color: var(--text-color); cursor: pointer; transition: 0.3s; font-weight: bold; }
-        .filter-btn.active, .filter-btn:hover { background: var(--primary-color); color: white; }
-        .all-members-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 20px; }
-        .mini-card { text-align: center; }
-        .mini-card img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary-color); transition: 0.3s; }
-        .mini-card:hover img { border-color: var(--secondary-color); transform: scale(1.1); }
-        .mini-card h4 { margin-top: 10px; font-size: 14px; }
-
-        /* === 7. TIN TỨC SỰ KIỆN === */
-        .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .news-card { background: var(--card-bg); border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .news-img { width: 100%; height: 200px; object-fit: cover; background-color: #ccc; }
-        .news-content { padding: 20px; }
-        .news-date { font-size: 12px; color: var(--secondary-color); font-weight: bold; display: block; margin-bottom: 10px; }
-        .news-title { font-size: 18px; margin-bottom: 10px; }
-        .read-more { color: var(--primary-color); font-weight: bold; }
-
-        /* === 8. LIÊN HỆ & FOOTER === */
-        .contact-container { display: flex; flex-wrap: wrap; gap: 40px; }
-        .contact-info, .contact-form { flex: 1; min-width: 300px; }
-        .contact-info p { margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
-        .contact-info i { color: var(--primary-color); font-size: 20px; width: 30px; }
-        .contact-form input, .contact-form textarea { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 5px; background: var(--card-bg); color: var(--text-color); }
-        .contact-form button { width: 100%; border: none; cursor: pointer; }
+        /* === 2. TOP NAVBAR (THANH MENU NGANG) === */
+        header { position: fixed; top: 0; width: 100%; background: var(--nav-bg); backdrop-filter: blur(10px); box-shadow: 0 2px 15px rgba(0,0,0,0.05); z-index: 1000; transition: var(--transition); }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; max-width: 1300px; margin: auto; }
+        .logo-area { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 22px; color: var(--primary-color); cursor: pointer; }
+        .logo-area img { width: 45px; border-radius: 50%; }
         
-        footer { background: #1a1a1a; color: white; text-align: center; padding: 40px 20px; margin-top: 50px; }
-        footer img { width: 60px; border-radius: 50%; margin-bottom: 15px; }
-        .social-footer a { color: white; font-size: 24px; margin: 0 10px; transition: color 0.3s; }
-        .social-footer a:hover { color: var(--secondary-color); }
+        .nav-links { display: flex; gap: 5px; }
+        .nav-btn { background: none; border: none; padding: 10px 15px; font-size: 16px; font-weight: 600; color: var(--text-main); cursor: pointer; border-radius: 8px; transition: var(--transition); }
+        .nav-btn:hover { color: var(--secondary-color); background: rgba(242, 145, 17, 0.1); }
+        .nav-btn.active { color: white; background: var(--primary-color); }
+        .theme-toggle { cursor: pointer; font-size: 20px; color: var(--text-main); background: none; border: none; padding: 10px; margin-left: 10px; }
 
-        /* NÚT LÊN ĐẦU TRANG */
-        #backToTop { position: fixed; bottom: 30px; right: 30px; background: var(--primary-color); color: white; width: 45px; height: 45px; border-radius: 50%; text-align: center; line-height: 45px; font-size: 20px; cursor: pointer; opacity: 0; visibility: hidden; transition: 0.3s; z-index: 999; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
-        #backToTop.show { opacity: 1; visibility: visible; }
-        #backToTop:hover { background: var(--secondary-color); transform: translateY(-5px); }
+        /* === 3. KHU VỰC NỘI DUNG (TAB CƠ CHẾ) === */
+        main { padding-top: 100px; min-height: calc(100vh - 100px); max-width: 1200px; margin: auto; padding-bottom: 50px; }
+        
+        /* Ẩn các trang, chỉ hiện trang có class active */
+        .page-tab { display: none; animation: fadeIn 0.5s ease; padding: 0 20px; }
+        .page-tab.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        .section-title { text-align: center; font-size: 32px; color: var(--primary-color); margin-bottom: 40px; position: relative; font-weight: 800; text-transform: uppercase; }
+        .section-title::after { content: ''; width: 80px; height: 4px; background: var(--secondary-color); display: block; margin: 15px auto 0; border-radius: 2px; }
+
+        /* === THIẾT KẾ CARD CHUNG CHO CLB === */
+        .grid-layout { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .club-card { background: var(--card-bg); border-radius: 15px; padding: 30px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: var(--transition); border: 1px solid rgba(0,0,0,0.02); }
+        .club-card:hover { transform: translateY(-10px); box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-bottom: 4px solid var(--secondary-color); }
+        
+        /* === TRANG 1: GIỚI THIỆU (HERO) === */
+        .hero-banner { background: linear-gradient(135deg, rgba(0,140,74,0.9), rgba(242,145,17,0.8)), url('images/tin-tuc/demo-bg.jpg') center/cover; color: white; border-radius: 20px; padding: 60px 40px; text-align: center; margin-bottom: 50px; box-shadow: 0 15px 40px rgba(0,140,74,0.2); }
+        .hero-banner h1 { font-size: 42px; margin-bottom: 20px; font-weight: 900; }
+        .hero-banner p { font-size: 18px; max-width: 800px; margin: auto; opacity: 0.9; }
+        
+        .intro-text { text-align: center; font-size: 18px; color: var(--text-muted); max-width: 900px; margin: 0 auto 50px; line-height: 1.8; }
+
+        /* Nút chéo (Cross-link button) trong card */
+        .cross-link-btn { display: inline-block; margin-top: 15px; padding: 8px 20px; background: rgba(0,140,74,0.1); color: var(--primary-color); font-weight: bold; border-radius: 20px; cursor: pointer; border: none; transition: 0.3s; }
+        .cross-link-btn:hover { background: var(--primary-color); color: white; }
+
+        /* === CÁC THÀNH PHẦN KHÁC === */
+        .member-img-box { width: 100%; height: 250px; overflow: hidden; border-radius: 10px; margin-bottom: 15px; }
+        .member-img-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .club-card:hover .member-img-box img { transform: scale(1.1); }
+        
+        .role-tag { background: var(--primary-color); color: white; padding: 5px 15px; border-radius: 15px; font-size: 13px; font-weight: bold; display: inline-block; margin-bottom: 10px; }
+
+        /* Lọc thành viên */
+        .filter-container { text-align: center; margin-bottom: 40px; }
+        .filter-btn { padding: 10px 25px; margin: 5px; border: none; border-radius: 25px; background: var(--card-bg); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .filter-btn.active, .filter-btn:hover { background: var(--primary-color); color: white; }
+
+        /* Lưới thành viên nhỏ */
+        .wall-of-fame { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; }
+        .mini-member { background: var(--card-bg); padding: 20px 10px; border-radius: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.03); }
+        .mini-member img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 3px solid var(--secondary-color); margin-bottom: 10px; }
+
+        /* Tin tức */
+        .news-card { background: var(--card-bg); border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+        .news-card img { width: 100%; height: 220px; object-fit: cover; border-radius: 0; }
+        .news-info { padding: 25px; }
+        .news-date { color: var(--secondary-color); font-weight: bold; font-size: 14px; }
+        .news-title { font-size: 20px; margin: 10px 0; color: var(--text-main); }
+
+        /* Footer */
+        footer { background: #1a1a1a; color: white; text-align: center; padding: 40px 20px; margin-top: 50px; }
+        .social-icons a { color: white; font-size: 24px; margin: 0 10px; transition: 0.3s; }
+        .social-icons a:hover { color: var(--secondary-color); }
     </style>
 </head>
 <body>
 
-    <!-- 1. MÀN HÌNH CHỜ (PRELOADER) -->
+    <!-- MÀN HÌNH CHỜ (PRELOADER) -->
     <div id="preloader">
         <img src="images/logo.jpg" alt="Logo LSCM" class="preloader-logo" onerror="this.src='https://via.placeholder.com/150'">
-        <div class="typing-text">CLB LSCM - Xin chào...</div>
+        <div class="typing-text">LSCM HUNRE - Xin chào...</div>
     </div>
 
-    <!-- 2. NAVBAR -->
+    <!-- THANH MENU Ở TRÊN CÙNG -->
     <header>
         <div class="nav-container">
-            <a href="#hero" class="logo-area">
+            <div class="logo-area" onclick="openTab('tab-gioi-thieu')">
                 <img src="images/logo.jpg" alt="Logo" onerror="this.src='https://via.placeholder.com/50'">
-                <span>LSCM HUNRE</span>
-            </a>
-            <ul class="nav-links">
-                <li><a href="#gioi-thieu">Các Ban</a></li>
-                <li><a href="#ban-chu-nhiem">Ban Chủ Nhiệm</a></li>
-                <li><a href="#thanh-vien">Thành Viên</a></li>
-                <li><a href="#tin-tuc">Tin Tức</a></li>
-                <li><a href="#lien-he">Liên Hệ</a></li>
-                <li><button class="theme-toggle" id="themeToggle" title="Bật/Tắt chế độ tối"><i class="fas fa-moon"></i></button></li>
-            </ul>
+                <span>LSCM</span>
+            </div>
+            
+            <nav class="nav-links">
+                <!-- Các nút menu bấm để gọi hàm mở Tab -->
+                <button class="nav-btn active" onclick="openTab('tab-gioi-thieu')">Giới Thiệu</button>
+                <button class="nav-btn" onclick="openTab('tab-cac-ban')">Các Ban</button>
+                <button class="nav-btn" onclick="openTab('tab-chu-nhiem')">Ban Chủ Nhiệm</button>
+                <button class="nav-btn" onclick="openTab('tab-thanh-vien')">Thành Viên</button>
+                <button class="nav-btn" onclick="openTab('tab-tin-tuc')">Tin Tức</button>
+                <button class="nav-btn" onclick="openTab('tab-lien-he')">Liên Hệ</button>
+                <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+            </nav>
         </div>
     </header>
 
-    <!-- 3. HERO TRANG CHỦ -->
-    <section id="hero">
-        <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
-            <h1>Kết Nối Đam Mê<br>Vươn Tầm Chuỗi Cung Ứng</h1>
-            <p>Đại gia đình Logistics and Supply Chain Management Club - HUNRE</p>
-            <a href="#gioi-thieu" class="btn">Khám phá ngay</a>
-        </div>
-    </section>
-
-    <!-- 4. GIỚI THIỆU 4 BAN -->
-    <section id="gioi-thieu">
-        <h2 class="section-title" data-aos="fade-up">Cơ Cấu Các Ban</h2>
-        <div class="departments-grid">
-            <div class="dept-card" data-aos="fade-up" data-aos-delay="100">
-                <i class="fas fa-book-reader dept-icon"></i>
-                <h3>Ban Học Thuật</h3>
-                <p>Nòng cốt tri thức, chuyên tổ chức các cuộc thi, training kiến thức chuyên ngành Logistics.</p>
-            </div>
-            <div class="dept-card" data-aos="fade-up" data-aos-delay="200">
-                <i class="fas fa-handshake dept-icon"></i>
-                <h3>Ban Đối Ngoại</h3>
-                <p>Cầu nối vững chắc giữa CLB với doanh nghiệp, đối tác và các câu lạc bộ bạn.</p>
-            </div>
-            <div class="dept-card" data-aos="fade-up" data-aos-delay="300">
-                <i class="fas fa-camera-retro dept-icon"></i>
-                <h3>Ban Truyền Thông</h3>
-                <p>Tiếng nói của CLB, phụ trách hình ảnh, content và các chiến dịch trên mạng xã hội.</p>
-            </div>
-            <div class="dept-card" data-aos="fade-up" data-aos-delay="400">
-                <i class="fas fa-users dept-icon"></i>
-                <h3>Ban Nhân Sự</h3>
-                <p>Gắn kết các thành viên, tổ chức sự kiện nội bộ và theo dõi đánh giá năng lực.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- 5. BAN CHỦ NHIỆM -->
-    <section id="ban-chu-nhiem">
-        <h2 class="section-title" data-aos="fade-up">Ban Chủ Nhiệm</h2>
-        <div class="board-grid">
-            <!-- Thay ảnh bằng link thật vào thuộc tính src -->
-            <div class="member-card" data-aos="zoom-in" data-aos-delay="100">
-                <img src="images/ban-chu-nhiem/anh-demo.jpg" alt="Chủ nhiệm" class="member-img" onerror="this.src='https://via.placeholder.com/250x300'">
-                <div class="member-info">
-                    <h3>Nguyễn Văn A</h3>
-                    <p class="role">Chủ nhiệm CLB</p>
-                    <p class="quote">"Kiến tạo giá trị, dẫn lối thành công."</p>
-                    <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
-                </div>
-            </div>
-            <div class="member-card" data-aos="zoom-in" data-aos-delay="200">
-                <img src="images/ban-chu-nhiem/anh-demo2.jpg" alt="Phó chủ nhiệm" class="member-img" onerror="this.src='https://via.placeholder.com/250x300'">
-                <div class="member-info">
-                    <h3>Trần Thị B</h3>
-                    <p class="role">Phó Chủ nhiệm Đối ngoại</p>
-                    <p class="quote">"Kết nối để vươn xa hơn."</p>
-                    <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
-                </div>
-            </div>
-            <div class="member-card" data-aos="zoom-in" data-aos-delay="300">
-                <img src="images/ban-chu-nhiem/anh-demo3.jpg" alt="Phó chủ nhiệm" class="member-img" onerror="this.src='https://via.placeholder.com/250x300'">
-                <div class="member-info">
-                    <h3>Lê Văn C</h3>
-                    <p class="role">Phó Chủ nhiệm Nội bộ</p>
-                    <p class="quote">"Đoàn kết là sức mạnh."</p>
-                    <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 5.5 CỰU THÀNH VIÊN (ALUMNI) -->
-    <section id="cuu-thanh-vien" style="background-color: var(--card-bg); border-radius: 20px;">
-        <h2 class="section-title" data-aos="fade-up">Cựu Thành Viên Tiêu Biểu (Alumni)</h2>
-        <div class="board-grid">
-            <div class="member-card" data-aos="flip-left" data-aos-delay="100">
-                <img src="images/cuu-thanh-vien/gen1-demo.jpg" alt="Alumni" class="member-img" onerror="this.src='https://via.placeholder.com/250x250'">
-                <div class="member-info">
-                    <h3>Hoàng Anh D</h3>
-                    <p class="role">Cựu Chủ nhiệm Gen 1</p>
-                    <p class="quote">Hiện công tác tại: Shopee Express</p>
-                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
-                </div>
-            </div>
-            <!-- Bạn có thể copy khối member-card trên để dán thêm nhiều người -->
-        </div>
-    </section>
-
-    <!-- 6. WALL OF FAME (TẤT CẢ THÀNH VIÊN) -->
-    <section id="thanh-vien">
-        <h2 class="section-title" data-aos="fade-up">Gương Mặt LSCM (Wall of Fame)</h2>
+    <!-- KHU VỰC NỘI DUNG CHÍNH (CƠ CHẾ TAB) -->
+    <main>
         
-        <!-- Bộ lọc -->
-        <div class="filter-btns" data-aos="fade-up">
-            <button class="filter-btn active" onclick="filterMembers('all')">Tất cả</button>
-            <button class="filter-btn" onclick="filterMembers('gen4')">Gen 4</button>
-            <button class="filter-btn" onclick="filterMembers('truyenthong')">Truyền Thông</button>
-            <button class="filter-btn" onclick="filterMembers('doingoai')">Đối Ngoại</button>
-        </div>
+        <!-- ========================================== -->
+        <!-- TAB 1: GIỚI THIỆU CLB (Trang chủ đầu tiên) -->
+        <!-- ========================================== -->
+        <section id="tab-gioi-thieu" class="page-tab active">
+            <div class="hero-banner">
+                <h1>Logistics and Supply Chain Management Club</h1>
+                <p>Nơi ươm mầm tài năng, kết nối đam mê và kiến tạo tương lai cho sinh viên yêu thích ngành Logistics tại Đại học Tài nguyên và Môi trường Hà Nội.</p>
+            </div>
 
-        <div class="all-members-grid">
-            <!-- Thành viên 1 -->
-            <div class="mini-card member-item gen4 truyenthong" data-aos="zoom-in">
-                <img src="images/thanh-vien/gen4-tien-hoang.jpg" alt="Tiến Hoàng" onerror="this.src='https://via.placeholder.com/100'">
-                <h4>Tiến Hoàng</h4>
-                <p style="font-size: 12px; color: var(--secondary-color);">Ban Truyền Thông</p>
-            </div>
-            <!-- Thành viên 2 -->
-            <div class="mini-card member-item gen4 doingoai" data-aos="zoom-in">
-                <img src="images/thanh-vien/demo.jpg" alt="Thành viên" onerror="this.src='https://via.placeholder.com/100'">
-                <h4>Ngọc Mai</h4>
-                <p style="font-size: 12px; color: var(--secondary-color);">Ban Đối Ngoại</p>
-            </div>
-            <!-- Thành viên 3 -->
-            <div class="mini-card member-item gen3 hocthuat" data-aos="zoom-in">
-                <img src="images/thanh-vien/demo2.jpg" alt="Thành viên" onerror="this.src='https://via.placeholder.com/100'">
-                <h4>Quốc Khánh</h4>
-                <p style="font-size: 12px; color: var(--secondary-color);">Ban Học Thuật</p>
-            </div>
-            <!-- Thêm nhiều thẻ mini-card nữa ở đây sau này -->
-        </div>
-    </section>
+            <p class="intro-text">
+                Được thành lập với sứ mệnh mang đến một môi trường học tập thực tế và năng động, LSCM HUNRE tự hào là ngôi nhà chung của các thế hệ sinh viên. Chúng tôi hoạt động dựa trên sự đoàn kết và chia sẻ thông qua 4 ban chuyên môn nòng cốt.
+            </p>
 
-    <!-- 7. TIN TỨC SỰ KIỆN -->
-    <section id="tin-tuc">
-        <h2 class="section-title" data-aos="fade-up">Tin Tức & Sự Kiện</h2>
-        <div class="news-grid">
-            <div class="news-card" data-aos="fade-up" data-aos-delay="100">
-                <img src="images/tin-tuc/su-kien-q-talk.jpg" alt="Sự kiện" class="news-img" onerror="this.src='https://via.placeholder.com/400x250'">
-                <div class="news-content">
-                    <span class="news-date">10 Tháng 11, 2024</span>
-                    <h3 class="news-title">Sự kiện Q-TALK: "Tôi hẹn gặp mình sau chuyến phiêu lưu"</h3>
-                    <p>Một đêm trải nghiệm đầy cảm xúc và học hỏi kinh nghiệm thực tế từ các diễn giả khách mời tại Nhà hát Tuổi Trẻ.</p>
-                    <a href="#" class="read-more">Xem Thư viện Ảnh <i class="fas fa-arrow-right"></i></a>
+            <!-- Nút chéo: Bấm vào đây sẽ mở Tab Các Ban -->
+            <div class="grid-layout">
+                <div class="club-card">
+                    <i class="fas fa-book-reader" style="font-size: 50px; color: var(--primary-color); margin-bottom: 20px;"></i>
+                    <h3 style="font-size: 22px; margin-bottom: 10px;">Khối Chuyên Môn</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 20px;">Nơi rèn luyện kiến thức ngành, tổ chức các buổi training và đối ngoại doanh nghiệp.</p>
+                    <button class="cross-link-btn" onclick="openTab('tab-cac-ban')">Xem chi tiết các Ban <i class="fas fa-arrow-right"></i></button>
+                </div>
+                <div class="club-card">
+                    <i class="fas fa-users" style="font-size: 50px; color: var(--secondary-color); margin-bottom: 20px;"></i>
+                    <h3 style="font-size: 22px; margin-bottom: 10px;">Khối Hỗ Trợ</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 20px;">Đội ngũ đứng sau những sự kiện hoành tráng, chăm sóc hình ảnh và nhân sự CLB.</p>
+                    <button class="cross-link-btn" onclick="openTab('tab-cac-ban')">Khám phá ngay <i class="fas fa-arrow-right"></i></button>
                 </div>
             </div>
-            <div class="news-card" data-aos="fade-up" data-aos-delay="200">
-                <img src="images/tin-tuc/vylt-2025.jpg" alt="Sự kiện" class="news-img" onerror="this.src='https://via.placeholder.com/400x250'">
-                <div class="news-content">
-                    <span class="news-date">Tháng 10, 2025</span>
-                    <h3 class="news-title">Bán kết Vietnam Young Logistics Talents 2025</h3>
-                    <p>Các thành viên LSCM xuất sắc lọt vào vòng bán kết cuộc thi Tài năng trẻ Logistics Việt Nam.</p>
-                    <a href="#" class="read-more">Đọc chi tiết <i class="fas fa-arrow-right"></i></a>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 2: GIỚI THIỆU CHI TIẾT 4 BAN -->
+        <!-- ========================================== -->
+        <section id="tab-cac-ban" class="page-tab">
+            <h2 class="section-title">Cơ Cấu 4 Ban Chuyên Môn</h2>
+            <div class="grid-layout">
+                <div class="club-card">
+                    <i class="fas fa-graduation-cap" style="font-size: 40px; color: #3b82f6; margin-bottom: 15px;"></i>
+                    <h3 style="margin-bottom: 15px;">Ban Học Thuật</h3>
+                    <p style="color: var(--text-muted);">Tổ chức các buổi chia sẻ chuyên ngành, cập nhật tin tức Logistics và chuẩn bị kiến thức cho các cuộc thi lớn như VYLT.</p>
+                </div>
+                <div class="club-card">
+                    <i class="fas fa-handshake" style="font-size: 40px; color: var(--secondary-color); margin-bottom: 15px;"></i>
+                    <h3 style="margin-bottom: 15px;">Ban Đối Ngoại</h3>
+                    <p style="color: var(--text-muted);">Gương mặt đại diện của CLB. Phụ trách liên hệ xin tài trợ, duy trì mối quan hệ với đối tác và các câu lạc bộ bạn.</p>
+                </div>
+                <div class="club-card">
+                    <i class="fas fa-camera-retro" style="font-size: 40px; color: #ef4444; margin-bottom: 15px;"></i>
+                    <h3 style="margin-bottom: 15px;">Ban Truyền Thông</h3>
+                    <p style="color: var(--text-muted);">Quản trị fanpage, sáng tạo nội dung, thiết kế hình ảnh và truyền tải văn hóa LSCM đến với mọi người.</p>
+                </div>
+                <div class="club-card">
+                    <i class="fas fa-heart" style="font-size: 40px; color: var(--primary-color); margin-bottom: 15px;"></i>
+                    <h3 style="margin-bottom: 15px;">Ban Nhân Sự</h3>
+                    <p style="color: var(--text-muted);">Trái tim của CLB. Đánh giá năng lực thành viên, tổ chức team building và các hoạt động gắn kết nội bộ.</p>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- 8. LIÊN HỆ -->
-    <section id="lien-he">
-        <h2 class="section-title" data-aos="fade-up">Liên Hệ Với Chúng Tôi</h2>
-        <div class="contact-container">
-            <div class="contact-info" data-aos="fade-right">
-                <h3>Thông Tin Liên Hệ</h3>
-                <p><i class="fas fa-map-marker-alt"></i> Trường Đại học Tài nguyên và Môi trường Hà Nội (HUNRE)</p>
-                <p><i class="fas fa-envelope"></i> lscm.hunre@gmail.com (Email ví dụ)</p>
-                <p><i class="fas fa-phone-alt"></i> Hotline: 0123.456.789</p>
-                <p><i class="fab fa-facebook"></i> Fanpage: fb.com/lscmhunre</p>
+        <!-- ========================================== -->
+        <!-- TAB 3: BAN CHỦ NHIỆM & CỰU THÀNH VIÊN -->
+        <!-- ========================================== -->
+        <section id="tab-chu-nhiem" class="page-tab">
+            <h2 class="section-title">Ban Điều Hành Đương Nhiệm</h2>
+            <div class="grid-layout" style="margin-bottom: 60px;">
+                <div class="club-card" style="padding: 20px;">
+                    <div class="member-img-box">
+                        <img src="images/ban-chu-nhiem/anh-demo.jpg" alt="Chủ nhiệm" onerror="this.src='https://via.placeholder.com/300x400'">
+                    </div>
+                    <span class="role-tag">Chủ Nhiệm</span>
+                    <h3 style="margin-bottom: 10px;">Nguyễn Văn A</h3>
+                    <p style="font-size: 14px; font-style: italic; color: var(--text-muted);">"Lãnh đạo bằng cái tâm, vươn tầm bằng tri thức."</p>
+                </div>
+                <div class="club-card" style="padding: 20px;">
+                    <div class="member-img-box">
+                        <img src="images/ban-chu-nhiem/anh-demo2.jpg" alt="PCN" onerror="this.src='https://via.placeholder.com/300x400'">
+                    </div>
+                    <span class="role-tag" style="background: var(--secondary-color);">PCN Nội Bộ</span>
+                    <h3 style="margin-bottom: 10px;">Trần Thị B</h3>
+                    <p style="font-size: 14px; font-style: italic; color: var(--text-muted);">"Đoàn kết tạo nên sức mạnh."</p>
+                </div>
+                <div class="club-card" style="padding: 20px;">
+                    <div class="member-img-box">
+                        <img src="images/ban-chu-nhiem/anh-demo3.jpg" alt="PCN" onerror="this.src='https://via.placeholder.com/300x400'">
+                    </div>
+                    <span class="role-tag" style="background: #3b82f6;">PCN Đối Ngoại</span>
+                    <h3 style="margin-bottom: 10px;">Lê Văn C</h3>
+                    <p style="font-size: 14px; font-style: italic; color: var(--text-muted);">"Kết nối cơ hội, mở lối thành công."</p>
+                </div>
             </div>
-            <div class="contact-form" data-aos="fade-left">
-                <form onsubmit="event.preventDefault(); alert('Cảm ơn bạn đã gửi tin nhắn!');">
-                    <input type="text" placeholder="Họ và tên của bạn" required>
-                    <input type="email" placeholder="Email liên hệ" required>
-                    <textarea rows="5" placeholder="Lời nhắn của bạn gửi đến CLB..." required></textarea>
-                    <button type="submit" class="btn">Gửi Tin Nhắn</button>
-                </form>
-            </div>
-        </div>
-    </section>
 
-    <!-- FOOTER -->
+            <!-- Khối Cựu Thành Viên -->
+            <h2 class="section-title">Gương Mặt Tiêu Biểu (Alumni)</h2>
+            <div class="grid-layout">
+                <div class="club-card" style="padding: 20px;">
+                    <div class="member-img-box"><img src="images/cuu-thanh-vien/demo.jpg" alt="Alumni" onerror="this.src='https://via.placeholder.com/300x300'"></div>
+                    <h3>Hoàng Anh D</h3>
+                    <p style="color: var(--secondary-color); font-weight: bold; font-size: 14px;">Cựu Chủ nhiệm Gen 1</p>
+                    <p style="font-size: 13px; margin-top: 10px;">Hiện công tác: Shopee Logistics</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 4: TẤT CẢ THÀNH VIÊN -->
+        <!-- ========================================== -->
+        <section id="tab-thanh-vien" class="page-tab">
+            <h2 class="section-title">Đại Gia Đình LSCM</h2>
+            
+            <div class="filter-container">
+                <button class="filter-btn active" onclick="filterMembers('all')">Tất cả</button>
+                <button class="filter-btn" onclick="filterMembers('gen4')">Gen 4</button>
+                <button class="filter-btn" onclick="filterMembers('truyenthong')">Ban Truyền Thông</button>
+                <button class="filter-btn" onclick="filterMembers('hocthuat')">Ban Học Thuật</button>
+            </div>
+
+            <div class="wall-of-fame">
+                <div class="mini-member member-item gen4 truyenthong">
+                    <img src="images/thanh-vien/gen4-tien-hoang.jpg" alt="Tiến Hoàng" onerror="this.src='https://via.placeholder.com/150'">
+                    <h4 style="font-size: 15px;">Tiến Hoàng</h4>
+                    <p style="font-size: 12px; color: var(--secondary-color);">Ban Truyền Thông</p>
+                </div>
+                <div class="mini-member member-item gen4 doingoai">
+                    <img src="images/thanh-vien/demo.jpg" alt="Ngọc Mai" onerror="this.src='https://via.placeholder.com/150'">
+                    <h4 style="font-size: 15px;">Ngọc Mai</h4>
+                    <p style="font-size: 12px; color: var(--secondary-color);">Ban Đối Ngoại</p>
+                </div>
+                <div class="mini-member member-item gen3 hocthuat">
+                    <img src="images/thanh-vien/demo.jpg" alt="Quốc Khánh" onerror="this.src='https://via.placeholder.com/150'">
+                    <h4 style="font-size: 15px;">Quốc Khánh</h4>
+                    <p style="font-size: 12px; color: var(--secondary-color);">Ban Học Thuật</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 5: TIN TỨC SỰ KIỆN -->
+        <!-- ========================================== -->
+        <section id="tab-tin-tuc" class="page-tab">
+            <h2 class="section-title">Dấu Ấn Hoạt Động</h2>
+            <div class="grid-layout">
+                <div class="news-card">
+                    <img src="images/tin-tuc/q-talk.jpg" alt="Sự kiện" onerror="this.src='https://via.placeholder.com/500x300'">
+                    <div class="news-info">
+                        <p class="news-date">Tháng 11, 2024</p>
+                        <h3 class="news-title">Sự kiện Q-TALK: "Tôi hẹn gặp mình..."</h3>
+                        <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 15px;">Đêm trải nghiệm đầy cảm xúc cùng các khách mời tại Nhà hát Tuổi Trẻ.</p>
+                        <a href="#" style="color: var(--primary-color); font-weight: bold;">Xem Album Ảnh <i class="fas fa-images"></i></a>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <img src="images/tin-tuc/vylt.jpg" alt="Sự kiện" onerror="this.src='https://via.placeholder.com/500x300'">
+                    <div class="news-info">
+                        <p class="news-date">Tháng 10, 2025</p>
+                        <h3 class="news-title">Bán kết VYLT 2025</h3>
+                        <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 15px;">Thành viên LSCM tỏa sáng tại đấu trường Logistics lớn nhất toàn quốc.</p>
+                        <a href="#" style="color: var(--primary-color); font-weight: bold;">Xem Album Ảnh <i class="fas fa-images"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 6: LIÊN HỆ -->
+        <!-- ========================================== -->
+        <section id="tab-lien-he" class="page-tab">
+            <h2 class="section-title">Kết Nối Với LSCM</h2>
+            <div class="grid-layout">
+                <div class="club-card" style="text-align: left;">
+                    <h3 style="margin-bottom: 20px; color: var(--primary-color);">Thông Tin Trực Tuyến</h3>
+                    <p style="margin-bottom: 15px; font-size: 16px;"><i class="fas fa-map-marker-alt" style="color: var(--secondary-color); width: 25px;"></i> ĐH Tài nguyên & Môi trường HN (HUNRE)</p>
+                    <p style="margin-bottom: 15px; font-size: 16px;"><i class="fas fa-envelope" style="color: var(--secondary-color); width: 25px;"></i> lscm.hunre@gmail.com</p>
+                    <p style="margin-bottom: 15px; font-size: 16px;"><i class="fas fa-phone-alt" style="color: var(--secondary-color); width: 25px;"></i> 0123.456.789 (Hotline)</p>
+                    <p style="font-size: 16px;"><i class="fab fa-facebook" style="color: var(--secondary-color); width: 25px;"></i> fb.com/lscmhunre</p>
+                </div>
+                <div class="club-card">
+                    <h3 style="margin-bottom: 20px; color: var(--primary-color);">Gửi Lời Nhắn</h3>
+                    <input type="text" placeholder="Tên của bạn..." style="width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ddd;">
+                    <textarea rows="4" placeholder="Bạn muốn nhắn nhủ điều gì..." style="width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ddd;"></textarea>
+                    <button style="width: 100%; padding: 12px; background: var(--primary-color); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">Gửi Đi</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER CHUNG -->
     <footer>
-        <img src="images/logo.jpg" alt="Logo Footer" onerror="this.src='https://via.placeholder.com/60'">
-        <h3>Câu lạc bộ Logistics & Quản lý Chuỗi cung ứng (LSCM) - HUNRE</h3>
-        <div class="social-footer" style="margin: 20px 0;">
+        <img src="images/logo.jpg" alt="Logo" onerror="this.src='https://via.placeholder.com/60'" style="width: 60px; border-radius: 50%; margin-bottom: 15px;">
+        <h3 style="margin-bottom: 15px;">LSCM HUNRE - KẾT NỐI ĐAM MÊ</h3>
+        <div class="social-icons">
             <a href="#"><i class="fab fa-facebook-square"></i></a>
             <a href="#"><i class="fab fa-tiktok"></i></a>
             <a href="#"><i class="fab fa-youtube"></i></a>
         </div>
-        <p>&copy; 2026 CLB LSCM HUNRE. All rights reserved.</p>
-        <p style="font-size: 12px; margin-top: 10px; opacity: 0.7;">Lượt truy cập: 1,204</p>
+        <p style="margin-top: 15px; font-size: 14px; opacity: 0.7;">&copy; 2026 Bản quyền thuộc về Câu lạc bộ LSCM HUNRE.</p>
     </footer>
 
-    <!-- NÚT BACK TO TOP -->
-    <div id="backToTop" onclick="window.scrollTo(0,0)"><i class="fas fa-arrow-up"></i></div>
-
     <!-- === JAVASCRIPT === -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // 1. Tắt màn hình chờ sau khi load xong (Hoặc sau 2 giây)
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                let preloader = document.getElementById('preloader');
+        // 1. Tắt màn hình chờ sau 2.5 giây
+        setTimeout(function() {
+            let preloader = document.getElementById('preloader');
+            if(preloader) {
                 preloader.style.opacity = '0';
                 preloader.style.visibility = 'hidden';
-            }, 2000); // Đợi 2 giây để xem hiệu ứng logo
-        });
+                setTimeout(() => preloader.style.display = 'none', 800); 
+            }
+        }, 2500);
 
-        // 2. Khởi tạo hiệu ứng cuộn trang AOS
-        AOS.init({ once: true, offset: 100 });
+        // 2. CƠ CHẾ CHUYỂN TAB (Ấn menu hiện trang tương ứng)
+        function openTab(tabId) {
+            // Ẩn tất cả các trang
+            let tabs = document.querySelectorAll('.page-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Xóa màu nút menu đang sáng
+            let btns = document.querySelectorAll('.nav-btn');
+            btns.forEach(btn => btn.classList.remove('active'));
 
-        // 3. Hiển thị nút Back To Top khi cuộn xuống
-        window.addEventListener('scroll', function() {
-            let backToTop = document.getElementById('backToTop');
-            if (window.scrollY > 300) { backToTop.classList.add('show'); } 
-            else { backToTop.classList.remove('show'); }
-        });
+            // Hiện trang được chọn
+            document.getElementById(tabId).classList.add('active');
 
-        // 4. Chức năng Dark Mode / Light Mode
+            // Bật sáng nút menu tương ứng
+            // Tìm nút có sự kiện onclick chứa tabId đó để bật sáng
+            btns.forEach(btn => {
+                if (btn.getAttribute('onclick').includes(tabId)) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Tự động cuộn lên đầu trang mỗi khi chuyển tab
+            window.scrollTo(0, 0);
+        }
+
+        // 3. Dark Mode
         const themeToggle = document.getElementById('themeToggle');
         const body = document.body;
         themeToggle.addEventListener('click', () => {
             body.classList.toggle('dark-mode');
-            // Đổi icon mặt trăng / mặt trời
             if(body.classList.contains('dark-mode')) {
                 themeToggle.innerHTML = '<i class="fas fa-sun" style="color: #F29111;"></i>';
             } else {
@@ -373,14 +387,12 @@
             }
         });
 
-        // 5. Chức năng lọc Thành viên (Filter)
+        // 4. Lọc Thành viên
         function filterMembers(category) {
-            // Đổi màu nút được chọn
             let btns = document.querySelectorAll('.filter-btn');
             btns.forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
 
-            // Lọc các thẻ thành viên
             let members = document.querySelectorAll('.member-item');
             members.forEach(member => {
                 if (category === 'all' || member.classList.contains(category)) {

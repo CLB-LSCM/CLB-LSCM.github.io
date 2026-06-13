@@ -153,7 +153,13 @@
         .member-form-box input:focus, .member-form-box textarea:focus { border-color: var(--primary); outline: none; }
         .member-form-box button { width: 100%; background: var(--primary); color: white; border: none; padding: 12px; border-radius: 10px; font-weight: 800; font-size: 14px; cursor: pointer; transition: 0.3s; margin-top: 10px;}
         
-        footer { background: white; border-top: 1px solid var(--border-color); padding: 30px; text-align: center; color: var(--text-muted); font-size: 14px; font-weight: 600; margin-top: 50px;}
+        /* FOOTER MỚI VỚI 3 LOGO */
+        footer { background: white; border-top: 1px solid var(--border-color); padding: 30px 5%; margin-top: 50px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;}
+        .footer-text p { color: var(--text-muted); font-size: 14px; font-weight: 600; margin-bottom: 5px; }
+        .footer-logos { display: flex; align-items: center; gap: 15px; }
+        .footer-logos img { width: 55px; height: 55px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border-color); padding: 2px; background: white; transition: 0.3s;}
+        .footer-logos img:hover { border-color: var(--primary); transform: scale(1.1); }
+        @media(max-width: 768px) { footer { flex-direction: column; text-align: center; } .footer-logos { justify-content: center; } }
     </style>
 </head>
 <body>
@@ -208,7 +214,9 @@
             </div>
 
             <div class="sec-header"><h2 class="sec-title">Ban Chủ Nhiệm</h2><div class="sec-line"></div></div>
-            <div class="board-grid-4" id="homeBoardContainer"></div>
+            <div class="board-grid-4" id="homeBoardContainer">
+                <p style="text-align: center; grid-column: 1/-1; color: gray;">Đang tải danh sách...</p>
+            </div>
 
             <div class="contact-section" id="contact-area">
                 <div class="contact-box">
@@ -231,12 +239,12 @@
                         </div>
                     </div>
                     <div class="contact-right">
-                        <form class="contact-form" onsubmit="event.preventDefault(); alert('Cảm ơn bạn! Câu hỏi đã được gửi tới Ban Quản Trị.');">
+                        <form class="contact-form" onsubmit="sendContactMessage(event)">
                             <h3><i class="fas fa-paper-plane" style="color: var(--primary);"></i> Gửi câu hỏi cho chúng tôi</h3>
-                            <input type="text" placeholder="Họ và tên của bạn..." required>
-                            <input type="email" placeholder="Địa chỉ Email..." required>
-                            <textarea rows="5" placeholder="Nhập câu hỏi hoặc lời nhắn của bạn..." required></textarea>
-                            <button type="submit">Gửi Tin Nhắn</button>
+                            <input type="text" id="contactName" placeholder="Họ và tên của bạn..." required>
+                            <input type="email" id="contactEmail" placeholder="Địa chỉ Email..." required>
+                            <textarea id="contactMsg" rows="5" placeholder="Nhập câu hỏi hoặc lời nhắn của bạn..." required></textarea>
+                            <button type="submit" id="contactBtn">Gửi Tin Nhắn</button>
                         </form>
                     </div>
                 </div>
@@ -266,7 +274,7 @@
                     <div class="dept-grid">
                         <div class="dept-card" onclick="openDeptDetail('Truyền Thông')"><i class="fas fa-bullhorn dept-icon" style="color: var(--primary);"></i><h3>Ban Truyền Thông</h3></div>
                         <div class="dept-card" onclick="openDeptDetail('Kỹ Thuật')"><i class="fas fa-laptop-code dept-icon" style="color: #3b82f6;"></i><h3>Ban Kỹ Thuật</h3></div>
-                        <div class="dept-card" onclick="openDeptDetail('Đối Ngoại')"><i class="fas fa-handshake dept-icon" style="color: var(--secondary);"></i><h3>Ban Đối Ngoại & TCSK</h3></div>
+                        <div class="dept-card" onclick="openDeptDetail('Đối Ngoại & Tổ chức sự kiện')"><i class="fas fa-handshake dept-icon" style="color: var(--secondary);"></i><h3>Ban Đối Ngoại & TCSK</h3></div>
                         <div class="dept-card" onclick="openDeptDetail('Chuyên Môn')"><i class="fas fa-book-open dept-icon" style="color: #ef4444;"></i><h3>Ban Chuyên Môn</h3></div>
                     </div>
                 </div>
@@ -301,15 +309,8 @@
 
         <section id="tab-hoat-dong" class="page-tab">
             <div class="sec-header"><h2 class="sec-title">Dấu Ấn Sự Kiện LSCM</h2><div class="sec-line"></div></div>
-            <div class="news-grid">
-                <div class="news-card">
-                    <div class="news-img-box"><img src="images/tin-tuc/q-talk.jpg" class="news-img" onerror="this.src='https://via.placeholder.com/500x300'"><div class="news-date-badge"><i class="far fa-calendar-alt"></i> 10/11/2024</div></div>
-                    <div class="news-info"><h3 class="news-title">Sự kiện Q-TALK</h3><p class="news-desc">Đêm trải nghiệm đầy cảm xúc...</p></div>
-                </div>
-                <div class="news-card">
-                    <div class="news-img-box"><img src="images/tin-tuc/vylt.jpg" class="news-img" onerror="this.src='https://via.placeholder.com/500x300'"><div class="news-date-badge"><i class="far fa-calendar-alt"></i> 01/10/2025</div></div>
-                    <div class="news-info"><h3 class="news-title">Bán kết VYLT Toàn quốc</h3><p class="news-desc">Tranh tài tại đấu trường Logistics...</p></div>
-                </div>
+            <div class="news-grid" id="newsPublicContainer">
+                <p style="text-align: center; grid-column: 1/-1; color: gray;">Đang tải danh sách sự kiện...</p>
             </div>
         </section>
 
@@ -330,7 +331,17 @@
 
     </main>
 
-    <footer><p>© 2026 Bản quyền thuộc về Câu lạc bộ Logistics & Quản lý Chuỗi cung ứng HUNRE - LSCM</p></footer>
+    <footer>
+        <div class="footer-text">
+            <p>© 2026 Bản quyền thuộc về Câu lạc bộ Logistics & Quản lý Chuỗi cung ứng (LSCM)</p>
+            <p style="font-size: 13px; font-weight: 500;">Khoa Kinh tế - Trường Đại học Tài nguyên và Môi trường Hà Nội</p>
+        </div>
+        <div class="footer-logos">
+            <img src="images/logoTRUONG.jpg?v=2" alt="HUNRE Logo" title="Trường Đại học Tài nguyên và Môi trường Hà Nội" onerror="this.src='https://via.placeholder.com/55'">
+            <img src="./LogoKKT%20copy.jpg" alt="Khoa Kinh Tế Logo" title="Khoa Kinh tế - HUNRE" onerror="this.src='https://via.placeholder.com/55'">
+            <img src="images/logo.jpg?v=2" alt="LSCM Logo" title="CLB LSCM" onerror="this.src='https://via.placeholder.com/55'">
+        </div>
+    </footer>
 
     <div class="modal-overlay" id="profileModal" onclick="closeModal(event, 'profileModal')">
         <div class="pro-modal">
@@ -364,8 +375,8 @@
                 <label>Link Facebook (URL)</label>
                 <input type="url" id="p_fb" required>
 
-                <label>Link Ảnh Avatar mới (URL)</label>
-                <input type="url" id="p_img" required>
+                <label>Link hoặc đường dẫn Ảnh Avatar mới</label>
+                <input type="text" id="p_img" required placeholder="VD: https://... hoặc images/avatar.jpg">
                 
                 <button type="submit" id="btnUpdateProfile">Cập Nhật Thông Tin</button>
             </form>
@@ -409,6 +420,7 @@
         const db = firebase.firestore();
 
         let currentUserId = null; // Biến lưu ID tài khoản đang đăng nhập
+        let globalMembers = [];
 
         document.addEventListener("DOMContentLoaded", function() {
             setTimeout(() => { document.getElementById('preloader').style.display = 'none'; }, 500);
@@ -419,6 +431,8 @@
                     currentUserId = user.uid;
                     loadAboutSections();
                     loadLibraryDocs();
+                    loadPublicNews();
+                    loadMembersFromFirebase();
                     // Load thông tin hồ sơ của chính user này vào form chỉnh sửa
                     loadMyDataForEdit(user.uid);
                 } else {
@@ -426,9 +440,6 @@
                     window.location.href = 'index.html';
                 }
             });
-
-            // Tạm thời hiển thị Lưới thành viên bằng dữ liệu tĩnh (Bạn có thể tự đổi sang Firebase sau)
-            initSystem();
         });
 
         function handleLogout() {
@@ -452,15 +463,33 @@
         function openModal(id) { document.getElementById(id).classList.add('show'); }
         function closeModal(e, modalId) { if (e.target.id === modalId) document.getElementById(modalId).classList.remove('show'); }
 
+        // GỬI LIÊN HỆ
+        function sendContactMessage(e) {
+            e.preventDefault();
+            const btn = document.getElementById('contactBtn');
+            btn.innerText = "Đang gửi...";
+            db.collection("messages").add({
+                name: document.getElementById('contactName').value,
+                email: document.getElementById('contactEmail').value,
+                content: document.getElementById('contactMsg').value,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                alert('Cảm ơn bạn! Câu hỏi đã được gửi tới Ban Quản Trị.');
+                e.target.reset();
+                btn.innerText = "Gửi Tin Nhắn";
+            });
+        }
+
         // ==========================================
         // 2. LOGIC TÀI LIỆU NỘI BỘ
         // ==========================================
         function loadLibraryDocs() {
             const container = document.getElementById('docsContainer');
-            db.collection("documents").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
+            // Chỉ tải các tài liệu có status là APPROVED
+            db.collection("documents").where("status", "==", "APPROVED").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
                 container.innerHTML = '';
                 if(snapshot.empty) {
-                    container.innerHTML = '<p style="text-align:center; grid-column:1/-1;">Kho tài liệu trống.</p>';
+                    container.innerHTML = '<p style="text-align:center; grid-column:1/-1;">Kho tài liệu trống hoặc chưa có tài liệu nào được duyệt.</p>';
                     return;
                 }
                 snapshot.forEach(doc => {
@@ -490,9 +519,10 @@
             db.collection("documents").add({
                 name: document.getElementById('d_name').value,
                 link: document.getElementById('d_link').value,
+                status: 'PENDING', // ĐẨY VÀO MỤC CHỜ DUYỆT CỦA ADMIN
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             }).then(() => {
-                alert("Đã lưu Link tài liệu thành công!");
+                alert("Đã gửi link tài liệu! Vui lòng chờ Ban Chủ Nhiệm xét duyệt để hiển thị lên kho chung.");
                 document.getElementById('uploadDocModal').classList.remove('show');
                 e.target.reset();
                 btn.innerText = "Gửi Lên Kho Chung";
@@ -541,55 +571,143 @@
             const container = document.getElementById('dynamic-about-container');
             db.collection("about_sections").orderBy("order", "asc").onSnapshot((snapshot) => {
                 container.innerHTML = '';
+                if(snapshot.empty) {
+                    container.innerHTML = `<p style="text-align:center; padding: 40px; color:gray;">Chưa có thông tin giới thiệu. Admin có thể thêm tại trang quản trị.</p>`;
+                    return;
+                }
                 let index = 1;
                 snapshot.forEach((doc) => {
                     const data = doc.data();
                     const numStr = index < 10 ? '0'+index : index;
-                    container.innerHTML += `<div class="info-row"><div class="info-left"><div class="info-tag"><i class="fas fa-sparkles"></i> ${numStr}. ${data.tag}</div><h2 class="info-title">${data.title}</h2></div><div class="info-right">${data.paragraphs.map(p => `<p>${p}</p>`).join('')}</div></div>`;
+                    container.innerHTML += `
+                        <div class="info-row">
+                            <div class="info-left">
+                                <div class="info-tag"><i class="fas fa-sparkles"></i> ${numStr}. ${data.tag}</div>
+                                <h2 class="info-title">${data.title}</h2>
+                            </div>
+                            <div class="info-right">
+                                ${data.paragraphs.map(p => `<p>${p}</p>`).join('')}
+                            </div>
+                        </div>
+                    `;
                     index++;
                 });
             });
         }
 
-        // --- CÁC HÀM RENDER DỮ LIỆU TĨNH ĐƯỢC RÚT GỌN ĐỂ TRÁNH QUÁ DÀI MÀ VẪN GIỮ ĐÚNG CHUẨN ---
-        const membersData = [
-            { id: 1, name: "ThS. Cô Giáo X", ban: "Cố Vấn CLB", roleTitle: "Cố Vấn CLB", roleLevel: 1, status: "ACTIVE", image: "images/ban-chu-nhiem/co-van.jpg", slogan: "Người truyền lửa đam mê.", bio: "Chuyên gia Logistics cố vấn học thuật.", fb: "#" },
-            { id: 2, name: "Nguyễn Văn A", ban: "Chủ Nhiệm", roleTitle: "Chủ Nhiệm CLB", roleLevel: 2, status: "ACTIVE", image: "images/ban-chu-nhiem/chu-nhiem.jpg", slogan: "Thuyền trưởng LSCM.", bio: "Quản lý điều hành toàn bộ CLB.", fb: "#" },
-            { id: 3, name: "Trần Thị B", ban: "Phó Chủ Nhiệm", roleTitle: "Phó Chủ Nhiệm Nội Bộ", roleLevel: 3, status: "ACTIVE", image: "images/ban-chu-nhiem/pcn1.jpg", slogan: "Gắn kết là sức mạnh.", bio: "Đảm nhiệm mảng nội bộ.", fb: "#" },
-            { id: 4, name: "Lê Văn C", ban: "Phó Chủ Nhiệm", roleTitle: "Phó Chủ Nhiệm Đối Ngoại", roleLevel: 3, status: "ACTIVE", image: "images/ban-chu-nhiem/pcn2.jpg", slogan: "Kết nối vươn xa.", bio: "Đảm nhiệm mảng đối ngoại.", fb: "#" },
-            { id: 5, name: "Trương D", ban: "Truyền Thông", roleTitle: "Trưởng Ban Truyền Thông", roleLevel: 4, status: "ACTIVE", image: "images/thanh-vien/demo.jpg", slogan: "Sáng tạo.", bio: "Trưởng ban Truyền thông.", fb: "#" },
-            { id: 13, name: "Tiến Hoàng", ban: "Truyền Thông", roleTitle: "Thành Viên", roleLevel: 6, status: "ACTIVE", image: "images/thanh-vien/tien-hoang.jpg", slogan: "Vươn tầm chuỗi cung ứng.", bio: "Thành viên Gen 4 năng nổ.", fb: "#" },
-        ];
-        function createBoardCard(m) { let c = m.roleLevel===1?"#ef4444":(m.roleLevel===3?"var(--secondary)":"var(--primary)"); return `<div class="board-card" onclick="openProfile(${m.id})"><img src="${m.image}" class="bc-img" style="border-color:${c};" onerror="this.src='https://via.placeholder.com/300'"><div class="bc-info"><span class="bc-role" style="color:${c}; background:${c}15;">${m.roleTitle}</span><h3 class="bc-name">${m.name}</h3></div></div>`; }
-        function createMemCard(m) { return `<div class="mem-card" onclick="openProfile(${m.id})"><img src="${m.image}" class="mem-img" onerror="this.src='https://via.placeholder.com/100'"><h4 class="mem-name">${m.name}</h4><p class="mem-ban">${m.status==='ALUMNI'?m.roleTitle:m.ban}</p></div>`; }
-        
-        function initSystem() {
-            document.getElementById('homeBoardContainer').innerHTML = membersData.filter(m => m.roleLevel <= 3).slice(0,4).map(createBoardCard).join('');
-            document.getElementById('boardRow1').innerHTML = membersData.filter(m => m.roleLevel <= 3).map(createBoardCard).join('');
-            document.getElementById('boardRow2').innerHTML = membersData.filter(m => m.roleLevel === 4).map(createBoardCard).join('');
-            document.getElementById('boardRow3').innerHTML = membersData.filter(m => m.roleLevel === 5).map(createBoardCard).join('');
-            
-            const activeMems = membersData.filter(m => m.status === 'ACTIVE' && m.roleLevel > 3);
-            document.getElementById('c-tv').innerText = activeMems.length;
-            document.getElementById('mem-active-container').innerHTML = activeMems.map(createMemCard).join('');
+        // TẢI HOẠT ĐỘNG (NEWS) TỪ FIREBASE
+        function loadPublicNews() {
+            const container = document.getElementById('newsPublicContainer');
+            db.collection("news").orderBy("date", "desc").onSnapshot(snapshot => {
+                container.innerHTML = '';
+                if(snapshot.empty) {
+                    container.innerHTML = '<p style="text-align:center; grid-column:1/-1;">Chưa có sự kiện nào được đăng.</p>';
+                    return;
+                }
+                snapshot.forEach(doc => {
+                    const n = doc.data();
+                    const dParts = n.date.split('-'); const displayDate = `${dParts[2]}/${dParts[1]}/${dParts[0]}`;
+                    container.innerHTML += `
+                        <div class="news-card">
+                            <div class="news-img-box">
+                                <img src="${n.image}" class="news-img" onerror="this.src='https://via.placeholder.com/500x300'">
+                                <div class="news-date-badge"><i class="far fa-calendar-alt"></i> ${displayDate}</div>
+                            </div>
+                            <div class="news-info">
+                                <h3 class="news-title">${n.title}</h3>
+                                <p class="news-desc">${n.desc}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+            });
         }
+
+        // TẢI & RENDER THÀNH VIÊN TỪ FIREBASE ĐỘNG 100%
+        function loadMembersFromFirebase() {
+            db.collection("members").orderBy("roleLevel", "asc").onSnapshot(snapshot => {
+                globalMembers = [];
+                snapshot.forEach(doc => {
+                    let m = doc.data();
+                    m.id = doc.id;
+                    globalMembers.push(m);
+                });
+                renderSystem();
+            });
+        }
+
+        function createBoardCard(m) {
+            let color = "var(--primary)";
+            if(m.roleLevel === 1) color = "#ef4444"; else if(m.roleLevel === 3) color = "var(--secondary)";
+            return `<div class="board-card" onclick="openProfile('${m.id}')"><img src="${m.image}" class="bc-img" style="border-color: ${color};" onerror="this.src='https://via.placeholder.com/300'"><div class="bc-info"><span class="bc-role" style="color:${color}; background:${color}15;">${m.roleTitle}</span><h3 class="bc-name">${m.name}</h3></div></div>`;
+        }
+
+        function createMemCard(m) {
+            let roleDisplay = m.status === 'ALUMNI' ? m.roleTitle : m.ban;
+            return `<div class="mem-card" onclick="openProfile('${m.id}')"><img src="${m.image}" class="mem-img" onerror="this.src='https://via.placeholder.com/100'"><h4 class="mem-name">${m.name}</h4><p class="mem-ban">${roleDisplay}</p></div>`;
+        }
+
+        function renderSystem() {
+            const boardLevel1to3 = globalMembers.filter(m => m.roleLevel <= 3 && m.status !== 'ALUMNI');
+            const boardLevel4 = globalMembers.filter(m => m.roleLevel === 4 && m.status !== 'ALUMNI');
+            const boardLevel5 = globalMembers.filter(m => m.roleLevel === 5 && m.status !== 'ALUMNI');
+
+            // Hiển thị ở Tab 1 (Home) & Tab 2 (Ban Chủ Nhiệm)
+            document.getElementById('homeBoardContainer').innerHTML = boardLevel1to3.slice(0,4).map(createBoardCard).join('');
+            document.getElementById('boardRow1').innerHTML = boardLevel1to3.map(createBoardCard).join('');
+            document.getElementById('boardRow2').innerHTML = boardLevel4.map(createBoardCard).join('');
+            document.getElementById('boardRow3').innerHTML = boardLevel5.map(createBoardCard).join('');
+
+            // Hiển thị Tab 4 (Danh sách Thành Viên)
+            const activeMems = globalMembers.filter(m => m.status === 'ACTIVE' && m.roleLevel >= 6);
+            const ctvMems = globalMembers.filter(m => m.status === 'CTV');
+            const alumniMems = globalMembers.filter(m => m.status === 'ALUMNI');
+
+            document.getElementById('c-tv').innerText = activeMems.length;
+            document.getElementById('c-ctv').innerText = ctvMems.length;
+            document.getElementById('c-cuu').innerText = alumniMems.length;
+
+            document.getElementById('mem-active-container').innerHTML = activeMems.map(createMemCard).join('');
+            document.getElementById('mem-ctv-container').innerHTML = ctvMems.map(createMemCard).join('');
+            document.getElementById('mem-alumni-container').innerHTML = alumniMems.map(createMemCard).join('');
+        }
+
+        const deptDesc = {
+            'Truyền Thông': "Sáng tạo nội dung, thiết kế hình ảnh, quản trị Fanpage và lan tỏa thông điệp.",
+            'Kỹ Thuật': "Hỗ trợ công nghệ, âm thanh ánh sáng và vận hành nền tảng kỹ thuật số.",
+            'Đối Ngoại & Tổ chức sự kiện': "Đại diện liên hệ doanh nghiệp, xin tài trợ và điều phối sự kiện.",
+            'Chuyên Môn': "Nghiên cứu tài liệu Logistics, tổ chức training kiến thức nội bộ."
+        };
         
+        function openDeptDetail(banName) {
+            document.getElementById('dept-grid-view').style.display = 'none';
+            document.getElementById('dept-detail-view').style.display = 'block';
+            window.scrollTo(0, 0);
+            document.getElementById('d-title').innerText = "Ban " + banName;
+            document.getElementById('d-desc').innerText = deptDesc[banName] || "Mô tả đang cập nhật...";
+            
+            // Tìm các thành viên thuộc Ban này từ globalMembers (không tính Cựu)
+            const deptMembers = globalMembers.filter(m => m.ban.includes(banName) && m.status === 'ACTIVE').sort((a,b) => a.roleLevel - b.roleLevel);
+            document.getElementById('deptMembersContainer').innerHTML = deptMembers.map(createBoardCard).join('');
+        }
+
+        function closeDeptDetail() {
+            document.getElementById('dept-grid-view').style.display = 'block';
+            document.getElementById('dept-detail-view').style.display = 'none';
+        }
+
         function openProfile(id) {
-            const m = membersData.find(x => x.id === id);
+            const m = globalMembers.find(x => x.id === id);
             if(m) {
-                document.getElementById('m-name').innerText = m.name; document.getElementById('m-role').innerText = m.roleTitle;
-                document.getElementById('m-slogan').innerText = m.slogan; document.getElementById('m-bio').innerText = m.bio;
-                document.getElementById('m-img').src = m.image; document.getElementById('m-fb').href = m.fb;
+                document.getElementById('m-name').innerText = m.name;
+                document.getElementById('m-role').innerText = m.roleTitle;
+                document.getElementById('m-slogan').innerText = m.slogan || "Gắn kết và cống hiến.";
+                document.getElementById('m-bio').innerText = m.bio || "Thành viên CLB LSCM.";
+                document.getElementById('m-img').src = m.image;
+                document.getElementById('m-fb').href = m.fb || "#";
                 openModal('profileModal');
             }
         }
-        const deptDesc = {'Truyền Thông': "Sáng tạo nội dung, quản trị Fanpage.", 'Kỹ Thuật': "Hỗ trợ công nghệ sự kiện.", 'Đối Ngoại': "Đại diện xin tài trợ.", 'Chuyên Môn': "Nghiên cứu tài liệu Logistics."};
-        function openDeptDetail(banName) {
-            document.getElementById('dept-grid-view').style.display = 'none'; document.getElementById('dept-detail-view').style.display = 'block'; window.scrollTo(0, 0);
-            document.getElementById('d-title').innerText = "Ban " + banName; document.getElementById('d-desc').innerText = deptDesc[banName];
-            document.getElementById('deptMembersContainer').innerHTML = membersData.filter(m => m.ban.includes(banName) && m.status === 'ACTIVE').sort((a,b) => a.roleLevel - b.roleLevel).map(createBoardCard).join('');
-        }
-        function closeDeptDetail() { document.getElementById('dept-grid-view').style.display = 'block'; document.getElementById('dept-detail-view').style.display = 'none'; }
     </script>
 </body>
 </html>

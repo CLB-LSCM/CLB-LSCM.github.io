@@ -18,80 +18,74 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background-color: var(--light-bg); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
 
-        /* === 1. SIDEBAR === */
+        /* SIDEBAR & BỐ CỤC CHUNG GIỮ NGUYÊN */
         .sidebar { width: 280px; background: var(--dark-bg); color: white; display: flex; flex-direction: column; z-index: 100; box-shadow: 4px 0 15px rgba(0,0,0,0.05);}
         .sidebar-header { padding: 25px 20px; display: flex; align-items: center; gap: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .sidebar-header img { width: 45px; border-radius: 8px; }
         .sidebar-header h2 { font-size: 18px; font-weight: 900; color: var(--primary); line-height: 1.2;}
         .sidebar-header span { font-size: 11px; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;}
-
         .sidebar-menu { padding: 20px 15px; flex: 1; overflow-y: auto; }
         .menu-label { font-size: 11px; color: #64748b; font-weight: 800; text-transform: uppercase; margin: 15px 0 8px 15px; letter-spacing: 1px;}
         .menu-item { display: flex; align-items: center; gap: 12px; padding: 12px 15px; color: #cbd5e1; font-weight: 600; font-size: 14px; border-radius: 10px; cursor: pointer; transition: var(--transition); margin-bottom: 5px; }
         .menu-item i { font-size: 16px; width: 20px; text-align: center; }
         .menu-item:hover, .menu-item.active { background: var(--primary); color: white; box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3); }
-
         .sidebar-footer { padding: 20px; border-top: 1px solid rgba(255,255,255,0.1); }
         .btn-logout { width: 100%; background: rgba(239, 68, 68, 0.1); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.2); padding: 12px; border-radius: 10px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: var(--transition); }
         .btn-logout:hover { background: var(--danger); color: white; }
 
-        /* === 2. MAIN CONTENT === */
         .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: var(--page-bg); }
-        
         .topbar { background: var(--white); padding: 20px 30px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
         .topbar-title { font-size: 22px; font-weight: 900; color: var(--text-main); text-transform: uppercase;}
         .admin-profile { display: flex; align-items: center; gap: 10px; background: #ecfdf5; padding: 8px 15px; border-radius: 30px; border: 1px solid #d1fae5; color: var(--primary-dark);}
-        .admin-profile i { font-size: 18px; }
-        .admin-profile span { font-weight: 800; font-size: 13px; }
-
+        
         .content-area { flex: 1; padding: 30px; overflow-y: auto; }
         .tab-content { display: none; animation: fadeIn 0.4s ease; }
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* === 3. GIAO DIỆN PANEL & FORM === */
+        /* UI PANEL VÀ FORM */
         .panel { background: var(--white); border-radius: 20px; border: 1px solid var(--border-color); padding: 30px; margin-bottom: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
         .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px dashed var(--border-color); padding-bottom: 15px;}
         .panel-title { font-size: 18px; font-weight: 900; display: flex; align-items: center; gap: 10px; color: var(--text-main);}
         
         .btn-action { background: var(--primary); color: white; border: none; padding: 12px 20px; border-radius: 10px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-size: 14px; transition: 0.3s;}
-        .btn-action:hover { background: var(--primary-dark); box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2); }
+        .btn-action:hover { background: var(--primary-dark); }
         .btn-edit { background: var(--secondary); color: white; border: none; padding: 6px 12px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 12px; transition: 0.3s;}
         .btn-delete { background: #fee2e2; color: var(--danger); border: none; padding: 6px 12px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 12px; transition: 0.3s;}
-        .btn-delete:hover { background: var(--danger); color: white; }
+        .btn-success { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; padding: 6px 12px; border-radius: 6px; font-weight: 800; cursor: pointer; font-size: 12px; transition: 0.3s;}
 
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px; }
         .input-group { display: flex; flex-direction: column; gap: 8px; }
         .input-group.full { grid-column: 1 / -1; }
-        .input-group label { font-size: 12px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;}
-        .input-group input, .input-group select, .input-group textarea { width: 100%; padding: 14px; border: 1px solid var(--border-color); border-radius: 10px; font-size: 14px; outline: none; transition: 0.3s; background: #f8fafc; font-family: inherit; font-weight: 500;}
-        .input-group input:focus, .input-group select:focus, .input-group textarea:focus { border-color: var(--primary); background: white; box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1); }
+        .input-group label { font-size: 12px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;}
+        .input-group input, .input-group select, .input-group textarea { width: 100%; padding: 14px; border: 1px solid var(--border-color); border-radius: 10px; font-size: 14px; outline: none; background: #f8fafc; font-family: inherit; font-weight: 500;}
+        .input-group input:focus, .input-group select:focus, .input-group textarea:focus { border-color: var(--primary); background: white;}
 
         .security-box { background: #fffbeb; border: 1px solid #fde68a; padding: 20px; border-radius: 12px; grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;}
-        .security-title { grid-column: 1 / -1; font-size: 14px; font-weight: 800; color: #d97706; margin-bottom: -10px; display: flex; align-items: center; gap: 8px;}
-
-        /* Bảng dữ liệu */
+        
         table { width: 100%; border-collapse: collapse; }
         th { background: #f1f5f9; padding: 15px; text-align: left; font-size: 12px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; border-bottom: 2px solid var(--border-color); }
-        td { padding: 15px; border-bottom: 1px solid var(--border-color); font-size: 14px; font-weight: 600; vertical-align: middle; color: var(--text-main);}
-        tr:hover { background: #f8fafc; }
+        td { padding: 15px; border-bottom: 1px solid var(--border-color); font-size: 14px; font-weight: 600; vertical-align: middle;}
         
         .badge { padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 800; text-transform: uppercase; }
         .badge-active { background: #dcfce7; color: #166534; }
         .badge-ctv { background: #ffedd5; color: #c2410c; }
         .badge-alumni { background: #f1f5f9; color: #475569; }
 
-        /* Khu vực hiển thị mục Giới Thiệu */
-        .about-item { background: white; border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: flex-start; gap: 20px;}
-        .about-item-content h3 { font-size: 16px; font-weight: 800; margin-bottom: 5px; color: var(--primary-dark);}
-        .about-item-content span { font-size: 12px; color: var(--text-muted); font-weight: 600; background: #f1f5f9; padding: 3px 8px; border-radius: 5px;}
-        .about-item-actions { display: flex; gap: 10px; }
+        /* UI XÉT DUYỆT VÀ DANH SÁCH MỚI */
+        .approval-card { background: white; border: 1px solid var(--secondary); border-left: 4px solid var(--secondary); padding: 15px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;}
+        .approval-info h4 { margin-bottom: 5px; font-size: 15px; color: var(--text-main); font-weight: 800;}
+        .approval-info p { font-size: 12px; color: var(--text-muted); margin: 0;}
+        .approval-actions { display: flex; gap: 10px; }
 
-        /* Modal Soạn Thảo */
-        .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 2000; opacity: 0; transition: opacity 0.3s ease; }
-        .modal-overlay.show { display: flex; opacity: 1; }
-        .editor-box { background: white; width: 100%; max-width: 600px; border-radius: 24px; padding: 30px; position: relative; transform: translateY(30px); transition: transform 0.3s ease; }
-        .modal-overlay.show .editor-box { transform: translateY(0); }
+        .list-item { background: white; border: 1px solid var(--border-color); padding: 20px; border-radius: 12px; margin-bottom: 15px; display: flex; gap: 20px; align-items: center;}
+        .list-item img { width: 80px; height: 80px; border-radius: 8px; object-fit: cover;}
+        .list-item-content { flex: 1; }
+        .list-item-content h3 { font-size: 16px; font-weight: 800; margin-bottom: 5px;}
+        .list-item-content p { font-size: 13px; color: var(--text-muted); margin-bottom: 5px; line-height: 1.5;}
+        
+        .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.85); display: none; justify-content: center; align-items: center; z-index: 2000;}
+        .modal-overlay.show { display: flex; }
     </style>
 </head>
 <body>
@@ -99,35 +93,18 @@
     <aside class="sidebar">
         <div class="sidebar-header">
             <img src="images/logo.jpg" alt="Logo" onerror="this.src='https://via.placeholder.com/45'">
-            <div>
-                <h2>LSCM ADMIN</h2>
-                <span>Ban Chủ Nhiệm</span>
-            </div>
+            <div><h2>LSCM ADMIN</h2><span>Ban Chủ Nhiệm</span></div>
         </div>
-
         <div class="sidebar-menu">
             <div class="menu-label">Quản lý giao diện</div>
-            <div class="menu-item active" onclick="switchTab('tab-info', this)">
-                <i class="fas fa-edit"></i> Quản Trị "Giới Thiệu"
-            </div>
-            
+            <div class="menu-item active" onclick="switchTab('tab-info', this)"><i class="fas fa-edit"></i> Quản Trị "Giới Thiệu"</div>
             <div class="menu-label">Cơ sở dữ liệu CLB</div>
-            <div class="menu-item" onclick="switchTab('tab-members', this)">
-                <i class="fas fa-users-cog"></i> Hồ Sơ Thành Viên
-            </div>
-            <div class="menu-item" onclick="switchTab('tab-news', this)">
-                <i class="fas fa-newspaper"></i> Tin Tức & Sự Kiện
-            </div>
-            <div class="menu-item" onclick="switchTab('tab-docs', this)">
-                <i class="fas fa-folder-open"></i> Kho Tài Liệu Nội Bộ
-            </div>
-
+            <div class="menu-item" onclick="switchTab('tab-members', this)"><i class="fas fa-users-cog"></i> Hồ Sơ Thành Viên</div>
+            <div class="menu-item" onclick="switchTab('tab-news', this)"><i class="fas fa-newspaper"></i> Tin Tức & Sự Kiện</div>
+            <div class="menu-item" onclick="switchTab('tab-docs', this)"><i class="fas fa-folder-open"></i> Kho Tài Liệu Nội Bộ</div>
             <div class="menu-label">Hệ thống</div>
-            <div class="menu-item" onclick="window.location.href='index.html'">
-                <i class="fas fa-external-link-alt"></i> Xem Trang chủ
-            </div>
+            <div class="menu-item" onclick="window.location.href='index.html'"><i class="fas fa-external-link-alt"></i> Xem Trang chủ</div>
         </div>
-
         <div class="sidebar-footer">
             <button class="btn-logout" onclick="handleLogout()"><i class="fas fa-power-off"></i> ĐĂNG XUẤT</button>
         </div>
@@ -136,10 +113,7 @@
     <main class="main-content">
         <header class="topbar">
             <h1 class="topbar-title" id="pageTitle">Quản Trị Chuyên Mục Giới Thiệu</h1>
-            <div class="admin-profile">
-                <i class="fas fa-user-shield"></i>
-                <span id="adminName">Ban Chủ Nhiệm</span>
-            </div>
+            <div class="admin-profile"><i class="fas fa-user-shield"></i><span>Ban Chủ Nhiệm</span></div>
         </header>
 
         <div class="content-area">
@@ -150,113 +124,126 @@
                         <h2 class="panel-title"><i class="fas fa-magic"></i> Cấu trúc nội dung "Về Chúng Tôi"</h2>
                         <button class="btn-action" onclick="openAboutEditor()"><i class="fas fa-plus"></i> Thêm mục mới</button>
                     </div>
-                    
-                    <div id="aboutListContainer">
-                        <p style="text-align: center; color: var(--text-muted);">Đang tải dữ liệu...</p>
-                    </div>
+                    <div id="aboutListContainer"><p style="text-align: center; color: gray;">Đang tải...</p></div>
                 </div>
             </div>
 
             <div id="tab-members" class="tab-content">
-                <div class="panel" id="addMemberPanel" style="display: none; border-top: 4px solid var(--secondary);">
+                
+                <div class="panel" style="border-top: 4px solid var(--secondary); background: #fffbeb;">
+                    <div class="panel-header" style="border-bottom-color: #fcd34d;">
+                        <h2 class="panel-title"><i class="fas fa-user-check"></i> Xét Duyệt Cộng Tác Viên</h2>
+                    </div>
+                    <div id="ctvApprovalContainer">
+                        <p style="color: #b45309; font-size: 13px;">Không có Cộng Tác Viên nào đang chờ duyệt.</p>
+                    </div>
+                </div>
+
+                <div class="panel" id="addMemberPanel" style="display: none; border-top: 4px solid var(--primary);">
                     <div class="panel-header">
-                        <h2 class="panel-title"><i class="fas fa-user-plus"></i> Cấp Tài Khoản & Thêm Hồ Sơ</h2>
+                        <h2 class="panel-title" id="formMemberTitle"><i class="fas fa-user-plus"></i> Cấp Tài Khoản & Thêm Hồ Sơ</h2>
                         <button class="btn-delete" style="background: var(--page-bg); color: var(--text-muted);" onclick="toggleAddMember(false)"><i class="fas fa-times"></i> Đóng</button>
                     </div>
                     <form id="memberForm" onsubmit="saveMember(event)">
-                        <div class="form-grid">
-                            <div class="security-box">
-                                <div class="security-title"><i class="fas fa-shield-alt"></i> Tài Khoản Firebase (Để thành viên đăng nhập)</div>
+                        <input type="hidden" id="m_id"> <div class="form-grid">
+                            <div class="security-box" id="securityBox">
+                                <div class="security-title"><i class="fas fa-shield-alt"></i> Thông tin đăng nhập Firebase</div>
                                 <div class="input-group">
                                     <label>Email Đăng Nhập</label>
-                                    <input type="email" id="m_email" placeholder="VD: hoang@lscm.vn" required>
+                                    <input type="email" id="m_email" placeholder="VD: hv@lscm.vn">
                                 </div>
                                 <div class="input-group">
                                     <label>Mật Khẩu</label>
-                                    <input type="text" id="m_pass" placeholder="Tối thiểu 6 ký tự" required minlength="6">
+                                    <input type="text" id="m_pass" placeholder="Tối thiểu 6 ký tự" minlength="6">
                                 </div>
                             </div>
 
                             <div class="input-group">
-                                <label>Họ và Tên</label>
-                                <input type="text" id="m_name" placeholder="VD: Nguyễn Văn A" required>
+                                <label>Họ và Tên *</label>
+                                <input type="text" id="m_name" required>
                             </div>
                             <div class="input-group">
-                                <label>Khóa/Gen</label>
+                                <label>Khóa/Gen *</label>
                                 <input type="text" id="m_gen" placeholder="VD: Gen 5" required>
                             </div>
                             <div class="input-group">
-                                <label>Ban Trực Thuộc</label>
-                                <select id="m_ban">
-                                    <option value="Ban Chủ Nhiệm">Cố vấn CLB / Ban Chủ Nhiệm</option>
+                                <label>Tháng Tốt Nghiệp (Tự động chuyển Cựu) *</label>
+                                <input type="month" id="m_gradDate" required title="Hệ thống sẽ tự chuyển thành Cựu Thành Viên khi qua tháng này.">
+                            </div>
+                            <div class="input-group">
+                                <label>Ban Trực Thuộc *</label>
+                                <select id="m_ban" required>
+                                    <option value="Ban Chủ Nhiệm">Ban Chủ Nhiệm / Cố vấn</option>
                                     <option value="Truyền Thông">Ban Truyền Thông</option>
                                     <option value="Kỹ Thuật">Ban Kỹ Thuật</option>
-                                    <option value="Đối Ngoại">Ban Đối Ngoại</option>
+                                    <option value="Đối Ngoại & Tổ chức sự kiện">Ban Đối Ngoại & Tổ chức sự kiện</option>
                                     <option value="Chuyên Môn">Ban Chuyên Môn</option>
                                 </select>
                             </div>
                             <div class="input-group">
-                                <label>Chức Vụ Cụ Thể (Sẽ hiện dưới ảnh)</label>
+                                <label>Chức Vụ Gốc *</label>
                                 <input type="text" id="m_roleTitle" placeholder="VD: Trưởng Ban Truyền Thông" required>
                             </div>
                             <div class="input-group">
-                                <label>Trạng Thái Phân Loại</label>
-                                <select id="m_status">
-                                    <option value="ACTIVE">Thành viên Chính thức (Đương nhiệm)</option>
-                                    <option value="CTV">Cộng tác viên (CTV)</option>
-                                    <option value="ALUMNI">Cựu Thành Viên</option>
-                                </select>
-                            </div>
-                            <div class="input-group">
-                                <label>Cấp độ Hiển Thị (Rất quan trọng để xếp hàng)</label>
-                                <select id="m_level">
+                                <label>Cấp độ Hiển Thị *</label>
+                                <select id="m_level" required>
                                     <option value="1">Cấp 1 - Cố Vấn CLB</option>
                                     <option value="2">Cấp 2 - Chủ Nhiệm CLB</option>
                                     <option value="3">Cấp 3 - Phó Chủ Nhiệm CLB</option>
                                     <option value="4">Cấp 4 - Trưởng Ban</option>
                                     <option value="5">Cấp 5 - Phó Ban</option>
-                                    <option value="6" selected>Cấp 6 - Thành viên / CTV / Cựu</option>
+                                    <option value="6" selected>Cấp 6 - Thành viên / CTV</option>
                                 </select>
                             </div>
-                            <div class="input-group full">
-                                <label>Câu Slogan cá nhân</label>
-                                <input type="text" id="m_slogan" placeholder="VD: Vươn tầm chuỗi cung ứng..." required>
-                            </div>
-                            <div class="input-group full">
-                                <label>Mô tả bản thân (Bio)</label>
-                                <textarea id="m_bio" rows="3" placeholder="Đôi nét về tính cách, nhiệm vụ trong ban..." required></textarea>
+                            <div class="input-group">
+                                <label>Trạng Thái *</label>
+                                <select id="m_status" required>
+                                    <option value="ACTIVE">Thành viên Đương nhiệm</option>
+                                    <option value="CTV">Cộng tác viên (CTV)</option>
+                                    <option value="ALUMNI">Cựu Thành Viên</option>
+                                </select>
                             </div>
                             <div class="input-group">
-                                <label>Link Facebook (URL)</label>
-                                <input type="url" id="m_fb" placeholder="https://facebook.com/..." required>
+                                <label>Link Ảnh Avatar *</label>
+                                <input type="url" id="m_img" required>
                             </div>
-                            <div class="input-group">
-                                <label>Link Ảnh (URL Avatar)</label>
-                                <input type="url" id="m_img" placeholder="https://..." required>
+
+                            <div class="input-group full">
+                                <label>Câu Slogan cá nhân (Không bắt buộc)</label>
+                                <input type="text" id="m_slogan" placeholder="Thành viên có thể tự nhập sau">
+                            </div>
+                            <div class="input-group full">
+                                <label>Mô tả bản thân / Bio (Không bắt buộc)</label>
+                                <textarea id="m_bio" rows="2" placeholder="Thành viên có thể tự nhập sau"></textarea>
+                            </div>
+                            <div class="input-group full">
+                                <label>Link Facebook (Không bắt buộc)</label>
+                                <input type="url" id="m_fb" placeholder="Thành viên có thể tự nhập sau">
                             </div>
                         </div>
-                        <button type="submit" class="btn-action" id="btnSaveMem"><i class="fas fa-check-circle"></i> Khởi tạo Tài Khoản & Lưu Hồ Sơ</button>
+                        <button type="submit" class="btn-action" id="btnSaveMem"><i class="fas fa-save"></i> Lưu Hồ Sơ</button>
                     </form>
                 </div>
 
                 <div class="panel">
                     <div class="panel-header">
-                        <h2 class="panel-title"><i class="fas fa-address-book"></i> Danh Sách Thành Viên</h2>
-                        <button class="btn-action" onclick="toggleAddMember(true)"><i class="fas fa-plus"></i> Thêm Thành Viên Mới</button>
+                        <h2 class="panel-title"><i class="fas fa-address-book"></i> Danh Sách Thành Viên (Chính thức & Cựu)</h2>
+                        <button class="btn-action" onclick="openAddMember()"><i class="fas fa-plus"></i> Thêm Mới</button>
                     </div>
                     <div style="overflow-x: auto;">
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Họ Tên & Email</th>
+                                    <th>Hồ sơ</th>
                                     <th>Chức Vụ</th>
-                                    <th>Ban</th>
+                                    <th>Ban & Gen</th>
+                                    <th>Tốt nghiệp</th>
                                     <th>Trạng Thái</th>
                                     <th style="text-align: right;">Hành động</th>
                                 </tr>
                             </thead>
                             <tbody id="memberTableBody">
-                                <tr><td colspan="5" style="text-align:center;">Đang kết nối cơ sở dữ liệu...</td></tr>
+                                <tr><td colspan="6" style="text-align:center;">Đang tải...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -266,48 +253,65 @@
             <div id="tab-news" class="tab-content">
                 <div class="panel" style="border-top: 4px solid #3b82f6;">
                     <div class="panel-header">
-                        <h2 class="panel-title"><i class="fas fa-pen-nib"></i> Thêm Bài Đăng Mới</h2>
+                        <h2 class="panel-title"><i class="fas fa-pen-nib"></i> Quản Trị Bài Đăng Hoạt Động</h2>
+                        <button class="btn-action" style="background: #3b82f6;" onclick="openNewsForm()"><i class="fas fa-plus"></i> Đăng bài mới</button>
                     </div>
-                    <form onsubmit="saveNews(event)">
+                    
+                    <form id="newsForm" onsubmit="saveNews(event)" style="display:none; background:#f8fafc; padding:20px; border-radius:12px; margin-bottom: 25px; border:1px solid #bfdbfe;">
+                        <input type="hidden" id="n_id">
                         <div class="form-grid">
                             <div class="input-group full">
-                                <label>Tiêu đề Sự kiện / Hoạt động</label>
-                                <input type="text" id="n_title" required>
+                                <label>Tiêu đề Sự kiện</label><input type="text" id="n_title" required>
                             </div>
                             <div class="input-group">
-                                <label>Ngày/Tháng tổ chức (Ví dụ: 15/10/2026)</label>
-                                <input type="text" id="n_date" required>
+                                <label>Ngày Sự Kiện (Dùng để sắp xếp tự động)</label><input type="date" id="n_date" required>
                             </div>
                             <div class="input-group">
-                                <label>Link Ảnh Bìa (URL)</label>
-                                <input type="url" id="n_img" required>
+                                <label>Link Ảnh Bìa</label><input type="url" id="n_img" required>
                             </div>
                             <div class="input-group full">
-                                <label>Mô tả ngắn gọn</label>
-                                <textarea id="n_desc" rows="3" required></textarea>
+                                <label>Mô tả ngắn</label><textarea id="n_desc" rows="3" required></textarea>
                             </div>
                         </div>
-                        <button type="submit" class="btn-action" style="background: #3b82f6;"><i class="fas fa-upload"></i> Đăng Bài Viết</button>
+                        <div style="display:flex; gap:10px;">
+                            <button type="button" class="btn-delete" onclick="document.getElementById('newsForm').style.display='none'">Hủy</button>
+                            <button type="submit" class="btn-action" style="background: #3b82f6;">Lưu Bài Đăng</button>
+                        </div>
                     </form>
+
+                    <div id="newsListContainer"></div>
                 </div>
             </div>
 
             <div id="tab-docs" class="tab-content">
-                <div class="panel">
-                    <div class="panel-header">
-                        <h2 class="panel-title"><i class="fas fa-cloud-upload-alt"></i> Phân Phối Tài Liệu Mới</h2>
+                <div class="panel" style="border-top: 4px solid var(--secondary); background: #fffbeb;">
+                    <div class="panel-header" style="border-bottom-color: #fcd34d;">
+                        <h2 class="panel-title"><i class="fas fa-file-signature"></i> Tài Liệu Chờ Duyệt (Từ Thành viên)</h2>
                     </div>
-                    <form onsubmit="saveDoc(event)" style="background: var(--page-bg); padding: 25px; border-radius: 16px; border: 1px solid var(--border-color);">
-                        <div class="input-group full" style="margin-bottom: 15px;">
-                            <label>Tên tài liệu / Tên bài giảng</label>
-                            <input type="text" id="d_name" placeholder="VD: Slide Training Truyền Thông..." required>
+                    <div id="pendingDocsContainer">
+                        <p style="color: #b45309; font-size: 13px;">Không có tài liệu nào chờ duyệt.</p>
+                    </div>
+                </div>
+
+                <div class="panel" style="border-top: 4px solid var(--primary);">
+                    <div class="panel-header">
+                        <h2 class="panel-title"><i class="fas fa-folder-open"></i> Kho Tài Liệu Chính Thức (Đã Duyệt)</h2>
+                        <button class="btn-action" onclick="openDocForm()"><i class="fas fa-upload"></i> Up File Mới</button>
+                    </div>
+
+                    <form id="docForm" onsubmit="saveDoc(event)" style="display:none; background:#f8fafc; padding:20px; border-radius:12px; margin-bottom: 25px; border:1px solid var(--border-color);">
+                        <input type="hidden" id="d_id">
+                        <div class="form-grid">
+                            <div class="input-group full"><label>Tên bài giảng / Tài liệu</label><input type="text" id="d_name" required></div>
+                            <div class="input-group full"><label>Link Google Drive</label><input type="url" id="d_link" required></div>
                         </div>
-                        <div class="input-group full" style="margin-bottom: 25px;">
-                            <label>Đường liên kết (Link Google Drive)</label>
-                            <input type="url" id="d_link" placeholder="https://drive.google.com/..." required>
+                        <div style="display:flex; gap:10px;">
+                            <button type="button" class="btn-delete" onclick="document.getElementById('docForm').style.display='none'">Hủy</button>
+                            <button type="submit" class="btn-action">Lưu Tài Liệu</button>
                         </div>
-                        <button type="submit" class="btn-action"><i class="fas fa-link"></i> Lưu Link Tài Liệu</button>
                     </form>
+
+                    <div id="approvedDocsContainer"></div>
                 </div>
             </div>
 
@@ -315,25 +319,15 @@
     </main>
 
     <div class="modal-overlay" id="editorModal">
-        <div class="panel" style="width: 100%; max-width: 600px; transform: translateY(0); margin: auto;">
+        <div class="panel" style="width: 100%; max-width: 600px; margin: auto;">
             <h2 style="font-size: 20px; font-weight: 900; margin-bottom: 20px;">Soạn Thảo Mục Giới Thiệu</h2>
             <input type="hidden" id="editId">
-            <div class="input-group" style="margin-bottom: 15px;">
-                <label>Thẻ gắn (Ví dụ: Về Chúng Tôi, Tầm Nhìn, Sứ Mệnh...)</label>
-                <input type="text" id="editTag" required>
-            </div>
-            <div class="input-group" style="margin-bottom: 15px;">
-                <label>Tiêu đề chính</label>
-                <input type="text" id="editTitle" required>
-            </div>
-            <div class="input-group" style="margin-bottom: 25px;">
-                <label>Nội dung chi tiết (Mỗi lần XUỐNG DÒNG sẽ được tách thành 1 đoạn văn mới)</label>
-                <textarea id="editContent" rows="8" required></textarea>
-            </div>
-            
+            <div class="input-group" style="margin-bottom: 15px;"><label>Thẻ gắn</label><input type="text" id="editTag" required></div>
+            <div class="input-group" style="margin-bottom: 15px;"><label>Tiêu đề chính</label><input type="text" id="editTitle" required></div>
+            <div class="input-group" style="margin-bottom: 25px;"><label>Nội dung chi tiết</label><textarea id="editContent" rows="8" required></textarea></div>
             <div style="display: flex; justify-content: flex-end; gap: 10px;">
-                <button onclick="document.getElementById('editorModal').classList.remove('show')" class="btn-delete" style="background: #e2e8f0; color: var(--text-main); font-size: 14px; padding: 10px 20px;">Hủy Bỏ</button>
-                <button class="btn-action" onclick="saveAboutSection()">Lưu Lên Trang Chủ</button>
+                <button onclick="document.getElementById('editorModal').classList.remove('show')" class="btn-delete">Hủy Bỏ</button>
+                <button class="btn-action" onclick="saveAboutSection()">Lưu</button>
             </div>
         </div>
     </div>
@@ -350,23 +344,15 @@
             projectId: "lscm-hunre",
             storageBucket: "lscm-hunre.firebasestorage.app",
             messagingSenderId: "529740128242",
-            appId: "1:529740128242:web:9436a1c4d5c2257b71d56b",
-            measurementId: "G-J550Z9F027"
+            appId: "1:529740128242:web:9436a1c4d5c2257b71d56b"
         };
-        
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
-
-        // Khởi tạo luồng phụ để tạo Account
         const secondaryApp = firebase.initializeApp(firebaseConfig, "SecondaryApp");
 
-        // 2. BẢO MẬT & ĐIỀU HƯỚNG
         const userRole = localStorage.getItem('userRole');
-        if (userRole !== 'ADMIN') {
-            alert("Truy cập bị từ chối!");
-            window.location.href = 'index.html';
-        }
+        if (userRole !== 'ADMIN') { alert("Truy cập bị từ chối!"); window.location.href = 'index.html'; }
 
         function switchTab(tabId, element) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
@@ -374,215 +360,312 @@
             document.getElementById(tabId).classList.add('active');
             element.classList.add('active');
             
-            const titleMap = {
-                'tab-info': 'Quản Trị Chuyên Mục Giới Thiệu',
-                'tab-members': 'Quản Lý Hồ Sơ & Tài Khoản',
-                'tab-news': 'Quản Trị Bài Đăng Hoạt Động',
-                'tab-docs': 'Quản Lý Kho Tài Liệu Nội Bộ'
-            };
+            const titleMap = { 'tab-info': 'Quản Trị "Giới Thiệu"', 'tab-members': 'Quản Lý Hồ Sơ & Tài Khoản', 'tab-news': 'Quản Trị Bài Đăng', 'tab-docs': 'Quản Lý Kho Tài Liệu' };
             document.getElementById('pageTitle').innerText = titleMap[tabId];
-            
-            if(tabId === 'tab-members') fetchMembers();
-            if(tabId === 'tab-info') loadAboutSectionsForAdmin();
         }
 
-        function toggleAddMember(show) { document.getElementById('addMemberPanel').style.display = show ? 'block' : 'none'; }
-        function handleLogout() {
-            if(confirm("Thoát khỏi phiên quản trị?")) {
-                localStorage.clear();
-                window.location.href = 'index.html';
+        function handleLogout() { if(confirm("Đăng xuất?")) { localStorage.clear(); window.location.href = 'index.html'; } }
+
+        // ==========================================
+        // QUẢN LÝ NHÂN SỰ & TỰ ĐỘNG CHUYỂN CỰU THÀNH VIÊN
+        // ==========================================
+        function toggleAddMember(show) { 
+            document.getElementById('addMemberPanel').style.display = show ? 'block' : 'none'; 
+            if(!show) document.getElementById('memberForm').reset();
+        }
+        function openAddMember() {
+            document.getElementById('memberForm').reset();
+            document.getElementById('m_id').value = '';
+            document.getElementById('securityBox').style.display = 'grid'; // Hiện box nhập email tạo acc
+            document.getElementById('m_email').required = true;
+            document.getElementById('m_pass').required = true;
+            document.getElementById('formMemberTitle').innerHTML = '<i class="fas fa-user-plus"></i> Cấp Tài Khoản & Thêm Hồ Sơ';
+            toggleAddMember(true);
+        }
+
+        function editMember(uid) {
+            db.collection("members").doc(uid).get().then(doc => {
+                if(doc.exists) {
+                    const m = doc.data();
+                    document.getElementById('m_id').value = doc.id;
+                    document.getElementById('m_name').value = m.name;
+                    document.getElementById('m_gen').value = m.gen;
+                    document.getElementById('m_gradDate').value = m.gradDate;
+                    document.getElementById('m_ban').value = m.ban;
+                    document.getElementById('m_roleTitle').value = m.roleTitle;
+                    document.getElementById('m_level').value = m.roleLevel;
+                    document.getElementById('m_status').value = m.status;
+                    document.getElementById('m_img').value = m.image;
+                    document.getElementById('m_slogan').value = m.slogan || "";
+                    document.getElementById('m_bio').value = m.bio || "";
+                    document.getElementById('m_fb').value = m.fb || "";
+                    
+                    // Ẩn bảng tạo tài khoản vì đang sửa hồ sơ
+                    document.getElementById('securityBox').style.display = 'none';
+                    document.getElementById('m_email').required = false;
+                    document.getElementById('m_pass').required = false;
+                    
+                    document.getElementById('formMemberTitle').innerHTML = '<i class="fas fa-user-edit"></i> Sửa Hồ Sơ (Không bao gồm Auth)';
+                    toggleAddMember(true);
+                }
+            });
+        }
+
+        function saveMember(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btnSaveMem');
+            btn.innerHTML = 'Đang xử lý...'; btn.disabled = true;
+
+            const id = document.getElementById('m_id').value;
+            const payload = {
+                name: document.getElementById('m_name').value,
+                gen: document.getElementById('m_gen').value,
+                gradDate: document.getElementById('m_gradDate').value,
+                ban: document.getElementById('m_ban').value,
+                roleTitle: document.getElementById('m_roleTitle').value,
+                status: document.getElementById('m_status').value,
+                roleLevel: parseInt(document.getElementById('m_level').value),
+                image: document.getElementById('m_img').value,
+                slogan: document.getElementById('m_slogan').value,
+                bio: document.getElementById('m_bio').value,
+                fb: document.getElementById('m_fb').value,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            if (id) {
+                // Sửa hồ sơ
+                db.collection("members").doc(id).update(payload).then(() => {
+                    alert("Cập nhật thành công!"); toggleAddMember(false); fetchMembers();
+                }).finally(() => { btn.innerHTML = 'Lưu Hồ Sơ'; btn.disabled = false; });
+            } else {
+                // Thêm mới & Tạo Auth
+                const email = document.getElementById('m_email').value;
+                const pass = document.getElementById('m_pass').value;
+                secondaryApp.auth().createUserWithEmailAndPassword(email, pass).then((cred) => {
+                    secondaryApp.auth().signOut();
+                    payload.email = email;
+                    payload.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+                    return db.collection("members").doc(cred.user.uid).set(payload);
+                }).then(() => {
+                    alert("Đã cấp tài khoản!"); toggleAddMember(false); fetchMembers();
+                }).catch(err => alert("Lỗi: " + err.message))
+                .finally(() => { btn.innerHTML = 'Lưu Hồ Sơ'; btn.disabled = false; });
             }
         }
 
-        // ==========================================
-        // 3. LOGIC QUẢN LÝ "VỀ CHÚNG TÔI" 
-        // ==========================================
-        function loadAboutSectionsForAdmin() {
-            const container = document.getElementById('aboutListContainer');
-            db.collection("about_sections").orderBy("order", "asc").onSnapshot((snapshot) => {
-                container.innerHTML = '';
-                if(snapshot.empty) {
-                    container.innerHTML = '<p style="text-align:center; color:gray;">Chưa có mục nào. Hãy ấn nút Thêm mới!</p>';
-                    return;
-                }
-                snapshot.forEach((doc) => {
-                    const data = doc.data();
-                    const fullText = data.paragraphs.join('\n'); // Nối mảng thành chuỗi có xuống dòng
-                    
-                    container.innerHTML += `
-                        <div class="about-item">
-                            <div class="about-item-content">
-                                <h3>${data.title}</h3>
-                                <span>Thẻ: ${data.tag}</span>
+        function fetchMembers() {
+            const tbody = document.getElementById('memberTableBody');
+            const ctvBox = document.getElementById('ctvApprovalContainer');
+            
+            // Lấy current YYYY-MM để check Tốt nghiệp
+            const today = new Date();
+            const currentYYYY_MM = today.getFullYear() + "-" + String(today.getMonth() + 1).padStart(2, '0');
+
+            db.collection("members").orderBy("roleLevel", "asc").get().then((querySnapshot) => {
+                tbody.innerHTML = ''; ctvBox.innerHTML = '';
+                let hasCTV = false;
+
+                querySnapshot.forEach((doc) => {
+                    let m = doc.data();
+                    let needDbUpdate = false;
+
+                    // AUTO-ALUMNI LOGIC: Kiểm tra tháng tốt nghiệp
+                    if (m.gradDate && m.gradDate < currentYYYY_MM && m.status !== 'ALUMNI') {
+                        m.status = 'ALUMNI';
+                        m.roleLevel = 6; // Đẩy xuống nhóm cựu
+                        if (!m.roleTitle.toLowerCase().startsWith('cựu')) {
+                            m.roleTitle = 'Cựu ' + m.roleTitle;
+                        }
+                        // Update ngầm Database
+                        db.collection("members").doc(doc.id).update({
+                            status: m.status, roleTitle: m.roleTitle, roleLevel: 6
+                        });
+                    }
+
+                    // Render CTV Approval
+                    if(m.status === 'CTV') {
+                        hasCTV = true;
+                        ctvBox.innerHTML += `
+                            <div class="approval-card">
+                                <div class="approval-info">
+                                    <h4>${m.name} - ${m.gen}</h4>
+                                    <p>Ban: ${m.ban} | Vị trí: ${m.roleTitle}</p>
+                                </div>
+                                <div class="approval-actions">
+                                    <button class="btn-success" onclick="approveCTV('${doc.id}')"><i class="fas fa-check"></i> Duyệt Chính thức</button>
+                                    <button class="btn-delete" onclick="deleteMember('${doc.id}')"><i class="fas fa-times"></i> Loại</button>
+                                </div>
                             </div>
-                            <div class="about-item-actions">
-                                <button class="btn-edit" onclick="openAboutEditor('${doc.id}', '${data.tag}', '${data.title}', \`${fullText}\`)"><i class="fas fa-edit"></i> Sửa</button>
-                                <button class="btn-delete" onclick="deleteAboutSection('${doc.id}')"><i class="fas fa-trash"></i> Xóa</button>
+                        `;
+                    } 
+                    // Render Danh sách chính
+                    else {
+                        let badgeHtml = m.status === 'ACTIVE' ? '<span class="badge badge-active">Chính Thức</span>' : '<span class="badge badge-alumni">Cựu</span>';
+                        tbody.innerHTML += `
+                            <tr>
+                                <td>
+                                    <div style="display:flex; align-items:center; gap:12px;">
+                                        <img src="${m.image}" style="width:35px; height:35px; border-radius:5px; object-fit:cover;">
+                                        <div><strong style="display:block;">${m.name}</strong><span style="font-size:11px; color:var(--text-muted);">${m.email||'N/A'}</span></div>
+                                    </div>
+                                </td>
+                                <td>${m.roleTitle}</td>
+                                <td>${m.ban}<br><span style="font-size:11px;">${m.gen}</span></td>
+                                <td><span style="background:#f1f5f9; padding:3px 8px; border-radius:4px; font-size:12px; font-weight:700;">${m.gradDate||'N/A'}</span></td>
+                                <td>${badgeHtml}</td>
+                                <td style="text-align: right;">
+                                    <button class="btn-edit" onclick="editMember('${doc.id}')">Sửa</button>
+                                    <button class="btn-delete" onclick="deleteMember('${doc.id}')">Xóa</button>
+                                </td>
+                            </tr>
+                        `;
+                    }
+                });
+                if(!hasCTV) ctvBox.innerHTML = '<p style="color: #b45309; font-size: 13px;">Không có CTV chờ duyệt.</p>';
+            });
+        }
+
+        function approveCTV(id) {
+            if(confirm("Duyệt Cộng Tác Viên này thành Thành Viên Chính Thức?")) {
+                db.collection("members").doc(id).update({ status: 'ACTIVE' }).then(fetchMembers);
+            }
+        }
+        function deleteMember(id) {
+            if(confirm("Xóa vĩnh viễn hồ sơ này?")) db.collection("members").doc(id).delete().then(fetchMembers);
+        }
+
+        // ==========================================
+        // QUẢN TRỊ BÀI ĐĂNG (SẮP XẾP MỚI NHẤT)
+        // ==========================================
+        function openNewsForm() { document.getElementById('newsForm').reset(); document.getElementById('n_id').value=''; document.getElementById('newsForm').style.display='block'; }
+        
+        function saveNews(e) {
+            e.preventDefault();
+            const id = document.getElementById('n_id').value;
+            const payload = {
+                title: document.getElementById('n_title').value,
+                date: document.getElementById('n_date').value, // Định dạng YYYY-MM-DD
+                image: document.getElementById('n_img').value,
+                desc: document.getElementById('n_desc').value
+            };
+            if(id) db.collection("news").doc(id).update(payload).then(() => { document.getElementById('newsForm').style.display='none'; });
+            else db.collection("news").add(payload).then(() => { document.getElementById('newsForm').style.display='none'; });
+        }
+
+        function fetchNews() {
+            const container = document.getElementById('newsListContainer');
+            // Tự động sắp xếp ngày lớn nhất (gần nhất) lên trên
+            db.collection("news").orderBy("date", "desc").onSnapshot(snapshot => {
+                container.innerHTML = '';
+                snapshot.forEach(doc => {
+                    const n = doc.data();
+                    // Đảo ngược YYYY-MM-DD thành DD/MM/YYYY hiển thị cho đẹp
+                    const dParts = n.date.split('-'); const displayDate = `${dParts[2]}/${dParts[1]}/${dParts[0]}`;
+                    container.innerHTML += `
+                        <div class="list-item">
+                            <img src="${n.image}" onerror="this.src='https://via.placeholder.com/80'">
+                            <div class="list-item-content">
+                                <h3>${n.title}</h3>
+                                <span style="font-size:12px; font-weight:800; color:var(--primary); background:#ecfdf5; padding:3px 8px; border-radius:4px;"><i class="far fa-calendar"></i> ${displayDate}</span>
+                                <p style="margin-top:5px;">${n.desc}</p>
+                            </div>
+                            <div>
+                                <button class="btn-edit" onclick="editNews('${doc.id}', '${n.title}', '${n.date}', '${n.image}', '${n.desc}')">Sửa</button>
+                                <button class="btn-delete" onclick="deleteNews('${doc.id}')">Xóa</button>
                             </div>
                         </div>
                     `;
                 });
             });
         }
-
-        function openAboutEditor(id = '', tag = '', title = '', content = '') {
-            document.getElementById('editId').value = id;
-            document.getElementById('editTag').value = tag;
-            document.getElementById('editTitle').value = title;
-            document.getElementById('editContent').value = content;
-            document.getElementById('editorModal').classList.add('show');
-        }
-
-        function saveAboutSection() {
-            const id = document.getElementById('editId').value;
-            const tag = document.getElementById('editTag').value;
-            const title = document.getElementById('editTitle').value;
-            const rawContent = document.getElementById('editContent').value;
-            // Tách các đoạn văn bằng ký tự xuống dòng
-            const paragraphs = rawContent.split('\n').filter(p => p.trim() !== '');
-
-            if(!tag || !title || paragraphs.length === 0) return alert("Vui lòng điền đủ thông tin!");
-
-            const data = { tag: tag, title: title, paragraphs: paragraphs, order: Date.now() };
-
-            if (id) {
-                db.collection("about_sections").doc(id).update(data).then(() => {
-                    document.getElementById('editorModal').classList.remove('show');
-                });
-            } else {
-                db.collection("about_sections").add(data).then(() => {
-                    document.getElementById('editorModal').classList.remove('show');
-                });
-            }
-        }
-
-        function deleteAboutSection(id) {
-            if(confirm("Bạn có chắc muốn xóa hẳn khối nội dung này khỏi trang chủ?")) {
-                db.collection("about_sections").doc(id).delete();
-            }
-        }
+        function editNews(id, t, d, i, desc) { openNewsForm(); document.getElementById('n_id').value=id; document.getElementById('n_title').value=t; document.getElementById('n_date').value=d; document.getElementById('n_img').value=i; document.getElementById('n_desc').value=desc; }
+        function deleteNews(id) { if(confirm("Xóa sự kiện này?")) db.collection("news").doc(id).delete(); }
 
         // ==========================================
-        // 4. QUẢN LÝ THÀNH VIÊN VÀ TẠO TÀI KHOẢN
+        // QUẢN LÝ KHO TÀI LIỆU (DUYỆT & UP FILE)
         // ==========================================
-        function saveMember(e) {
-            e.preventDefault();
-            const btn = document.getElementById('btnSaveMem');
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang khởi tạo...';
-            btn.disabled = true;
-
-            const email = document.getElementById('m_email').value;
-            const pass = document.getElementById('m_pass').value;
-
-            // Luồng phụ tạo tài khoản
-            secondaryApp.auth().createUserWithEmailAndPassword(email, pass)
-                .then((userCredential) => {
-                    secondaryApp.auth().signOut();
-                    const newUid = userCredential.user.uid;
-
-                    // Lưu hồ sơ vào Firestore
-                    const newMember = {
-                        name: document.getElementById('m_name').value,
-                        gen: document.getElementById('m_gen').value,
-                        ban: document.getElementById('m_ban').value,
-                        roleTitle: document.getElementById('m_roleTitle').value,
-                        status: document.getElementById('m_status').value,
-                        roleLevel: parseInt(document.getElementById('m_level').value),
-                        slogan: document.getElementById('m_slogan').value,
-                        bio: document.getElementById('m_bio').value,
-                        fb: document.getElementById('m_fb').value,
-                        image: document.getElementById('m_img').value,
-                        email: email,
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                    };
-
-                    return db.collection("members").doc(newUid).set(newMember);
-                })
-                .then(() => {
-                    alert("Đã cấp tài khoản & lưu hồ sơ thành công!");
-                    document.getElementById('memberForm').reset();
-                    toggleAddMember(false);
-                    fetchMembers();
-                })
-                .catch((error) => {
-                    alert("Lỗi tạo tài khoản: " + error.message);
-                })
-                .finally(() => {
-                    btn.innerHTML = '<i class="fas fa-check-circle"></i> Khởi tạo Tài Khoản & Lưu Hồ Sơ';
-                    btn.disabled = false;
-                });
-        }
-
-        function fetchMembers() {
-            const tbody = document.getElementById('memberTableBody');
-            db.collection("members").orderBy("roleLevel", "asc").get()
-                .then((querySnapshot) => {
-                    tbody.innerHTML = '';
-                    if(querySnapshot.empty) {
-                        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Danh sách trống.</td></tr>';
-                        return;
-                    }
-                    querySnapshot.forEach((doc) => {
-                        const m = doc.data();
-                        let badgeHtml = '';
-                        if(m.status === 'ACTIVE') badgeHtml = '<span class="badge badge-active">Đương Nhiệm</span>';
-                        else if(m.status === 'CTV') badgeHtml = '<span class="badge badge-ctv">CTV</span>';
-                        else badgeHtml = '<span class="badge badge-alumni">Cựu</span>';
-
-                        tbody.innerHTML += `
-                            <tr>
-                                <td>
-                                    <div style="display:flex; align-items:center; gap:12px;">
-                                        <img src="${m.image}" style="width:35px; height:35px; border-radius:50%; object-fit:cover;" onerror="this.src='https://via.placeholder.com/35'">
-                                        <div>
-                                            <strong style="display:block; font-size:14px;">${m.name}</strong>
-                                            <span style="font-size:11px; color:var(--text-muted);">${m.email}</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>${m.roleTitle}</td>
-                                <td>${m.ban}</td>
-                                <td>${badgeHtml}</td>
-                                <td style="text-align: right;">
-                                    <button class="btn-delete" onclick="deleteMember('${doc.id}')"><i class="fas fa-trash-alt"></i> Xóa</button>
-                                </td>
-                            </tr>
-                        `;
-                    });
-                });
-        }
-
-        function deleteMember(uid) {
-            if(confirm("Xác nhận xóa vĩnh viễn hồ sơ này khỏi hệ thống? (Lưu ý: Thao tác này chưa xóa Auth đăng nhập)")) {
-                db.collection("members").doc(uid).delete().then(() => fetchMembers());
-            }
-        }
-
-        // ==========================================
-        // 5. TIN TỨC & TÀI LIỆU
-        // ==========================================
-        function saveNews(e) {
-            e.preventDefault();
-            db.collection("news").add({
-                title: document.getElementById('n_title').value,
-                date: document.getElementById('n_date').value,
-                image: document.getElementById('n_img').value,
-                desc: document.getElementById('n_desc').value,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            }).then(() => { alert("Đăng bài viết mới thành công!"); e.target.reset(); });
-        }
-
+        function openDocForm() { document.getElementById('docForm').reset(); document.getElementById('d_id').value=''; document.getElementById('docForm').style.display='block'; }
+        
         function saveDoc(e) {
             e.preventDefault();
-            db.collection("documents").add({
+            const id = document.getElementById('d_id').value;
+            const payload = {
                 name: document.getElementById('d_name').value,
                 link: document.getElementById('d_link').value,
+                status: 'APPROVED', // Admin up thì auto Approved
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            }).then(() => { alert("Đã lưu Link tài liệu!"); e.target.reset(); });
+            };
+            if(id) db.collection("documents").doc(id).update(payload).then(() => { document.getElementById('docForm').style.display='none'; });
+            else db.collection("documents").add(payload).then(() => { document.getElementById('docForm').style.display='none'; });
         }
 
-        // Init
-        loadAboutSectionsForAdmin();
+        function fetchDocs() {
+            const pendBox = document.getElementById('pendingDocsContainer');
+            const apprBox = document.getElementById('approvedDocsContainer');
+            
+            db.collection("documents").orderBy("timestamp", "desc").onSnapshot(snapshot => {
+                pendBox.innerHTML = ''; apprBox.innerHTML = '';
+                let hasPend = false;
+                snapshot.forEach(doc => {
+                    const d = doc.data();
+                    if(d.status === 'PENDING') {
+                        hasPend = true;
+                        pendBox.innerHTML += `
+                            <div class="approval-card">
+                                <div class="approval-info"><h4><i class="fas fa-file"></i> ${d.name}</h4><a href="${d.link}" target="_blank" style="font-size:12px; color:var(--secondary); text-decoration:underline;">Mở xem Link Drive</a></div>
+                                <div class="approval-actions">
+                                    <button class="btn-success" onclick="approveDoc('${doc.id}')">Duyệt File</button>
+                                    <button class="btn-delete" onclick="deleteDoc('${doc.id}')">Xóa</button>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        apprBox.innerHTML += `
+                            <div class="list-item" style="padding:15px;">
+                                <div style="width:40px; height:40px; background:#f1f5f9; color:var(--primary); display:flex; justify-content:center; align-items:center; border-radius:8px; font-size:18px;"><i class="fas fa-folder"></i></div>
+                                <div class="list-item-content">
+                                    <h3 style="margin:0;">${d.name}</h3>
+                                    <a href="${d.link}" target="_blank" style="font-size:12px; color:var(--text-muted);">Link Drive gốc</a>
+                                </div>
+                                <div>
+                                    <button class="btn-edit" onclick="editDoc('${doc.id}', '${d.name}', '${d.link}')">Sửa</button>
+                                    <button class="btn-delete" onclick="deleteDoc('${doc.id}')">Xóa</button>
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+                if(!hasPend) pendBox.innerHTML = '<p style="color: #b45309; font-size: 13px;">Không có tài liệu nào chờ duyệt.</p>';
+            });
+        }
+        function approveDoc(id) { db.collection("documents").doc(id).update({status: 'APPROVED'}); }
+        function editDoc(id, n, l) { openDocForm(); document.getElementById('d_id').value=id; document.getElementById('d_name').value=n; document.getElementById('d_link').value=l; }
+        function deleteDoc(id) { if(confirm("Xóa tài liệu này khỏi kho?")) db.collection("documents").doc(id).delete(); }
+
+        // ==========================================
+        // VỀ CHÚNG TÔI
+        // ==========================================
+        function loadAboutSectionsForAdmin() {
+            const container = document.getElementById('aboutListContainer');
+            db.collection("about_sections").orderBy("order", "asc").onSnapshot((snapshot) => {
+                container.innerHTML = '';
+                snapshot.forEach((doc) => {
+                    const data = doc.data(); const fullText = data.paragraphs.join('\n');
+                    container.innerHTML += `<div class="list-item" style="padding:15px;"><div class="list-item-content"><span style="font-size:11px; font-weight:800; color:white; background:var(--secondary); padding:2px 8px; border-radius:4px;">${data.tag}</span><h3 style="margin-top:5px;">${data.title}</h3></div><div><button class="btn-edit" onclick="openAboutEditor('${doc.id}', '${data.tag}', '${data.title}', \`${fullText}\`)">Sửa</button><button class="btn-delete" onclick="deleteAboutSection('${doc.id}')">Xóa</button></div></div>`;
+                });
+            });
+        }
+        function openAboutEditor(id = '', tag = '', title = '', content = '') { document.getElementById('editId').value=id; document.getElementById('editTag').value=tag; document.getElementById('editTitle').value=title; document.getElementById('editContent').value=content; document.getElementById('editorModal').classList.add('show'); }
+        function saveAboutSection() {
+            const id = document.getElementById('editId').value;
+            const data = { tag: document.getElementById('editTag').value, title: document.getElementById('editTitle').value, paragraphs: document.getElementById('editContent').value.split('\n').filter(p=>p.trim()!==''), order: Date.now() };
+            if(id) db.collection("about_sections").doc(id).update(data).then(() => { document.getElementById('editorModal').classList.remove('show'); });
+            else db.collection("about_sections").add(data).then(() => { document.getElementById('editorModal').classList.remove('show'); });
+        }
+        function deleteAboutSection(id) { if(confirm("Xóa khối này?")) db.collection("about_sections").doc(id).delete(); }
+
+        // INIT KHI LOAD TRANG
+        fetchMembers(); fetchNews(); fetchDocs(); loadAboutSectionsForAdmin();
     </script>
 </body>
 </html>

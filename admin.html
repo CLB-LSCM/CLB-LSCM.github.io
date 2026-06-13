@@ -99,6 +99,7 @@
             <div class="menu-label">Quản lý giao diện</div>
             <div class="menu-item active" onclick="switchTab('tab-info', this)"><i class="fas fa-edit"></i> Quản Trị "Giới Thiệu"</div>
             <div class="menu-item" onclick="switchTab('tab-contact', this)"><i class="fas fa-address-book"></i> Quản Trị "Liên Hệ"</div>
+            <div class="menu-item" onclick="switchTab('tab-depts', this)"><i class="fas fa-building"></i> Quản Trị Mô Tả Các Ban</div>
             <div class="menu-label">Cơ sở dữ liệu CLB</div>
             <div class="menu-item" onclick="switchTab('tab-members', this)"><i class="fas fa-users-cog"></i> Hồ Sơ Thành Viên</div>
             <div class="menu-item" onclick="switchTab('tab-news', this)"><i class="fas fa-newspaper"></i> Tin Tức & Sự Kiện</div>
@@ -143,8 +144,53 @@
                             <label>Nội dung mô tả</label>
                             <textarea id="contactDescInput" rows="4" placeholder="Bạn có câu hỏi, ý tưởng..." ></textarea>
                         </div>
+                        <div class="input-group full">
+                            <label>Tiêu đề liên hệ 1</label>
+                            <input type="text" id="contactRole1Input" placeholder="Liên hệ Chủ Nhiệm">
+                        </div>
+                        <div class="input-group full">
+                            <label>Thông tin liên hệ 1</label>
+                            <input type="text" id="contactInfo1Input" placeholder="Nguyễn Văn A - 0123.456.789">
+                        </div>
+                        <div class="input-group full">
+                            <label>Tiêu đề liên hệ 2</label>
+                            <input type="text" id="contactRole2Input" placeholder="Liên hệ Trưởng Ban Truyền Thông">
+                        </div>
+                        <div class="input-group full">
+                            <label>Thông tin liên hệ 2</label>
+                            <input type="text" id="contactInfo2Input" placeholder="Trương D - 0987.654.321">
+                        </div>
                         <div class="input-group full" style="display:flex; justify-content:flex-end;">
                             <button class="btn-action" type="button" onclick="saveContactSection()"><i class="fas fa-save"></i> Lưu nội dung liên hệ</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-depts" class="tab-content">
+                <div class="panel" style="border-top: 4px solid #10b981;">
+                    <div class="panel-header">
+                        <h2 class="panel-title"><i class="fas fa-building"></i> Quản Trị Mô Tả Các Ban</h2>
+                    </div>
+                    <div class="form-grid">
+                        <div class="input-group full">
+                            <label>Ban Truyền Thông</label>
+                            <textarea id="deptDescTruyenThong" rows="3" placeholder="Sáng tạo nội dung, thiết kế hình ảnh, quản trị Fanpage và lan tỏa thông điệp."></textarea>
+                        </div>
+                        <div class="input-group full">
+                            <label>Ban Kỹ Thuật</label>
+                            <textarea id="deptDescKyThuat" rows="3" placeholder="Hỗ trợ công nghệ, âm thanh ánh sáng và vận hành nền tảng kỹ thuật số."></textarea>
+                        </div>
+                        <div class="input-group full">
+                            <label>Ban Đối Ngoại & Tổ chức sự kiện</label>
+                            <textarea id="deptDescDoiNgoai" rows="3" placeholder="Đại diện liên hệ doanh nghiệp, xin tài trợ và điều phối sự kiện."></textarea>
+                        </div>
+                        <div class="input-group full">
+                            <label>Ban Chuyên Môn</label>
+                            <textarea id="deptDescChuyenMon" rows="3" placeholder="Nghiên cứu tài liệu Logistics, tổ chức training kiến thức nội bộ."></textarea>
+                        </div>
+                        <div class="input-group full" style="display:flex; justify-content:flex-end;">
+                            <button class="btn-action" type="button" onclick="saveDeptDescriptions()"><i class="fas fa-save"></i> Lưu mô tả các ban</button>
                         </div>
                     </div>
                 </div>
@@ -689,26 +735,65 @@
         function loadContactSectionForAdmin() {
             const contactTitle = document.getElementById('contactTitleInput');
             const contactDesc = document.getElementById('contactDescInput');
+            const contactRole1 = document.getElementById('contactRole1Input');
+            const contactInfo1 = document.getElementById('contactInfo1Input');
+            const contactRole2 = document.getElementById('contactRole2Input');
+            const contactInfo2 = document.getElementById('contactInfo2Input');
             db.collection('site_settings').doc('contact_section').onSnapshot((doc) => {
                 if (doc.exists) {
                     const data = doc.data();
                     contactTitle.value = data.title || '';
                     contactDesc.value = data.description || '';
+                    contactRole1.value = data.contacts?.[0]?.role || '';
+                    contactInfo1.value = data.contacts?.[0]?.info || '';
+                    contactRole2.value = data.contacts?.[1]?.role || '';
+                    contactInfo2.value = data.contacts?.[1]?.info || '';
                 }
+            });
+        }
+
+        function loadDeptDescriptionsForAdmin() {
+            const truyenThong = document.getElementById('deptDescTruyenThong');
+            const kyThuat = document.getElementById('deptDescKyThuat');
+            const doiNgoai = document.getElementById('deptDescDoiNgoai');
+            const chuyenMon = document.getElementById('deptDescChuyenMon');
+            db.collection('site_settings').doc('dept_descriptions').onSnapshot((doc) => {
+                if (!doc.exists) return;
+                const data = doc.data();
+                truyenThong.value = data['Truyền Thông'] || '';
+                kyThuat.value = data['Kỹ Thuật'] || '';
+                doiNgoai.value = data['Đối Ngoại & Tổ chức sự kiện'] || '';
+                chuyenMon.value = data['Chuyên Môn'] || '';
             });
         }
 
         function saveContactSection() {
             const title = document.getElementById('contactTitleInput').value.trim();
             const description = document.getElementById('contactDescInput').value.trim();
+            const contacts = [
+                { role: document.getElementById('contactRole1Input').value.trim(), info: document.getElementById('contactInfo1Input').value.trim() },
+                { role: document.getElementById('contactRole2Input').value.trim(), info: document.getElementById('contactInfo2Input').value.trim() }
+            ].filter(item => item.role && item.info);
             if (!title || !description) return alert('Vui lòng nhập cả tiêu đề và nội dung liên hệ.');
-            db.collection('site_settings').doc('contact_section').set({ title, description }).then(() => {
+            db.collection('site_settings').doc('contact_section').set({ title, description, contacts }).then(() => {
                 alert('Đã lưu nội dung liên hệ.');
             }).catch(err => alert('Lỗi khi lưu nội dung liên hệ: ' + err));
         }
 
+        function saveDeptDescriptions() {
+            const data = {
+                'Truyền Thông': document.getElementById('deptDescTruyenThong').value.trim(),
+                'Kỹ Thuật': document.getElementById('deptDescKyThuat').value.trim(),
+                'Đối Ngoại & Tổ chức sự kiện': document.getElementById('deptDescDoiNgoai').value.trim(),
+                'Chuyên Môn': document.getElementById('deptDescChuyenMon').value.trim()
+            };
+            db.collection('site_settings').doc('dept_descriptions').set(data).then(() => {
+                alert('Đã lưu mô tả các ban.');
+            }).catch(err => alert('Lỗi khi lưu mô tả các ban: ' + err));
+        }
+
         // INIT KHI LOAD TRANG
-        fetchMembers(); fetchNews(); fetchDocs(); loadAboutSectionsForAdmin(); loadContactSectionForAdmin();
+        fetchMembers(); fetchNews(); fetchDocs(); loadAboutSectionsForAdmin(); loadContactSectionForAdmin(); loadDeptDescriptionsForAdmin();
     </script>
 </body>
 </html>

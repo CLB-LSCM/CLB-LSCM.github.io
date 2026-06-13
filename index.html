@@ -252,7 +252,7 @@
                     <div class="contact-left">
                         <h3 id="contactTitle">Kết Nối Với Chúng Tôi</h3>
                         <p id="contactDesc">Bạn có câu hỏi, ý tưởng hay muốn trở thành một phần của đại gia đình LSCM? Hãy liên hệ trực tiếp với bộ phận chuyên trách hoặc để lại lời nhắn.</p>
-                        <div class="direct-contact">
+                        <div class="direct-contact" id="contactList">
                             <div class="dc-item">
                                 <div class="dc-icon"><i class="fas fa-user-tie"></i></div>
                                 <div class="dc-text">
@@ -457,6 +457,7 @@
             loadMembersFromFirebase();
             loadPublicNews();
             loadContactSection();
+            loadDeptDescriptions();
         });
 
         function switchTab(tabId, btnElement) {
@@ -474,7 +475,31 @@
                 const data = doc.data();
                 if (data.title) document.getElementById('contactTitle').innerText = data.title;
                 if (data.description) document.getElementById('contactDesc').innerText = data.description;
+                const contactList = document.getElementById('contactList');
+                if (!contactList) return;
+                if (data.contacts && data.contacts.length) {
+                    contactList.innerHTML = data.contacts.map(contact => {
+                        const icon = contact.role.toLowerCase().includes('truyền thông') ? 'fa-bullhorn' : 'fa-user-tie';
+                        return `
+                            <div class="dc-item">
+                                <div class="dc-icon"><i class="fas ${icon}"></i></div>
+                                <div class="dc-text">
+                                    <h4>${contact.role}</h4>
+                                    <p>${contact.info}</p>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                }
             }).catch(err => console.warn('Không thể tải nội dung liên hệ:', err));
+        }
+
+        function loadDeptDescriptions() {
+            db.collection('site_settings').doc('dept_descriptions').onSnapshot(doc => {
+                if (!doc.exists) return;
+                const data = doc.data();
+                Object.assign(deptDesc, data);
+            }, err => console.warn('Không thể tải mô tả các ban:', err));
         }
         function openModal(id) { document.getElementById(id).classList.add('show'); }
         function closeModal(e, modalId) { if (e.target.id === modalId) document.getElementById(modalId).classList.remove('show'); }

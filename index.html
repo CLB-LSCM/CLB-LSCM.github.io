@@ -150,6 +150,12 @@
         .news-date-badge { position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.95); color: var(--primary-dark); padding: 6px 12px; border-radius: 10px; font-size: 12px; font-weight: 800; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 6px;}
         .news-info { padding: 25px; }
         .news-title { font-size: 20px; font-weight: 800; margin-bottom: 10px; line-height: 1.3;}
+        .news-desc { font-size: 14px; color: var(--text-muted); line-height: 1.8; margin-bottom: 15px; max-height: 120px; overflow: hidden; position: relative; }
+        .news-desc.expanded { max-height: none; }
+        .news-desc::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 45px; background: linear-gradient(180deg, rgba(255,255,255,0), white 90%); display: block; }
+        .news-desc.expanded::after { display: none; }
+        .show-more-btn { display: inline-flex; align-items: center; gap: 6px; color: var(--primary); font-weight: 800; background: transparent; border: none; padding: 0; cursor: pointer; }
+        .show-more-btn:hover { text-decoration: underline; }
 
         /* MODAL HỒ SƠ */
         .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 2000; opacity: 0; transition: opacity 0.3s ease; }
@@ -244,8 +250,8 @@
             <div class="contact-section" id="contact-area">
                 <div class="contact-box">
                     <div class="contact-left">
-                        <h3>Kết Nối Với Chúng Tôi</h3>
-                        <p>Bạn có câu hỏi, ý tưởng hay muốn trở thành một phần của đại gia đình LSCM? Hãy liên hệ trực tiếp với bộ phận chuyên trách hoặc để lại lời nhắn.</p>
+                        <h3 id="contactTitle">Kết Nối Với Chúng Tôi</h3>
+                        <p id="contactDesc">Bạn có câu hỏi, ý tưởng hay muốn trở thành một phần của đại gia đình LSCM? Hãy liên hệ trực tiếp với bộ phận chuyên trách hoặc để lại lời nhắn.</p>
                         <div class="direct-contact">
                             <div class="dc-item">
                                 <div class="dc-icon"><i class="fas fa-user-tie"></i></div>
@@ -450,6 +456,7 @@
             loadAboutSections();
             loadMembersFromFirebase();
             loadPublicNews();
+            loadContactSection();
         });
 
         function switchTab(tabId, btnElement) {
@@ -459,6 +466,15 @@
             if(btnElement && btnElement.classList) btnElement.classList.add('active');
             window.scrollTo(0, 0);
             if(tabId === 'tab-co-cau') closeDeptDetail();
+        }
+
+        function loadContactSection() {
+            db.collection('site_settings').doc('contact_section').get().then(doc => {
+                if (!doc.exists) return;
+                const data = doc.data();
+                if (data.title) document.getElementById('contactTitle').innerText = data.title;
+                if (data.description) document.getElementById('contactDesc').innerText = data.description;
+            }).catch(err => console.warn('Không thể tải nội dung liên hệ:', err));
         }
         function openModal(id) { document.getElementById(id).classList.add('show'); }
         function closeModal(e, modalId) { if (e.target.id === modalId) document.getElementById(modalId).classList.remove('show'); }
@@ -521,6 +537,8 @@
                 snapshot.forEach(doc => {
                     const n = doc.data();
                     const dParts = n.date.split('-'); const displayDate = `${dParts[2]}/${dParts[1]}/${dParts[0]}`;
+                    const descId = `news-desc-${doc.id}`;
+                    const isLongDesc = n.desc && n.desc.length > 220;
                     container.innerHTML += `
                         <div class="news-card">
                             <div class="news-img-box">
@@ -529,12 +547,20 @@
                             </div>
                             <div class="news-info">
                                 <h3 class="news-title">${n.title}</h3>
-                                <p class="news-desc">${n.desc}</p>
+                                <p id="${descId}" class="news-desc${isLongDesc ? '' : ' expanded'}">${n.desc}</p>
+                                ${isLongDesc ? `<button class="show-more-btn" onclick="toggleNewsDesc('${descId}', this)">Xem thêm</button>` : ''}
                             </div>
                         </div>
                     `;
                 });
             });
+        }
+
+        function toggleNewsDesc(descId, btn) {
+            const descEl = document.getElementById(descId);
+            if (!descEl) return;
+            const expanded = descEl.classList.toggle('expanded');
+            btn.innerText = expanded ? 'Thu gọn' : 'Xem thêm';
         }
 
         // TẢI & RENDER THÀNH VIÊN TỪ FIREBASE ĐỘNG 100%

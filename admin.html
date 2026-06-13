@@ -98,6 +98,7 @@
         <div class="sidebar-menu">
             <div class="menu-label">Quản lý giao diện</div>
             <div class="menu-item active" onclick="switchTab('tab-info', this)"><i class="fas fa-edit"></i> Quản Trị "Giới Thiệu"</div>
+            <div class="menu-item" onclick="switchTab('tab-contact', this)"><i class="fas fa-address-book"></i> Quản Trị "Liên Hệ"</div>
             <div class="menu-label">Cơ sở dữ liệu CLB</div>
             <div class="menu-item" onclick="switchTab('tab-members', this)"><i class="fas fa-users-cog"></i> Hồ Sơ Thành Viên</div>
             <div class="menu-item" onclick="switchTab('tab-news', this)"><i class="fas fa-newspaper"></i> Tin Tức & Sự Kiện</div>
@@ -125,6 +126,27 @@
                         <button class="btn-action" onclick="openAboutEditor()"><i class="fas fa-plus"></i> Thêm mục mới</button>
                     </div>
                     <div id="aboutListContainer"><p style="text-align: center; color: gray;">Đang tải...</p></div>
+                </div>
+            </div>
+
+            <div id="tab-contact" class="tab-content">
+                <div class="panel" style="border-top: 4px solid #3b82f6;">
+                    <div class="panel-header">
+                        <h2 class="panel-title"><i class="fas fa-address-book"></i> Quản Trị "Kết Nối Với Chúng Tôi"</h2>
+                    </div>
+                    <div class="form-grid">
+                        <div class="input-group full">
+                            <label>Tiêu đề mục liên hệ</label>
+                            <input type="text" id="contactTitleInput" placeholder="Kết Nối Với Chúng Tôi">
+                        </div>
+                        <div class="input-group full">
+                            <label>Nội dung mô tả</label>
+                            <textarea id="contactDescInput" rows="4" placeholder="Bạn có câu hỏi, ý tưởng..." ></textarea>
+                        </div>
+                        <div class="input-group full" style="display:flex; justify-content:flex-end;">
+                            <button class="btn-action" type="button" onclick="saveContactSection()"><i class="fas fa-save"></i> Lưu nội dung liên hệ</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -360,8 +382,8 @@
             document.getElementById(tabId).classList.add('active');
             element.classList.add('active');
             
-            const titleMap = { 'tab-info': 'Quản Trị "Giới Thiệu"', 'tab-members': 'Quản Lý Hồ Sơ & Tài Khoản', 'tab-news': 'Quản Trị Bài Đăng', 'tab-docs': 'Quản Lý Kho Tài Liệu' };
-            document.getElementById('pageTitle').innerText = titleMap[tabId];
+            const titleMap = { 'tab-info': 'Quản Trị "Giới Thiệu"', 'tab-contact': 'Quản Trị "Liên Hệ"', 'tab-members': 'Quản Lý Hồ Sơ & Tài Khoản', 'tab-news': 'Quản Trị Bài Đăng', 'tab-docs': 'Quản Lý Kho Tài Liệu' };
+            document.getElementById('pageTitle').innerText = titleMap[tabId] || 'Admin';
         }
 
         function handleLogout() { if(confirm("Đăng xuất?")) { localStorage.clear(); window.location.href = 'index.html'; } }
@@ -664,8 +686,29 @@
         }
         function deleteAboutSection(id) { if(confirm("Xóa khối này?")) db.collection("about_sections").doc(id).delete(); }
 
+        function loadContactSectionForAdmin() {
+            const contactTitle = document.getElementById('contactTitleInput');
+            const contactDesc = document.getElementById('contactDescInput');
+            db.collection('site_settings').doc('contact_section').onSnapshot((doc) => {
+                if (doc.exists) {
+                    const data = doc.data();
+                    contactTitle.value = data.title || '';
+                    contactDesc.value = data.description || '';
+                }
+            });
+        }
+
+        function saveContactSection() {
+            const title = document.getElementById('contactTitleInput').value.trim();
+            const description = document.getElementById('contactDescInput').value.trim();
+            if (!title || !description) return alert('Vui lòng nhập cả tiêu đề và nội dung liên hệ.');
+            db.collection('site_settings').doc('contact_section').set({ title, description }).then(() => {
+                alert('Đã lưu nội dung liên hệ.');
+            }).catch(err => alert('Lỗi khi lưu nội dung liên hệ: ' + err));
+        }
+
         // INIT KHI LOAD TRANG
-        fetchMembers(); fetchNews(); fetchDocs(); loadAboutSectionsForAdmin();
+        fetchMembers(); fetchNews(); fetchDocs(); loadAboutSectionsForAdmin(); loadContactSectionForAdmin();
     </script>
 </body>
 </html>

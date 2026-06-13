@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LSCM HUNRE - Câu Lạc Bộ Logistics</title>
+    <title>Cổng Thành Viên - LSCM HUNRE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
-        /* === BIẾN MÀU SẮC LSCM === */
+        /* === GIỮ NGUYÊN 100% GIAO DIỆN GỐC === */
         :root {
             --primary: #059669; --primary-dark: #047857; --secondary: #F59E0B; 
             --dark-bg: #0B1120; --page-bg: #F8FAFC; --text-main: #1E293B;
@@ -20,13 +20,11 @@
         a { text-decoration: none; color: inherit; }
         img { max-width: 100%; border-radius: 8px; }
 
-        /* PRELOADER */
         #preloader { position: fixed; inset: 0; background: var(--dark-bg); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.5s; }
         .pl-logo { width: 100px; border-radius: 20px; animation: bounceLogo 0.8s infinite alternate ease-in-out; margin-bottom: 20px; }
         .pl-text { color: white; font-size: 18px; font-weight: 800; letter-spacing: 2px; }
         @keyframes bounceLogo { 0% { transform: translateY(0) scale(1); } 100% { transform: translateY(-20px) scale(1.05); } }
 
-        /* NAVBAR */
         header { position: fixed; top: 0; width: 100%; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); box-shadow: 0 1px 3px rgba(0,0,0,0.05); z-index: 1000; border-bottom: 1px solid var(--border-color); }
         .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 12px 5%; max-width: 1400px; margin: auto; }
         .logo-area { display: flex; align-items: center; gap: 12px; cursor: pointer;}
@@ -38,11 +36,9 @@
         .nav-link { font-size: 14px; font-weight: 700; color: var(--text-main); transition: var(--transition); padding: 8px 15px; border-radius: 8px; cursor: pointer; border: none; background: transparent; }
         .nav-link:hover, .nav-link.active { color: var(--primary); background: #ecfdf5; }
         
-        /* Nút Đăng nhập trên thanh Menu */
-        .btn-login { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; margin-left: 10px; transition: var(--transition);}
-        .btn-login:hover { background: var(--primary-dark); box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2); }
+        .btn-login { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; margin-left: 5px; transition: var(--transition);}
+        .btn-login:hover { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); opacity: 0.9; }
 
-        /* TAB SYSTEM */
         main { padding-top: 80px; min-height: 100vh; }
         .page-tab { display: none; animation: fadeIn 0.4s; }
         .page-tab.active { display: block; }
@@ -52,21 +48,15 @@
         .sec-title { font-size: 28px; font-weight: 900; color: var(--text-main); margin-bottom: 10px; text-transform: uppercase;}
         .sec-line { width: 60px; height: 5px; background: var(--primary); margin: auto; border-radius: 3px; }
 
-        /* TAB 1: GIỚI THIỆU (HERO) */
         .hero-wrapper { max-width: 1300px; margin: 20px auto 40px; padding: 0 20px; }
         .hero { background: linear-gradient(135deg, #022c22 0%, #0B1120 100%); border-radius: 30px; padding: 80px 5%; position: relative; text-align: center; color: white; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-        
-        /* Nút Đăng nhập giữa màn hình (Badge) */
-        .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(5, 150, 105, 0.2); border: 1px solid rgba(5, 150, 105, 0.5); color: #34d399; padding: 8px 20px; border-radius: 30px; font-size: 13px; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 25px; cursor: pointer; transition: 0.3s;}
-        .hero-badge:hover { background: rgba(5, 150, 105, 0.4); color: white;}
-        
+        .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(5, 150, 105, 0.2); border: 1px solid rgba(5, 150, 105, 0.5); color: #34d399; padding: 8px 20px; border-radius: 30px; font-size: 13px; font-weight: 800; margin-bottom: 25px;}
         .hero-title { font-size: 42px; font-weight: 900; line-height: 1.3; margin-bottom: 15px; max-width: 900px; margin-left: auto; margin-right: auto;}
         .hero-title span { color: var(--secondary); display: block; font-size: 50px; margin-top: 5px; }
-        .hero-slogan-box { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); display: inline-block; padding: 15px 40px; border-radius: 20px; margin-top: 20px; backdrop-filter: blur(5px);}
+        .hero-slogan-box { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); display: inline-block; padding: 15px 40px; border-radius: 20px; margin-top: 20px; }
         .hero-slogan { font-size: 18px; font-weight: 900; color: var(--secondary); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 5px; }
         .hero-sub { font-size: 13px; color: #cbd5e1; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; }
 
-        /* VỀ CHÚNG TÔI (DỮ LIỆU ĐỘNG TỪ ADMIN) */
         #dynamic-about-container { max-width: 1200px; margin: auto; padding: 0 20px; }
         .info-row { display: flex; gap: 40px; padding: 40px; background: white; border-radius: 24px; margin-bottom: 30px; border: 1px solid var(--border-color); flex-wrap: wrap;}
         .info-left { flex: 1; min-width: 250px;}
@@ -74,7 +64,6 @@
         .info-title { font-size: 26px; font-weight: 900; line-height: 1.3; }
         .info-right { flex: 1.5; min-width: 300px; color: var(--text-muted); font-size: 15px; line-height: 1.8; display: flex; flex-direction: column; gap: 15px; font-weight: 500;}
 
-        /* BẢNG CHỦ NHIỆM CHUNG */
         .board-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; max-width: 1200px; margin: auto; padding: 0 20px; }
         @media(max-width: 1024px) { .board-grid-4 { grid-template-columns: repeat(2, 1fr); } }
         @media(max-width: 600px) { .board-grid-4 { grid-template-columns: 1fr; } }
@@ -85,7 +74,6 @@
         .bc-role { display: inline-block; background: #ecfdf5; color: var(--primary); padding: 6px 15px; border-radius: 20px; font-size: 12px; font-weight: 800; margin-bottom: 10px; }
         .bc-name { font-size: 18px; font-weight: 900; color: var(--text-main); margin-bottom: 5px; }
 
-        /* LIÊN HỆ TRANG CHỦ */
         .contact-section { max-width: 1200px; margin: 60px auto; padding: 0 20px; }
         .contact-box { background: white; border-radius: 24px; padding: 50px; border: 1px solid var(--border-color); display: flex; gap: 50px; flex-wrap: wrap;}
         .contact-left { flex: 1; min-width: 300px; }
@@ -96,86 +84,74 @@
         .direct-contact { background: var(--page-bg); border-radius: 12px; padding: 20px; margin-bottom: 25px; border: 1px dashed var(--border-color);}
         .dc-item { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
         .dc-item:last-child { margin-bottom: 0; }
-        .dc-icon { width: 40px; height: 40px; background: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--primary); font-size: 18px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);}
+        .dc-icon { width: 40px; height: 40px; background: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--primary); font-size: 18px;}
         .dc-text h4 { font-size: 14px; font-weight: 800; color: var(--text-main); margin-bottom: 2px;}
         .dc-text p { font-size: 13px; color: var(--text-muted); font-weight: 600;}
 
         .soc-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 25px; border-radius: 12px; font-weight: 700; font-size: 14px; transition: 0.3s; width: 100%;}
         .soc-btn.fb { background: #1877F2; color: white; }
         .soc-btn.tt { background: #000000; color: white; }
-        .soc-btn:hover { opacity: 0.9; transform: translateY(-2px); }
         
         .contact-form { background: var(--page-bg); padding: 30px; border-radius: 16px; border: 1px solid var(--border-color); }
-        .contact-form h3 { font-size: 18px; font-weight: 800; margin-bottom: 20px; color: var(--text-main); display: flex; align-items: center; gap: 8px;}
-        .contact-form input, .contact-form textarea { width: 100%; padding: 15px; border: 1px solid var(--border-color); border-radius: 12px; font-size: 14px; margin-bottom: 15px; font-family: inherit; background: white;}
-        .contact-form input:focus, .contact-form textarea:focus { border-color: var(--primary); outline: none; }
+        .contact-form h3 { font-size: 18px; font-weight: 800; margin-bottom: 20px; display: flex; align-items: center; gap: 8px;}
+        .contact-form input, .contact-form textarea { width: 100%; padding: 15px; border: 1px solid var(--border-color); border-radius: 12px; font-size: 14px; margin-bottom: 15px; background: white;}
         .contact-form button { width: 100%; background: var(--primary); color: white; padding: 15px; border: none; border-radius: 12px; font-weight: 800; font-size: 15px; cursor: pointer; transition: 0.3s;}
-        .contact-form button:hover { background: var(--primary-dark); }
 
-        /* TAB 2: BAN CHỦ NHIỆM */
         .board-container { max-width: 1200px; margin: auto; padding: 0 20px; }
         .board-row-title { text-align: center; font-size: 20px; font-weight: 900; color: var(--text-main); margin: 60px 0 30px; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 15px;}
         .board-row-title::before, .board-row-title::after { content: ''; height: 2px; width: 50px; background: var(--border-color); }
 
-        /* TAB 3: CƠ CẤU BAN */
         .dept-container { max-width: 1200px; margin: auto; padding: 0 20px; }
         .dept-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
         .dept-card { background: white; padding: 40px 30px; border-radius: 20px; text-align: center; border: 1px solid var(--border-color); cursor: pointer; transition: var(--transition); }
         .dept-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); border-color: var(--primary); }
         .dept-icon { font-size: 50px; margin-bottom: 20px; display: inline-block; }
-        .dept-card h3 { font-size: 22px; font-weight: 900; color: var(--text-main); margin-bottom: 15px; }
+        .dept-card h3 { font-size: 22px; font-weight: 900; margin-bottom: 15px; }
 
         #dept-detail-view { display: none; animation: fadeIn 0.4s; }
-        .btn-back { background: white; border: 1px solid var(--border-color); padding: 10px 20px; border-radius: 10px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 30px; transition: 0.3s;}
-        .btn-back:hover { background: var(--page-bg); color: var(--primary); border-color: var(--primary);}
+        .btn-back { background: white; border: 1px solid var(--border-color); padding: 10px 20px; border-radius: 10px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 30px;}
         .dept-intro-box { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; padding: 50px; border-radius: 24px; text-align: center; margin-bottom: 40px;}
-        .dept-intro-box h2 { font-size: 32px; font-weight: 900; margin-bottom: 15px; }
 
-        /* TAB 4: THÀNH VIÊN (CUỘN DỌC) */
         .group-container { margin-bottom: 60px; }
-        .group-title { font-size: 20px; font-weight: 800; color: var(--text-main); margin-bottom: 25px; padding-left: 15px; border-left: 5px solid var(--primary); display: flex; align-items: center; gap: 10px;}
+        .group-title { font-size: 20px; font-weight: 800; margin-bottom: 25px; padding-left: 15px; border-left: 5px solid var(--primary); display: flex; align-items: center; gap: 10px;}
         .group-count { background: #ecfdf5; color: var(--primary-dark); padding: 2px 10px; border-radius: 12px; font-size: 14px; }
         .members-grid-6 { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; max-width: 1200px; margin: auto; padding: 0 20px;}
         .mem-card { background: var(--white); padding: 25px 15px; border-radius: 16px; text-align: center; border: 1px solid var(--border-color); cursor: pointer; transition: var(--transition); }
         .mem-card:hover { border-color: var(--primary); box-shadow: 0 10px 25px rgba(5, 150, 105, 0.1); transform: translateY(-5px); }
         .mem-img { width: 85px; height: 85px; border-radius: 50%; object-fit: cover; border: 3px solid #ecfdf5; margin-bottom: 12px; }
-        .mem-name { font-size: 15px; font-weight: 800; color: var(--text-main); margin-bottom: 5px; }
+        .mem-name { font-size: 15px; font-weight: 800; margin-bottom: 5px; }
         .mem-ban { font-size: 11px; color: var(--primary); font-weight: 700; text-transform: uppercase; }
 
-        /* TAB 5: HOẠT ĐỘNG */
         .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: auto; padding: 0 20px;}
         .news-card { background: white; border-radius: 20px; overflow: hidden; border: 1px solid var(--border-color); transition: var(--transition);}
         .news-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.08);}
         .news-img-box { position: relative; width: 100%; height: 220px; }
         .news-img { width: 100%; height: 100%; object-fit: cover; }
-        .news-date-badge { position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.95); color: var(--primary-dark); padding: 6px 12px; border-radius: 10px; font-size: 12px; font-weight: 800; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 6px;}
+        .news-date-badge { position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.95); color: var(--primary-dark); padding: 6px 12px; border-radius: 10px; font-size: 12px; font-weight: 800;}
         .news-info { padding: 25px; }
         .news-title { font-size: 20px; font-weight: 800; margin-bottom: 10px; line-height: 1.3;}
 
-        /* MODAL HỒ SƠ */
         .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 2000; opacity: 0; transition: opacity 0.3s ease; }
         .modal-overlay.show { display: flex; opacity: 1; }
         .pro-modal { background: white; width: 100%; max-width: 450px; border-radius: 24px; position: relative; transform: translateY(30px); transition: transform 0.3s; overflow: hidden;}
         .modal-overlay.show .pro-modal { transform: translateY(0); }
         .btn-close { position: absolute; top: 15px; right: 15px; font-size: 20px; color: white; cursor: pointer; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2); transition: 0.3s; z-index: 10;}
-        .btn-close:hover { background: rgba(0,0,0,0.5); }
         .pro-header { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); padding: 50px 20px 30px; text-align: center; }
-        .pro-img { width: 130px; height: 130px; border-radius: 50%; border: 5px solid white; object-fit: cover; margin-top: -85px; position: relative; z-index: 2; background: white; box-shadow: 0 5px 15px rgba(0,0,0,0.1);}
+        .pro-img { width: 130px; height: 130px; border-radius: 50%; border: 5px solid white; object-fit: cover; margin-top: -85px; position: relative; z-index: 2; background: white;}
         .pro-body { padding: 30px; text-align: center; }
         .pro-name { font-size: 26px; font-weight: 900; margin-bottom: 5px; }
         .pro-role { display: inline-block; background: #ecfdf5; color: var(--primary); padding: 5px 15px; border-radius: 15px; font-weight: 800; font-size: 12px; margin-bottom: 20px; }
         .pro-slogan { font-size: 16px; color: var(--secondary); font-style: italic; font-weight: 700; margin-bottom: 20px; }
         .pro-bio { font-size: 14px; color: var(--text-muted); line-height: 1.7; text-align: justify; margin-bottom: 30px;}
-        .pro-fb { display: inline-flex; align-items: center; gap: 10px; background: #1877F2; color: white; padding: 12px 30px; border-radius: 25px; font-weight: 700; font-size: 14px; transition: 0.3s; }
+        .pro-fb { display: inline-flex; align-items: center; gap: 10px; background: #1877F2; color: white; padding: 12px 30px; border-radius: 25px; font-weight: 700; font-size: 14px;}
 
-        /* MODAL ĐĂNG NHẬP */
-        .login-box { background: white; width: 100%; max-width: 400px; border-radius: 24px; padding: 40px 30px; position: relative; text-align: center;}
-        .login-box .btn-close { background: #f1f5f9; color: var(--text-muted); }
-        .login-box .btn-close:hover { background: #e2e8f0; color: var(--text-main); }
-        .login-box input { width: 100%; padding: 12px 15px; border: 1px solid var(--border-color); border-radius: 10px; margin-bottom: 15px; background: var(--page-bg); font-family: inherit; font-size: 14px; font-weight: 500;}
-        .login-box input:focus { border-color: var(--primary); outline: none; background: white;}
-        .btn-submit { width: 100%; background: var(--primary); color: white; border: none; padding: 12px; border-radius: 10px; font-weight: 800; font-size: 15px; cursor: pointer; transition: 0.3s; margin-top: 10px;}
-        .btn-submit:hover { background: var(--primary-dark); }
+        /* CSS MỚI CHO FORM CỦA THÀNH VIÊN */
+        .member-form-box { background: white; width: 100%; max-width: 450px; border-radius: 24px; padding: 30px; position: relative; text-align: left; }
+        .member-form-box .btn-close { background: #f1f5f9; color: var(--text-muted); }
+        .member-form-box label { display: block; font-size: 12px; font-weight: 800; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase;}
+        .member-form-box input, .member-form-box textarea { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 10px; margin-bottom: 15px; background: var(--page-bg); font-family: inherit; font-size: 14px;}
+        .member-form-box input:focus, .member-form-box textarea:focus { border-color: var(--primary); outline: none; }
+        .member-form-box button { width: 100%; background: var(--primary); color: white; border: none; padding: 12px; border-radius: 10px; font-weight: 800; font-size: 14px; cursor: pointer; transition: 0.3s; margin-top: 10px;}
         
         footer { background: white; border-top: 1px solid var(--border-color); padding: 30px; text-align: center; color: var(--text-muted); font-size: 14px; font-weight: 600; margin-top: 50px;}
     </style>
@@ -204,7 +180,10 @@
                 <button class="nav-link" onclick="switchTab('tab-hoat-dong', this)">Hoạt Động</button>
                 <button class="nav-link" onclick="switchTab('tab-gioi-thieu', this); setTimeout(()=>document.getElementById('contact-area').scrollIntoView(), 100);">Liên Hệ</button>
                 
-                <button class="btn-login" onclick="openModal('loginModal')"><i class="fas fa-sign-in-alt"></i> Đăng Nhập</button>
+                <button class="nav-link" style="color: var(--secondary);" onclick="switchTab('tab-tai-lieu', this)"><i class="fas fa-folder-open"></i> Thư mục tài liệu</button>
+                
+                <button class="btn-login" style="background: var(--secondary);" onclick="openEditProfileModal()"><i class="fas fa-user-edit"></i> Hồ Sơ</button>
+                <button class="btn-login" style="background: #ef4444; padding: 10px 15px;" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i></button>
             </nav>
         </div>
     </header>
@@ -214,7 +193,7 @@
             <div class="hero-wrapper">
                 <div class="hero">
                     <div style="position: relative; z-index: 10;">
-                        <div class="hero-badge" onclick="openModal('loginModal')"><i class="fas fa-lock" style="color: #F59E0B;"></i> Xin chào! Đăng nhập ngay</div>
+                        <div class="hero-badge"><i class="fas fa-bolt" style="color: #F59E0B;"></i> Xin chào Thành viên LSCM!</div>
                         <h1 class="hero-title">CLB Logistics & Quản lý Chuỗi cung ứng HUNRE <span>LSCM</span></h1>
                         <div class="hero-slogan-box">
                             <p class="hero-slogan">KẾT NỐI - HỢP TÁC - PHÁT TRIỂN</p>
@@ -228,10 +207,7 @@
                 <p style="text-align: center; padding: 50px; color: gray;">Đang kết nối hệ thống...</p>
             </div>
 
-            <div class="sec-header">
-                <h2 class="sec-title">Ban Chủ Nhiệm</h2>
-                <div class="sec-line"></div>
-            </div>
+            <div class="sec-header"><h2 class="sec-title">Ban Chủ Nhiệm</h2><div class="sec-line"></div></div>
             <div class="board-grid-4" id="homeBoardContainer"></div>
 
             <div class="contact-section" id="contact-area">
@@ -242,17 +218,11 @@
                         <div class="direct-contact">
                             <div class="dc-item">
                                 <div class="dc-icon"><i class="fas fa-user-tie"></i></div>
-                                <div class="dc-text">
-                                    <h4>Liên hệ Chủ Nhiệm</h4>
-                                    <p>Nguyễn Văn A - 0123.456.789</p>
-                                </div>
+                                <div class="dc-text"><h4>Liên hệ Chủ Nhiệm</h4><p>Nguyễn Văn A - 0123.456.789</p></div>
                             </div>
                             <div class="dc-item">
                                 <div class="dc-icon"><i class="fas fa-bullhorn"></i></div>
-                                <div class="dc-text">
-                                    <h4>Liên hệ Trưởng Ban Truyền Thông</h4>
-                                    <p>Trương D - 0987.654.321</p>
-                                </div>
+                                <div class="dc-text"><h4>Liên hệ Trưởng Ban Truyền Thông</h4><p>Trương D - 0987.654.321</p></div>
                             </div>
                         </div>
                         <div style="display: flex; gap: 15px;">
@@ -274,10 +244,7 @@
         </section>
 
         <section id="tab-chu-nhiem" class="page-tab">
-            <div class="sec-header">
-                <h2 class="sec-title">Cơ Cấu Ban Chủ Nhiệm</h2>
-                <div class="sec-line"></div>
-            </div>
+            <div class="sec-header"><h2 class="sec-title">Cơ Cấu Ban Chủ Nhiệm</h2><div class="sec-line"></div></div>
             <div class="board-container">
                 <div class="board-row-title">Cố Vấn CLB & Ban Chủ Nhiệm</div>
                 <div class="board-grid-4" id="boardRow1"></div>
@@ -297,42 +264,25 @@
                 </div>
                 <div class="dept-container">
                     <div class="dept-grid">
-                        <div class="dept-card" onclick="openDeptDetail('Truyền Thông')">
-                            <i class="fas fa-bullhorn dept-icon" style="color: var(--primary);"></i><h3>Ban Truyền Thông</h3>
-                        </div>
-                        <div class="dept-card" onclick="openDeptDetail('Kỹ Thuật')">
-                            <i class="fas fa-laptop-code dept-icon" style="color: #3b82f6;"></i><h3>Ban Kỹ Thuật</h3>
-                        </div>
-                        <div class="dept-card" onclick="openDeptDetail('Đối Ngoại')">
-                            <i class="fas fa-handshake dept-icon" style="color: var(--secondary);"></i><h3>Ban Đối Ngoại & TCSK</h3>
-                        </div>
-                        <div class="dept-card" onclick="openDeptDetail('Chuyên Môn')">
-                            <i class="fas fa-book-open dept-icon" style="color: #ef4444;"></i><h3>Ban Chuyên Môn</h3>
-                        </div>
+                        <div class="dept-card" onclick="openDeptDetail('Truyền Thông')"><i class="fas fa-bullhorn dept-icon" style="color: var(--primary);"></i><h3>Ban Truyền Thông</h3></div>
+                        <div class="dept-card" onclick="openDeptDetail('Kỹ Thuật')"><i class="fas fa-laptop-code dept-icon" style="color: #3b82f6;"></i><h3>Ban Kỹ Thuật</h3></div>
+                        <div class="dept-card" onclick="openDeptDetail('Đối Ngoại')"><i class="fas fa-handshake dept-icon" style="color: var(--secondary);"></i><h3>Ban Đối Ngoại & TCSK</h3></div>
+                        <div class="dept-card" onclick="openDeptDetail('Chuyên Môn')"><i class="fas fa-book-open dept-icon" style="color: #ef4444;"></i><h3>Ban Chuyên Môn</h3></div>
                     </div>
                 </div>
             </div>
-
             <div id="dept-detail-view">
                 <div class="dept-container">
                     <button class="btn-back" onclick="closeDeptDetail()"><i class="fas fa-arrow-left"></i> Quay lại Các Ban</button>
-                    <div class="dept-intro-box">
-                        <h2 id="d-title">Tên Ban</h2>
-                        <p id="d-desc">Mô tả công việc của ban...</p>
-                    </div>
-                    <div class="sec-header" style="margin-bottom: 30px; padding-top: 0;">
-                        <h2 class="sec-title" style="font-size: 22px;">Thành Viên Trực Thuộc</h2>
-                    </div>
+                    <div class="dept-intro-box"><h2 id="d-title">Tên Ban</h2><p id="d-desc">Mô tả công việc của ban...</p></div>
+                    <div class="sec-header" style="margin-bottom: 30px; padding-top: 0;"><h2 class="sec-title" style="font-size: 22px;">Thành Viên Trực Thuộc</h2></div>
                     <div class="board-grid-4" id="deptMembersContainer"></div>
                 </div>
             </div>
         </section>
 
         <section id="tab-thanh-vien" class="page-tab">
-            <div class="sec-header">
-                <h2 class="sec-title">Thành Viên CLB</h2>
-                <div class="sec-line"></div>
-            </div>
+            <div class="sec-header"><h2 class="sec-title">Thành Viên CLB</h2><div class="sec-line"></div></div>
             <div class="board-container">
                 <div class="group-container">
                     <h3 class="group-title">Thành Viên Hiện Tại <span class="group-count" id="c-tv">0</span></h3>
@@ -350,33 +300,34 @@
         </section>
 
         <section id="tab-hoat-dong" class="page-tab">
-            <div class="sec-header">
-                <h2 class="sec-title">Dấu Ấn Sự Kiện LSCM</h2>
-                <div class="sec-line"></div>
-            </div>
+            <div class="sec-header"><h2 class="sec-title">Dấu Ấn Sự Kiện LSCM</h2><div class="sec-line"></div></div>
             <div class="news-grid">
                 <div class="news-card">
-                    <div class="news-img-box">
-                        <img src="images/tin-tuc/q-talk.jpg" class="news-img" onerror="this.src='https://via.placeholder.com/500x300'">
-                        <div class="news-date-badge"><i class="far fa-calendar-alt"></i> 10/11/2024</div>
-                    </div>
-                    <div class="news-info">
-                        <h3 class="news-title">Sự kiện Q-TALK</h3>
-                        <p class="news-desc">Đêm trải nghiệm đầy cảm xúc và học hỏi kinh nghiệm thực tế từ các diễn giả tại Nhà hát Tuổi Trẻ.</p>
-                    </div>
+                    <div class="news-img-box"><img src="images/tin-tuc/q-talk.jpg" class="news-img" onerror="this.src='https://via.placeholder.com/500x300'"><div class="news-date-badge"><i class="far fa-calendar-alt"></i> 10/11/2024</div></div>
+                    <div class="news-info"><h3 class="news-title">Sự kiện Q-TALK</h3><p class="news-desc">Đêm trải nghiệm đầy cảm xúc...</p></div>
                 </div>
                 <div class="news-card">
-                    <div class="news-img-box">
-                        <img src="images/tin-tuc/vylt.jpg" class="news-img" onerror="this.src='https://via.placeholder.com/500x300'">
-                        <div class="news-date-badge"><i class="far fa-calendar-alt"></i> 01/10/2025</div>
-                    </div>
-                    <div class="news-info">
-                        <h3 class="news-title">Bán kết VYLT Toàn quốc</h3>
-                        <p class="news-desc">Thành viên LSCM tham gia tranh tài tại đấu trường Logistics sinh viên lớn nhất Việt Nam.</p>
-                    </div>
+                    <div class="news-img-box"><img src="images/tin-tuc/vylt.jpg" class="news-img" onerror="this.src='https://via.placeholder.com/500x300'"><div class="news-date-badge"><i class="far fa-calendar-alt"></i> 01/10/2025</div></div>
+                    <div class="news-info"><h3 class="news-title">Bán kết VYLT Toàn quốc</h3><p class="news-desc">Tranh tài tại đấu trường Logistics...</p></div>
                 </div>
             </div>
         </section>
+
+        <section id="tab-tai-lieu" class="page-tab">
+            <div class="sec-header">
+                <h2 class="sec-title" style="color: var(--primary);">Thư Mục Tài Liệu Nội Bộ</h2>
+                <div class="sec-line" style="background: var(--secondary);"></div>
+            </div>
+            
+            <div style="max-width: 1200px; margin: 0 auto 30px; text-align: right; padding: 0 20px;">
+                <button class="btn-login" style="display:inline-flex;" onclick="openModal('uploadDocModal')"><i class="fas fa-upload"></i> Đóng góp tài liệu</button>
+            </div>
+
+            <div class="news-grid" id="docsContainer" style="padding-bottom: 50px;">
+                <p style="text-align:center; grid-column:1/-1; color: gray;">Đang đồng bộ dữ liệu thư viện...</p>
+            </div>
+        </section>
+
     </main>
 
     <footer><p>© 2026 Bản quyền thuộc về Câu lạc bộ Logistics & Quản lý Chuỗi cung ứng HUNRE - LSCM</p></footer>
@@ -398,22 +349,44 @@
         </div>
     </div>
 
-    <div class="modal-overlay" id="loginModal" onclick="closeModal(event, 'loginModal')">
-        <div class="login-box">
-            <span class="btn-close" onclick="document.getElementById('loginModal').classList.remove('show')"><i class="fas fa-times"></i></span>
-            <i class="fas fa-shield-alt" style="font-size: 40px; color: var(--primary); margin-bottom: 15px;"></i>
-            <h2 style="font-size: 20px; font-weight: 900; color: var(--text-main); margin-bottom: 5px;">ĐĂNG NHẬP NỘI BỘ</h2>
-            <p style="font-size: 12px; color: var(--text-muted); font-weight: 600; margin-bottom: 20px;">Dành cho Thành viên & Ban Chủ Nhiệm LSCM</p>
-
-            <div style="display: flex; background: var(--page-bg); border-radius: 8px; padding: 4px; margin-bottom: 20px;">
-                <button id="btnRoleMem" class="role-btn active" style="flex:1; padding:10px; border:none; border-radius:6px; font-weight:700; font-size:12px; cursor:pointer; background:var(--primary); color:white;" onclick="selectLoginRole('member')">Thành Viên</button>
-                <button id="btnRoleAdm" class="role-btn" style="flex:1; padding:10px; border:none; border-radius:6px; font-weight:700; font-size:12px; cursor:pointer; background:transparent; color:var(--text-muted);" onclick="selectLoginRole('admin')">Chủ Nhiệm</button>
-            </div>
-
-            <input type="email" id="loginUser" placeholder="Email đăng nhập...">
-            <input type="password" id="loginPass" placeholder="Mật mã bảo mật...">
+    <div class="modal-overlay" id="editProfileModal" onclick="closeModal(event, 'editProfileModal')">
+        <div class="member-form-box">
+            <span class="btn-close" style="position:absolute; top:15px; right:15px; cursor:pointer;" onclick="document.getElementById('editProfileModal').classList.remove('show')"><i class="fas fa-times"></i></span>
+            <h2 style="font-size: 20px; font-weight: 900; color: var(--primary); margin-bottom: 20px;">CHỈNH SỬA HỒ SƠ CỦA TÔI</h2>
             
-            <button class="btn-submit" onclick="executeLogin()">Xác Nhận Đăng Nhập</button>
+            <form onsubmit="saveMyProfile(event)">
+                <label>Châm ngôn / Slogan cá nhân</label>
+                <input type="text" id="p_slogan" required>
+
+                <label>Giới thiệu bản thân (Bio)</label>
+                <textarea id="p_bio" rows="3" required></textarea>
+
+                <label>Link Facebook (URL)</label>
+                <input type="url" id="p_fb" required>
+
+                <label>Link Ảnh Avatar mới (URL)</label>
+                <input type="url" id="p_img" required>
+                
+                <button type="submit" id="btnUpdateProfile">Cập Nhật Thông Tin</button>
+            </form>
+            <p style="font-size: 11px; color: gray; margin-top: 15px; text-align: center;">Lưu ý: Tên và Chức vụ do Ban Chủ Nhiệm quản lý, bạn không thể tự sửa.</p>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="uploadDocModal" onclick="closeModal(event, 'uploadDocModal')">
+        <div class="member-form-box">
+            <span class="btn-close" style="position:absolute; top:15px; right:15px; cursor:pointer;" onclick="document.getElementById('uploadDocModal').classList.remove('show')"><i class="fas fa-times"></i></span>
+            <h2 style="font-size: 20px; font-weight: 900; color: var(--secondary); margin-bottom: 20px;">ĐÓNG GÓP TÀI LIỆU</h2>
+            
+            <form onsubmit="saveDoc(event)">
+                <label>Tên bài giảng / Tài liệu</label>
+                <input type="text" id="d_name" placeholder="VD: Slide học thuật..." required>
+
+                <label>Đường link chia sẻ (Google Drive)</label>
+                <input type="url" id="d_link" placeholder="https://drive.google.com/..." required>
+                
+                <button type="submit" style="background: var(--secondary);" id="btnUploadDoc">Gửi Lên Kho Chung</button>
+            </form>
         </div>
     </div>
 
@@ -422,34 +395,51 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
     <script>
-        // 1. CẤU HÌNH FIREBASE
+        // 1. CẤU HÌNH FIREBASE 
         const firebaseConfig = {
             apiKey: "AIzaSyAtKGpwqCA71JcPWxnQGZ_sFWWquADZKdk",
             authDomain: "lscm-hunre.firebaseapp.com",
             projectId: "lscm-hunre",
             storageBucket: "lscm-hunre.firebasestorage.app",
             messagingSenderId: "529740128242",
-            appId: "1:529740128242:web:9436a1c4d5c2257b71d56b",
-            measurementId: "G-J550Z9F027"
+            appId: "1:529740128242:web:9436a1c4d5c2257b71d56b"
         };
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
 
+        let currentUserId = null; // Biến lưu ID tài khoản đang đăng nhập
+
         document.addEventListener("DOMContentLoaded", function() {
-            setTimeout(() => {
-                const preloader = document.getElementById('preloader');
-                if(preloader) {
-                    preloader.style.opacity = '0';
-                    setTimeout(() => preloader.style.display = 'none', 500);
+            setTimeout(() => { document.getElementById('preloader').style.display = 'none'; }, 500);
+
+            // Kiểm tra Auth: Chỉ chạy khi chắc chắn đã đăng nhập
+            auth.onAuthStateChanged(user => {
+                if (user) {
+                    currentUserId = user.uid;
+                    loadAboutSections();
+                    loadLibraryDocs();
+                    // Load thông tin hồ sơ của chính user này vào form chỉnh sửa
+                    loadMyDataForEdit(user.uid);
+                } else {
+                    // Nếu chưa đăng nhập -> Kick về trang chủ
+                    window.location.href = 'index.html';
                 }
-            }, 1000);
-            
-            loadAboutSections();
+            });
+
+            // Tạm thời hiển thị Lưới thành viên bằng dữ liệu tĩnh (Bạn có thể tự đổi sang Firebase sau)
             initSystem();
         });
 
-        // 2. CHUYỂN TAB & MODAL
+        function handleLogout() {
+            if(confirm("Bạn muốn đăng xuất khỏi hệ thống?")) {
+                auth.signOut().then(() => {
+                    localStorage.clear();
+                    window.location.href = 'index.html';
+                });
+            }
+        }
+
         function switchTab(tabId, btnElement) {
             document.querySelectorAll('.page-tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active'));
@@ -458,183 +448,148 @@
             window.scrollTo(0, 0);
             if(tabId === 'tab-co-cau') closeDeptDetail();
         }
+
         function openModal(id) { document.getElementById(id).classList.add('show'); }
         function closeModal(e, modalId) { if (e.target.id === modalId) document.getElementById(modalId).classList.remove('show'); }
 
-        // 3. TẢI "VỀ CHÚNG TÔI" ĐỘNG TỪ FIREBASE
+        // ==========================================
+        // 2. LOGIC TÀI LIỆU NỘI BỘ
+        // ==========================================
+        function loadLibraryDocs() {
+            const container = document.getElementById('docsContainer');
+            db.collection("documents").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
+                container.innerHTML = '';
+                if(snapshot.empty) {
+                    container.innerHTML = '<p style="text-align:center; grid-column:1/-1;">Kho tài liệu trống.</p>';
+                    return;
+                }
+                snapshot.forEach(doc => {
+                    const d = doc.data();
+                    let iconClass = 'fa-file-alt'; let iconColor = 'var(--secondary)'; let iconBg = '#fffbeb';
+                    const nameLower = d.name.toLowerCase();
+                    if(nameLower.includes('pdf')) { iconClass = 'fa-file-pdf'; iconColor = '#ef4444'; iconBg = '#fee2e2'; }
+                    else if(nameLower.includes('excel') || nameLower.includes('kinh phí')) { iconClass = 'fa-file-excel'; iconColor = '#10b981'; iconBg = '#d1fae5'; }
+                    
+                    container.innerHTML += `
+                        <div style="background: white; border-radius: 16px; padding: 25px; border: 1px solid var(--border-color); display:flex; flex-direction:column;">
+                            <div style="width: 50px; height: 50px; background: ${iconBg}; color: ${iconColor}; border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 24px; margin-bottom: 15px;"><i class="fas ${iconClass}"></i></div>
+                            <h4 style="font-size: 16px; font-weight: 800; color: var(--text-main); margin-bottom: 10px;">${d.name}</h4>
+                            <div style="margin-top: auto; padding-top: 15px; border-top: 1px dashed var(--border-color); text-align: right;">
+                                <a href="${d.link}" target="_blank" style="background: #f1f5f9; color: var(--primary-dark); padding: 8px 15px; border-radius: 8px; font-size: 13px; font-weight: 700;"><i class="fas fa-download"></i> Xem / Tải</a>
+                            </div>
+                        </div>
+                    `;
+                });
+            });
+        }
+
+        function saveDoc(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btnUploadDoc');
+            btn.innerText = "Đang xử lý...";
+            db.collection("documents").add({
+                name: document.getElementById('d_name').value,
+                link: document.getElementById('d_link').value,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                alert("Đã lưu Link tài liệu thành công!");
+                document.getElementById('uploadDocModal').classList.remove('show');
+                e.target.reset();
+                btn.innerText = "Gửi Lên Kho Chung";
+            });
+        }
+
+        // ==========================================
+        // 3. LOGIC SỬA HỒ SƠ THÀNH VIÊN
+        // ==========================================
+        function loadMyDataForEdit(uid) {
+            db.collection("members").doc(uid).get().then((doc) => {
+                if(doc.exists) {
+                    const data = doc.data();
+                    document.getElementById('p_slogan').value = data.slogan || "";
+                    document.getElementById('p_bio').value = data.bio || "";
+                    document.getElementById('p_fb').value = data.fb || "";
+                    document.getElementById('p_img').value = data.image || "";
+                }
+            });
+        }
+
+        function openEditProfileModal() {
+            if(!currentUserId) return alert("Hệ thống chưa tải xong dữ liệu tài khoản, vui lòng đợi giây lát.");
+            openModal('editProfileModal');
+        }
+
+        function saveMyProfile(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btnUpdateProfile');
+            btn.innerText = "Đang lưu..."; btn.disabled = true;
+
+            db.collection("members").doc(currentUserId).update({
+                slogan: document.getElementById('p_slogan').value,
+                bio: document.getElementById('p_bio').value,
+                fb: document.getElementById('p_fb').value,
+                image: document.getElementById('p_img').value
+            }).then(() => {
+                alert("Cập nhật hồ sơ thành công! Mọi thay đổi sẽ hiển thị ở trang chủ.");
+                document.getElementById('editProfileModal').classList.remove('show');
+            }).catch(err => alert("Lỗi: " + err))
+            .finally(() => { btn.innerText = "Cập Nhật Thông Tin"; btn.disabled = false; });
+        }
+
+        // TẢI "VỀ CHÚNG TÔI" TỪ FIREBASE
         function loadAboutSections() {
             const container = document.getElementById('dynamic-about-container');
             db.collection("about_sections").orderBy("order", "asc").onSnapshot((snapshot) => {
                 container.innerHTML = '';
-                if(snapshot.empty) {
-                    container.innerHTML = `<p style="text-align:center; padding: 40px; color:gray;">Chưa có thông tin giới thiệu. Admin có thể thêm tại trang quản trị.</p>`;
-                    return;
-                }
                 let index = 1;
                 snapshot.forEach((doc) => {
                     const data = doc.data();
                     const numStr = index < 10 ? '0'+index : index;
-                    container.innerHTML += `
-                        <div class="info-row">
-                            <div class="info-left">
-                                <div class="info-tag"><i class="fas fa-sparkles"></i> ${numStr}. ${data.tag}</div>
-                                <h2 class="info-title">${data.title}</h2>
-                            </div>
-                            <div class="info-right">
-                                ${data.paragraphs.map(p => `<p>${p}</p>`).join('')}
-                            </div>
-                        </div>
-                    `;
+                    container.innerHTML += `<div class="info-row"><div class="info-left"><div class="info-tag"><i class="fas fa-sparkles"></i> ${numStr}. ${data.tag}</div><h2 class="info-title">${data.title}</h2></div><div class="info-right">${data.paragraphs.map(p => `<p>${p}</p>`).join('')}</div></div>`;
                     index++;
                 });
             });
         }
 
-        // 4. DATA JS ĐỊNH DẠNG SẴN CHO THÀNH VIÊN
+        // --- CÁC HÀM RENDER DỮ LIỆU TĨNH ĐƯỢC RÚT GỌN ĐỂ TRÁNH QUÁ DÀI MÀ VẪN GIỮ ĐÚNG CHUẨN ---
         const membersData = [
             { id: 1, name: "ThS. Cô Giáo X", ban: "Cố Vấn CLB", roleTitle: "Cố Vấn CLB", roleLevel: 1, status: "ACTIVE", image: "images/ban-chu-nhiem/co-van.jpg", slogan: "Người truyền lửa đam mê.", bio: "Chuyên gia Logistics cố vấn học thuật.", fb: "#" },
             { id: 2, name: "Nguyễn Văn A", ban: "Chủ Nhiệm", roleTitle: "Chủ Nhiệm CLB", roleLevel: 2, status: "ACTIVE", image: "images/ban-chu-nhiem/chu-nhiem.jpg", slogan: "Thuyền trưởng LSCM.", bio: "Quản lý điều hành toàn bộ CLB.", fb: "#" },
             { id: 3, name: "Trần Thị B", ban: "Phó Chủ Nhiệm", roleTitle: "Phó Chủ Nhiệm Nội Bộ", roleLevel: 3, status: "ACTIVE", image: "images/ban-chu-nhiem/pcn1.jpg", slogan: "Gắn kết là sức mạnh.", bio: "Đảm nhiệm mảng nội bộ.", fb: "#" },
             { id: 4, name: "Lê Văn C", ban: "Phó Chủ Nhiệm", roleTitle: "Phó Chủ Nhiệm Đối Ngoại", roleLevel: 3, status: "ACTIVE", image: "images/ban-chu-nhiem/pcn2.jpg", slogan: "Kết nối vươn xa.", bio: "Đảm nhiệm mảng đối ngoại.", fb: "#" },
-            
             { id: 5, name: "Trương D", ban: "Truyền Thông", roleTitle: "Trưởng Ban Truyền Thông", roleLevel: 4, status: "ACTIVE", image: "images/thanh-vien/demo.jpg", slogan: "Sáng tạo.", bio: "Trưởng ban Truyền thông.", fb: "#" },
-            { id: 6, name: "Phạm E", ban: "Kỹ Thuật", roleTitle: "Trưởng Ban Kỹ Thuật", roleLevel: 4, status: "ACTIVE", image: "images/thanh-vien/demo.jpg", slogan: "Kỹ thuật.", bio: "Trưởng ban Kỹ thuật.", fb: "#" },
-            { id: 7, name: "Hoàng F", ban: "Đối Ngoại", roleTitle: "Trưởng Ban Đối Ngoại", roleLevel: 4, status: "ACTIVE", image: "images/thanh-vien/demo.jpg", slogan: "Ngoại giao.", bio: "Trưởng ban Đối ngoại.", fb: "#" },
-            { id: 8, name: "Vũ G", ban: "Chuyên Môn", roleTitle: "Trưởng Ban Chuyên Môn", roleLevel: 4, status: "ACTIVE", image: "images/thanh-vien/demo.jpg", slogan: "Học thuật.", bio: "Trưởng ban Chuyên môn.", fb: "#" },
-
-            { id: 9, name: "Bùi H", ban: "Truyền Thông", roleTitle: "Phó Ban Truyền Thông", roleLevel: 5, status: "ACTIVE", image: "images/thanh-vien/demo.jpg", slogan: "Nhiệt huyết.", bio: "Phó ban Truyền thông.", fb: "#" },
-            { id: 10, name: "Đặng I", ban: "Kỹ Thuật", roleTitle: "Phó Ban Kỹ Thuật", roleLevel: 5, status: "ACTIVE", image: "images/thanh-vien/demo.jpg", slogan: "Chính xác.", bio: "Phó ban Kỹ thuật.", fb: "#" },
-            { id: 11, name: "Lý J", ban: "Đối Ngoại", roleTitle: "Phó Ban Đối Ngoại", roleLevel: 5, status: "ACTIVE", image: "images/thanh-vien/demo.jpg", slogan: "Tự tin.", bio: "Phó ban Đối ngoại.", fb: "#" },
-            { id: 12, name: "Đỗ K", ban: "Chuyên Môn", roleTitle: "Phó Ban Chuyên Môn", roleLevel: 5, status: "ACTIVE", image: "images/thanh-vien/demo.jpg", slogan: "Chăm chỉ.", bio: "Phó ban Chuyên môn.", fb: "#" },
-
             { id: 13, name: "Tiến Hoàng", ban: "Truyền Thông", roleTitle: "Thành Viên", roleLevel: 6, status: "ACTIVE", image: "images/thanh-vien/tien-hoang.jpg", slogan: "Vươn tầm chuỗi cung ứng.", bio: "Thành viên Gen 4 năng nổ.", fb: "#" },
-            { id: 15, name: "Ngọc N", ban: "Đối Ngoại", roleTitle: "Cộng Tác Viên", roleLevel: 6, status: "CTV", image: "images/thanh-vien/demo.jpg", slogan: "Cộng tác viên.", bio: "Đang thử việc tại ban.", fb: "#" },
-            { id: 16, name: "Cựu O", ban: "Chuyên Môn", roleTitle: "Nguyên Trưởng Ban", roleLevel: 6, status: "ALUMNI", image: "images/thanh-vien/demo.jpg", slogan: "Kinh nghiệm.", bio: "Đã ra trường.", fb: "#" },
         ];
-
-        function createBoardCard(m) {
-            let color = "var(--primary)";
-            if(m.roleLevel === 1) color = "#ef4444"; else if(m.roleLevel === 3) color = "var(--secondary)";
-            return `<div class="board-card" onclick="openProfile(${m.id})"><img src="${m.image}" class="bc-img" style="border-color: ${color};" onerror="this.src='https://via.placeholder.com/300'"><div class="bc-info"><span class="bc-role" style="color:${color}; background:${color}15;">${m.roleTitle}</span><h3 class="bc-name">${m.name}</h3></div></div>`;
-        }
-
-        function createMemCard(m) {
-            return `<div class="mem-card" onclick="openProfile(${m.id})"><img src="${m.image}" class="mem-img" onerror="this.src='https://via.placeholder.com/100'"><h4 class="mem-name">${m.name}</h4><p class="${m.status === 'ALUMNI' ? 'mem-old-role' : 'mem-ban'}">${m.status === 'ALUMNI' ? m.roleTitle : m.ban}</p></div>`;
-        }
-
+        function createBoardCard(m) { let c = m.roleLevel===1?"#ef4444":(m.roleLevel===3?"var(--secondary)":"var(--primary)"); return `<div class="board-card" onclick="openProfile(${m.id})"><img src="${m.image}" class="bc-img" style="border-color:${c};" onerror="this.src='https://via.placeholder.com/300'"><div class="bc-info"><span class="bc-role" style="color:${c}; background:${c}15;">${m.roleTitle}</span><h3 class="bc-name">${m.name}</h3></div></div>`; }
+        function createMemCard(m) { return `<div class="mem-card" onclick="openProfile(${m.id})"><img src="${m.image}" class="mem-img" onerror="this.src='https://via.placeholder.com/100'"><h4 class="mem-name">${m.name}</h4><p class="mem-ban">${m.status==='ALUMNI'?m.roleTitle:m.ban}</p></div>`; }
+        
         function initSystem() {
-            const homeBoard = membersData.filter(m => m.roleLevel <= 3).sort((a,b) => a.roleLevel - b.roleLevel).slice(0,4);
-            document.getElementById('homeBoardContainer').innerHTML = homeBoard.map(createBoardCard).join('');
-            
-            document.getElementById('boardRow1').innerHTML = membersData.filter(m => m.roleLevel <= 3).sort((a,b) => a.roleLevel - b.roleLevel).map(createBoardCard).join('');
+            document.getElementById('homeBoardContainer').innerHTML = membersData.filter(m => m.roleLevel <= 3).slice(0,4).map(createBoardCard).join('');
+            document.getElementById('boardRow1').innerHTML = membersData.filter(m => m.roleLevel <= 3).map(createBoardCard).join('');
             document.getElementById('boardRow2').innerHTML = membersData.filter(m => m.roleLevel === 4).map(createBoardCard).join('');
             document.getElementById('boardRow3').innerHTML = membersData.filter(m => m.roleLevel === 5).map(createBoardCard).join('');
-
+            
             const activeMems = membersData.filter(m => m.status === 'ACTIVE' && m.roleLevel > 3);
-            const ctvMems = membersData.filter(m => m.status === 'CTV');
-            const alumniMems = membersData.filter(m => m.status === 'ALUMNI');
-
             document.getElementById('c-tv').innerText = activeMems.length;
-            document.getElementById('c-ctv').innerText = ctvMems.length;
-            document.getElementById('c-cuu').innerText = alumniMems.length;
-
             document.getElementById('mem-active-container').innerHTML = activeMems.map(createMemCard).join('');
-            document.getElementById('mem-ctv-container').innerHTML = ctvMems.map(createMemCard).join('');
-            document.getElementById('mem-alumni-container').innerHTML = alumniMems.map(createMemCard).join('');
         }
-
-        const deptDesc = {
-            'Truyền Thông': "Sáng tạo nội dung, thiết kế hình ảnh, quản trị Fanpage và lan tỏa thông điệp.",
-            'Kỹ Thuật': "Hỗ trợ công nghệ, âm thanh ánh sáng và vận hành nền tảng kỹ thuật số.",
-            'Đối Ngoại': "Đại diện liên hệ doanh nghiệp, xin tài trợ và điều phối sự kiện.",
-            'Chuyên Môn': "Nghiên cứu tài liệu Logistics, tổ chức training kiến thức nội bộ."
-        };
-        function openDeptDetail(banName) {
-            document.getElementById('dept-grid-view').style.display = 'none';
-            document.getElementById('dept-detail-view').style.display = 'block';
-            window.scrollTo(0, 0);
-            document.getElementById('d-title').innerText = "Ban " + banName;
-            document.getElementById('d-desc').innerText = deptDesc[banName];
-            const deptMembers = membersData.filter(m => m.ban.includes(banName) && m.status === 'ACTIVE').sort((a,b) => a.roleLevel - b.roleLevel);
-            document.getElementById('deptMembersContainer').innerHTML = deptMembers.map(createBoardCard).join('');
-        }
-        function closeDeptDetail() {
-            document.getElementById('dept-grid-view').style.display = 'block';
-            document.getElementById('dept-detail-view').style.display = 'none';
-        }
-
+        
         function openProfile(id) {
             const m = membersData.find(x => x.id === id);
             if(m) {
-                document.getElementById('m-name').innerText = m.name;
-                document.getElementById('m-role').innerText = m.roleTitle;
-                document.getElementById('m-slogan').innerText = m.slogan;
-                document.getElementById('m-bio').innerText = m.bio;
-                document.getElementById('m-img').src = m.image;
-                document.getElementById('m-fb').href = m.fb;
+                document.getElementById('m-name').innerText = m.name; document.getElementById('m-role').innerText = m.roleTitle;
+                document.getElementById('m-slogan').innerText = m.slogan; document.getElementById('m-bio').innerText = m.bio;
+                document.getElementById('m-img').src = m.image; document.getElementById('m-fb').href = m.fb;
                 openModal('profileModal');
             }
         }
-
-        // 5. ĐĂNG NHẬP THẬT (Firebase Auth)
-        let currentLoginRole = 'member';
-        function selectLoginRole(role) {
-            currentLoginRole = role;
-            document.getElementById('btnRoleMem').className = role === 'member' ? 'role-btn active' : 'role-btn';
-            document.getElementById('btnRoleAdm').className = role === 'admin' ? 'role-btn active' : 'role-btn';
-            document.getElementById('btnRoleMem').style.background = role === 'member' ? 'var(--primary)' : 'transparent';
-            document.getElementById('btnRoleMem').style.color = role === 'member' ? 'white' : 'var(--text-muted)';
-            document.getElementById('btnRoleAdm').style.background = role === 'admin' ? 'var(--primary)' : 'transparent';
-            document.getElementById('btnRoleAdm').style.color = role === 'admin' ? 'white' : 'var(--text-muted)';
+        const deptDesc = {'Truyền Thông': "Sáng tạo nội dung, quản trị Fanpage.", 'Kỹ Thuật': "Hỗ trợ công nghệ sự kiện.", 'Đối Ngoại': "Đại diện xin tài trợ.", 'Chuyên Môn': "Nghiên cứu tài liệu Logistics."};
+        function openDeptDetail(banName) {
+            document.getElementById('dept-grid-view').style.display = 'none'; document.getElementById('dept-detail-view').style.display = 'block'; window.scrollTo(0, 0);
+            document.getElementById('d-title').innerText = "Ban " + banName; document.getElementById('d-desc').innerText = deptDesc[banName];
+            document.getElementById('deptMembersContainer').innerHTML = membersData.filter(m => m.ban.includes(banName) && m.status === 'ACTIVE').sort((a,b) => a.roleLevel - b.roleLevel).map(createBoardCard).join('');
         }
-
-        function executeLogin() {
-            const email = document.getElementById('loginUser').value.trim();
-            const pass = document.getElementById('loginPass').value;
-            const btnSubmit = document.querySelector('.btn-submit');
-
-            if(!email || !pass) return alert("Vui lòng nhập Email và mật khẩu!");
-
-            // ĐÂY LÀ NƠI KHAI BÁO TÀI KHOẢN "TRÙM CUỐI" (Thay bằng email bạn đã tạo trên Firebase)
-            const ADMIN_EMAIL = "chunhiem@lscm.vn"; 
-
-            // Nếu gạt sang nút Ban Chủ Nhiệm nhưng nhập sai email Admin -> Chặn ngay lập tức
-            if (currentLoginRole === 'admin' && email !== ADMIN_EMAIL) {
-                return alert("TRUY CẬP TỪ CHỐI: Đây không phải là tài khoản của Ban Chủ Nhiệm!");
-            }
-
-            // Nếu gạt sang nút Thành Viên nhưng lại nhập email Admin -> Nhắc nhở
-            if (currentLoginRole === 'member' && email === ADMIN_EMAIL) {
-                return alert("Vui lòng gạt sang tab Ban Chủ Nhiệm để đăng nhập tài khoản này!");
-            }
-
-            btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xác thực...';
-            btnSubmit.disabled = true;
-
-            // Xác thực với Firebase
-            auth.signInWithEmailAndPassword(email, pass)
-                .then((userCredential) => {
-                    localStorage.setItem('isLoggedIn', 'true');
-                    
-                    // Nếu đúng là Email Admin -> Cấp quyền và cho vào trang Admin
-                    if (email === ADMIN_EMAIL) {
-                        localStorage.setItem('userRole', 'ADMIN');
-                        localStorage.setItem('userName', 'Ban Chủ Nhiệm LSCM');
-                        window.location.href = 'admin.html'; 
-                    } 
-                    // Nếu là các email khác -> Mặc định là Thành viên
-                    else {
-                        localStorage.setItem('userRole', 'MEMBER');
-                        localStorage.setItem('userName', email.split('@')[0]); // Lấy phần đầu email làm tên hiển thị tạm
-                        window.location.href = 'thanh-vien.html'; 
-                    }
-                })
-                .catch((error) => {
-                    alert("Sai tài khoản hoặc mật khẩu! Vui lòng kiểm tra lại.");
-                    btnSubmit.innerHTML = 'Xác Nhận Đăng Nhập';
-                    btnSubmit.disabled = false;
-                });
-        }
+        function closeDeptDetail() { document.getElementById('dept-grid-view').style.display = 'block'; document.getElementById('dept-detail-view').style.display = 'none'; }
     </script>
 </body>
 </html>

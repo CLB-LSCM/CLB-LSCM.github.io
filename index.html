@@ -223,6 +223,25 @@
         .footer-logos img { width: 55px; height: 55px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border-color); padding: 2px; background: white; transition: 0.3s;}
         .footer-logos img:hover { border-color: var(--primary); transform: scale(1.1); }
         @media(max-width: 768px) { footer { flex-direction: column; text-align: center; } .footer-logos { justify-content: center; } }
+
+        /* THÊM ĐOẠN NÀY ĐỂ THANH MENU VUỐT NGANG ĐƯỢC TRÊN ĐIỆN THOẠI */
+        @media (max-width: 1024px) {
+            .nav-container {
+                overflow-x: auto;            /* Bật tính năng cuộn ngang */
+                justify-content: flex-start; /* Căn trái để bắt đầu cuộn từ Logo */
+                gap: 30px;                   /* Khoảng cách giữa Logo và các nút */
+                -webkit-overflow-scrolling: touch; /* Hỗ trợ vuốt siêu mượt trên iOS */
+            }
+            
+            /* Ẩn thanh cuộn xám xấu xí của trình duyệt để nhìn đẹp như App */
+            .nav-container::-webkit-scrollbar {
+                display: none; 
+            }
+
+            .logo-area, .nav-links {
+                flex-shrink: 0; /* Khóa cứng kích thước, chống việc chữ bị bóp méo hay rớt dòng */
+            }
+        }
     </style>
 </head>
 <body>

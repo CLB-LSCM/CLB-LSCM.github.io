@@ -428,7 +428,11 @@
                 <label>Link hoặc đường dẫn Ảnh Avatar mới</label>
                 <input type="text" id="p_img" required placeholder="VD: https://... hoặc images/avatar.jpg">
                 
-                <button type="submit" id="btnUpdateProfile">Cập Nhật Thông Tin</button>
+                <hr style="border: 0; border-top: 1px dashed var(--border-color); margin: 20px 0;">
+                <label style="color: var(--danger);"><i class="fas fa-key"></i> Đổi Mật Khẩu Đăng Nhập (Tùy chọn)</label>
+                <input type="password" id="p_newPass" placeholder="Bỏ trống nếu không muốn đổi... (Tối thiểu 6 ký tự)">
+                
+                <button type="submit" id="btnUpdateProfile">Cập Nhật Thông Tin & Mật Khẩu</button>
             </form>
             <p style="font-size: 11px; color: gray; margin-top: 15px; text-align: center;">Lưu ý: Tên và Chức vụ do Ban Chủ Nhiệm quản lý, bạn không thể tự sửa.</p>
         </div>
@@ -691,16 +695,54 @@
             const btn = document.getElementById('btnUpdateProfile');
             btn.innerText = "Đang lưu..."; btn.disabled = true;
 
-            db.collection("members").doc(currentUserId).update({
+            const newPass = document.getElementById('p_newPass') ? document.getElementById('p_newPass').value.trim() : '';
+            const user = auth.currentUser;
+
+            // Tạo danh sách các công việc cần làm
+            let tasks = [];
+
+            // Công việc 1: Cập nhật thông tin chữ (Bio, Slogan, Ảnh...) lên Firestore
+            const updateInfoTask = db.collection("members").doc(currentUserId).update({
                 slogan: document.getElementById('p_slogan').value,
                 bio: document.getElementById('p_bio').value,
                 fb: document.getElementById('p_fb').value,
                 image: document.getElementById('p_img').value
-            }).then(() => {
-                alert("Cập nhật hồ sơ thành công! Mọi thay đổi sẽ hiển thị ở trang chủ.");
+            });
+            tasks.push(updateInfoTask);
+
+            // Công việc 2: Cập nhật mật khẩu (nếu thành viên có gõ vào ô)
+            if (newPass) {
+                if (newPass.length < 6) {
+                    alert("Mật khẩu mới phải có ít nhất 6 ký tự!");
+                    btn.innerText = "Cập Nhật Thông Tin & Mật Khẩu"; btn.disabled = false;
+                    return;
+                }
+                // Thêm lệnh đổi pass của Firebase
+                if (user && user.updatePassword) {
+                    tasks.push(user.updatePassword(newPass));
+                } else {
+                    tasks.push(Promise.reject(new Error('Người dùng chưa đăng nhập hoặc không thể cập nhật mật khẩu.')));
+                }
+            }
+
+            // Chạy đồng thời tất cả công việc
+            Promise.all(tasks).then(() => {
+                let msg = newPass ? "Cập nhật hồ sơ và ĐỔI MẬT KHẨU thành công!" : "Cập nhật hồ sơ thành công!";
+                alert(msg + " Mọi thay đổi sẽ hiển thị ở trang chủ.");
                 document.getElementById('editProfileModal').classList.remove('show');
-            }).catch(err => alert("Lỗi: " + err))
-            .finally(() => { btn.innerText = "Cập Nhật Thông Tin"; btn.disabled = false; });
+                if (document.getElementById('p_newPass')) document.getElementById('p_newPass').value = ''; // Xóa trắng ô pass
+            }).catch(err => {
+                // Firebase có cơ chế bảo mật: Nếu tài khoản treo lâu quá mới đổi pass, nó sẽ bắt đăng nhập lại
+                if(err && err.code === 'auth/requires-recent-login') {
+                    alert("⚠️ BẢO MẬT: Đã lâu bạn chưa đăng nhập. Vui lòng đăng xuất và đăng nhập lại trước khi đổi mật khẩu mới!");
+                } else {
+                    alert("Lỗi: " + (err && err.message ? err.message : err));
+                }
+            })
+            .finally(() => { 
+                btn.innerText = "Cập Nhật Thông Tin & Mật Khẩu"; 
+                btn.disabled = false; 
+            });
         }
 
         // TẢI & RENDER THÀNH VIÊN TỪ FIREBASE ĐỘNG 100%

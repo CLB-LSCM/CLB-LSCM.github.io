@@ -403,6 +403,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-functions-compat.js"></script>
 
     <script>
         // 1. CẤU HÌNH FIREBASE
@@ -417,6 +418,7 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
+        const functions = firebase.functions();
         const secondaryApp = firebase.initializeApp(firebaseConfig, "SecondaryApp");
 
         const userRole = localStorage.getItem('userRole');
@@ -599,7 +601,33 @@
             }
         }
         function deleteMember(id) {
-            if(confirm("Xóa vĩnh viễn hồ sơ này?")) db.collection("members").doc(id).delete().then(fetchMembers);
+            if(confirm("Xóa vĩnh viễn hồ sơ này? (Sẽ xóa cả tài khoản Auth)")) {
+                // Lấy email của người dùng trước
+                db.collection("members").doc(id).get().then(doc => {
+                    if(!doc.exists) return alert("Không tìm thấy hồ sơ!");
+                    
+                    const email = doc.data().email;
+                    
+                    if(!email) {
+                        // Nếu không có email, chỉ xóa hồ sơ Firestore
+                        return db.collection("members").doc(id).delete().then(fetchMembers);
+                    }
+                    
+                    // Gọi Cloud Function để xóa tài khoản Auth
+                    const deleteUserByEmail = firebase.functions().httpsCallable('deleteUserByEmail');
+                    deleteUserByEmail({ email: email }).then(result => {
+                        console.log('Xóa tài khoản auth thành công:', result.data);
+                        // Xóa hồ sơ Firestore
+                        return db.collection("members").doc(id).delete();
+                    }).then(() => {
+                        alert("Đã xóa hồ sơ và tài khoản auth thành công!");
+                        fetchMembers();
+                    }).catch(error => {
+                        console.error('Lỗi xóa:', error);
+                        alert("Lỗi: " + (error.message || error));
+                    });
+                }).catch(err => alert("Lỗi lấy dữ liệu: " + err.message));
+            }
         }
 
         // ==========================================

@@ -235,18 +235,6 @@
                 </div>
             </div>
 
-            <div id="dynamic-about-container">
-                <p style="text-align: center; padding: 50px; color: gray;">Đang kết nối hệ thống...</p>
-            </div>
-
-            <div class="sec-header">
-                <h2 class="sec-title">Ban Chủ Nhiệm</h2>
-                <div class="sec-line"></div>
-            </div>
-            <div class="board-grid-4" id="homeBoardContainer">
-                <p style="text-align: center; grid-column: 1/-1; color: gray;">Đang tải danh sách...</p>
-            </div>
-
             <div class="contact-section" id="contact-area">
                 <div class="contact-box">
                     <div class="contact-left">
@@ -623,10 +611,10 @@
             document.getElementById('boardRow2').innerHTML = boardLevel4.map(createBoardCard).join('');
             document.getElementById('boardRow3').innerHTML = boardLevel5.map(createBoardCard).join('');
 
-            // Hiển thị Tab 4 (Danh sách Thành Viên)
-            const activeMems = globalMembers.filter(m => m.status === 'ACTIVE' && m.roleLevel >= 6);
-            const ctvMems = globalMembers.filter(m => m.status === 'CTV');
-            const alumniMems = globalMembers.filter(m => m.status === 'ALUMNI');
+            // Hiển thị Tab 4 (Danh sách Thành Viên) - loại bỏ Ban Chủ Nhiệm (roleLevel 1-5)
+            const activeMems = globalMembers.filter(m => m.status === 'ACTIVE' && m.roleLevel >= 6).sort(() => Math.random() - 0.5);
+            const ctvMems = globalMembers.filter(m => m.status === 'CTV').sort(() => Math.random() - 0.5);
+            const alumniMems = globalMembers.filter(m => m.status === 'ALUMNI').sort(() => Math.random() - 0.5);
 
             document.getElementById('c-tv').innerText = activeMems.length;
             document.getElementById('c-ctv').innerText = ctvMems.length;

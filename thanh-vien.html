@@ -20,13 +20,11 @@
         a { text-decoration: none; color: inherit; }
         img { max-width: 100%; border-radius: 8px; }
 
-        /* PRELOADER */
         #preloader { position: fixed; inset: 0; background: var(--dark-bg); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.5s; }
         .pl-logo { width: 100px; border-radius: 20px; animation: bounceLogo 0.8s infinite alternate ease-in-out; margin-bottom: 20px; }
         .pl-text { color: white; font-size: 18px; font-weight: 800; letter-spacing: 2px; }
         @keyframes bounceLogo { 0% { transform: translateY(0) scale(1); } 100% { transform: translateY(-20px) scale(1.05); } }
 
-        /* NAVBAR */
         header { position: fixed; top: 0; width: 100%; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); box-shadow: 0 1px 3px rgba(0,0,0,0.05); z-index: 1000; border-bottom: 1px solid var(--border-color); }
         .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 12px 5%; max-width: 1400px; margin: auto; }
         .logo-area { display: flex; align-items: center; gap: 12px; cursor: pointer;}
@@ -38,22 +36,18 @@
         .nav-link { font-size: 14px; font-weight: 700; color: var(--text-main); transition: var(--transition); padding: 8px 15px; border-radius: 8px; cursor: pointer; border: none; background: transparent; }
         .nav-link:hover, .nav-link.active { color: var(--primary); background: #ecfdf5; }
         
-        /* CÁC NÚT ĐẶC QUYỀN CỦA THÀNH VIÊN */
         .btn-login { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; margin-left: 5px; transition: var(--transition);}
         .btn-login:hover { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); opacity: 0.9; }
 
-        /* TAB SYSTEM */
         main { padding-top: 80px; min-height: 100vh; }
         .page-tab { display: none; animation: fadeIn 0.4s; }
         .page-tab.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         
         .sec-header { text-align: center; margin-bottom: 40px; padding-top: 40px; }
-        /* Tùy chỉnh sec-title để có thể chứa badge bên cạnh (cho số lượng thành viên) */
         .sec-title { font-size: 28px; font-weight: 900; color: var(--text-main); margin-bottom: 10px; text-transform: uppercase; display: flex; justify-content: center; align-items: center; gap: 10px;}
         .sec-line { width: 60px; height: 5px; background: var(--primary); margin: auto; border-radius: 3px; }
 
-        /* TAB 1: GIỚI THIỆU (HERO) */
         .hero-wrapper { max-width: 1300px; margin: 20px auto 40px; padding: 0 20px; }
         .hero { background: linear-gradient(135deg, #022c22 0%, #0B1120 100%); border-radius: 30px; padding: 80px 5%; position: relative; text-align: center; color: white; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
         .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(5, 150, 105, 0.2); border: 1px solid rgba(5, 150, 105, 0.5); color: #34d399; padding: 8px 20px; border-radius: 30px; font-size: 13px; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 25px;}
@@ -63,7 +57,6 @@
         .hero-slogan { font-size: 18px; font-weight: 900; color: var(--secondary); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 5px; }
         .hero-sub { font-size: 13px; color: #cbd5e1; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; }
 
-        /* VỀ CHÚNG TÔI */
         #dynamic-about-container { max-width: 1200px; margin: auto; padding: 0 20px; }
         .info-row { display: flex; gap: 40px; padding: 40px; background: white; border-radius: 24px; margin-bottom: 30px; border: 1px solid var(--border-color); flex-wrap: wrap;}
         .info-left { flex: 1; min-width: 250px;}
@@ -71,34 +64,12 @@
         .info-title { font-size: 26px; font-weight: 900; line-height: 1.3; }
         .info-right { flex: 1.5; min-width: 300px; color: var(--text-muted); font-size: 15px; line-height: 1.8; display: flex; flex-direction: column; gap: 15px; font-weight: 500;}
 
-        /* BẢNG CHỦ NHIỆM CHUNG */
         .board-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; max-width: 1200px; margin: auto; padding: 0 20px; }
         @media(max-width: 1024px) { .board-grid-4 { grid-template-columns: repeat(2, 1fr); } }
         @media(max-width: 600px) {
-            /* Biến bảng danh sách thành luồng cuộn ngang mượt mà */
-            .board-grid-4 {
-                grid-template-columns: unset; /* Bỏ ép buộc 1 cột đứng */
-                grid-auto-flow: column;     /* Ép các thẻ xếp thành 1 hàng ngang duy nhất */
-                grid-auto-columns: 75%;     /* Mỗi thẻ chiếm 75% màn hình để lộ một phần thẻ tiếp theo (kích thích vuốt) */
-                gap: 15px;                  /* Khoảng cách giữa các thẻ */
-                overflow-x: auto;           /* Kích hoạt tính năng cuộn ngang */
-                width: 100%;                /* Đảm bảo chiếm toàn bộ chiều rộng để cuộn */
-                max-width: none;            /* Xóa ràng buộc max-width từ rule phía trên */
-                padding: 10px 20px 20px;    /* Tạo khoảng trống bên dưới tránh bị sát cạnh */
-                scroll-snap-type: x mandatory; /* Hiệu ứng khựng: Vuốt phát nào ăn phát nấy, tự động căn giữa thẻ */
-                -webkit-overflow-scrolling: touch; /* Giúp vuốt siêu mượt trên điện thoại iPhone/iOS */
-            }
-
-            /* Bổ sung hiệu ứng dừng cho từng thẻ khi vuốt */
-            .board-card {
-                scroll-snap-align: start;
-                min-width: 75%;             /* Đảm bảo mỗi card có kích thước cố định */
-            }
-
-            /* Ẩn thanh cuộn xấu xí của trình duyệt di động để nhìn web gọn gàng hơn */
-            .board-grid-4::-webkit-scrollbar {
-                display: none;
-            }
+            .board-grid-4 { grid-template-columns: unset; grid-auto-flow: column; grid-auto-columns: 75%; gap: 15px; overflow-x: auto; width: 100%; padding: 10px 20px 20px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
+            .board-card { scroll-snap-align: start; min-width: 75%; }
+            .board-grid-4::-webkit-scrollbar { display: none; }
         }
         .board-card { background: white; border-radius: 20px; overflow: hidden; border: 1px solid var(--border-color); text-align: center; padding-bottom: 20px; cursor: pointer; transition: var(--transition);}
         .board-card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(0,0,0,0.08); border-color: var(--primary); }
@@ -107,7 +78,6 @@
         .bc-role { display: inline-block; background: #ecfdf5; color: var(--primary); padding: 6px 15px; border-radius: 20px; font-size: 12px; font-weight: 800; margin-bottom: 10px; }
         .bc-name { font-size: 18px; font-weight: 900; color: var(--text-main); margin-bottom: 5px; }
 
-        /* LIÊN HỆ TRANG CHỦ */
         .contact-section { max-width: 1200px; margin: 60px auto; padding: 0 20px; }
         .contact-box { background: white; border-radius: 24px; padding: 50px; border: 1px solid var(--border-color); display: flex; gap: 50px; flex-wrap: wrap;}
         .contact-left { flex: 1; min-width: 300px; }
@@ -134,12 +104,10 @@
         .contact-form button { width: 100%; background: var(--primary); color: white; padding: 15px; border: none; border-radius: 12px; font-weight: 800; font-size: 15px; cursor: pointer; transition: 0.3s;}
         .contact-form button:hover { background: var(--primary-dark); }
 
-        /* TAB 2: BAN CHỦ NHIỆM */
         .board-container { max-width: 1200px; margin: auto; padding: 0 20px; }
         .board-row-title { text-align: center; font-size: 20px; font-weight: 900; color: var(--text-main); margin: 60px 0 30px; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 15px;}
         .board-row-title::before, .board-row-title::after { content: ''; height: 2px; width: 50px; background: var(--border-color); }
 
-        /* TAB 3: CƠ CẤU BAN */
         .dept-container { max-width: 1200px; margin: auto; padding: 0 20px; }
         .dept-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
         .dept-card { background: white; padding: 40px 30px; border-radius: 20px; text-align: center; border: 1px solid var(--border-color); cursor: pointer; transition: var(--transition); }
@@ -153,7 +121,6 @@
         .dept-intro-box { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; padding: 50px; border-radius: 24px; text-align: center; margin-bottom: 40px;}
         .dept-intro-box h2 { font-size: 32px; font-weight: 900; margin-bottom: 15px; }
 
-        /* TAB 4: THÀNH VIÊN (CUỘN DỌC) */
         .group-container { margin-bottom: 60px; }
         .group-title { font-size: 20px; font-weight: 800; color: var(--text-main); margin-bottom: 25px; padding-left: 15px; border-left: 5px solid var(--primary); display: flex; align-items: center; gap: 10px;}
         .group-count { background: #ecfdf5; color: var(--primary-dark); padding: 2px 10px; border-radius: 12px; font-size: 14px; }
@@ -164,7 +131,6 @@
         .mem-name { font-size: 15px; font-weight: 800; color: var(--text-main); margin-bottom: 5px; }
         .mem-ban { font-size: 11px; color: var(--primary); font-weight: 700; text-transform: uppercase; }
 
-        /* TAB 5: HOẠT ĐỘNG (DẠNG LƯỚI RÚT GỌN) */
         .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: auto; padding: 0 20px;}
         .news-card { background: white; border-radius: 20px; overflow: hidden; border: 1px solid var(--border-color); transition: var(--transition); cursor: pointer;}
         .news-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.08);}
@@ -175,16 +141,14 @@
         .news-title { font-size: 20px; font-weight: 800; margin-bottom: 10px; line-height: 1.3;}
         .news-desc-short { font-size: 14px; color: var(--text-muted); line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 
-        /* MODAL BÀI BÁO CHI TIẾT (XEM TOÀN BỘ SỰ KIỆN) */
         .article-modal { background: white; width: 100%; max-width: 800px; border-radius: 24px; position: relative; transform: translateY(30px); transition: transform 0.3s; overflow: hidden; max-height: 90vh; display: flex; flex-direction: column;}
         .modal-overlay.show .article-modal { transform: translateY(0); }
         .article-header { padding: 25px 30px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; background: white;}
         .article-header h2 { font-size: 22px; font-weight: 900; color: var(--primary); }
-        .article-body { padding: 30px; overflow-y: auto; line-height: 1.8; color: var(--text-main); font-size: 15px; }
+        .article-body { padding: 30px; overflow-y: auto; line-height: 1.8; color: var(--text-main); font-size: 15px; text-align: justify; }
         .article-body img { width: 100%; border-radius: 12px; margin: 20px 0; border: 1px solid var(--border-color); }
         .article-body p { margin-bottom: 15px; }
 
-        /* MODAL HỒ SƠ */
         .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 2000; opacity: 0; transition: opacity 0.3s ease; }
         .modal-overlay.show { display: flex; opacity: 1; }
         .pro-modal { background: white; width: 100%; max-width: 450px; border-radius: 24px; position: relative; transform: translateY(30px); transition: transform 0.3s; overflow: hidden;}
@@ -202,7 +166,6 @@
         .pro-bio { font-size: 14px; color: var(--text-muted); line-height: 1.7; text-align: justify; margin-bottom: 30px;}
         .pro-fb { display: inline-flex; align-items: center; gap: 10px; background: #1877F2; color: white; padding: 12px 30px; border-radius: 25px; font-weight: 700; font-size: 14px; transition: 0.3s; }
 
-        /* FORM SỬA HỒ SƠ & TẢI TÀI LIỆU */
         .member-form-box { background: white; width: 100%; max-width: 450px; border-radius: 24px; padding: 30px; position: relative; text-align: left; }
         .member-form-box .btn-close { position:absolute; top:15px; right:15px; cursor:pointer; background: #f1f5f9; color: var(--text-muted); }
         .member-form-box label { display: block; font-size: 12px; font-weight: 800; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase;}
@@ -210,32 +173,18 @@
         .member-form-box input:focus, .member-form-box textarea:focus { border-color: var(--primary); outline: none; }
         .member-form-box button { width: 100%; background: var(--primary); color: white; border: none; padding: 12px; border-radius: 10px; font-weight: 800; font-size: 14px; cursor: pointer; transition: 0.3s; margin-top: 10px;}
         
-        /* FOOTER */
         footer { background: white; border-top: 1px solid var(--border-color); padding: 30px 5%; margin-top: 50px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;}
         .footer-text p { color: var(--text-muted); font-size: 14px; font-weight: 600; margin-bottom: 5px; }
         .footer-logos { display: flex; align-items: center; gap: 15px; }
         .footer-logos img { width: 55px; height: 55px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border-color); padding: 2px; background: white; transition: 0.3s;}
         .footer-logos img:hover { border-color: var(--primary); transform: scale(1.1); }
-        @media(max-width: 768px) { footer { flex-direction: column; text-align: center; } .footer-logos { justify-content: center; } }
-
-        /* THÊM ĐOẠN NÀY ĐỂ THANH MENU VUỐT NGANG ĐƯỢC TRÊN ĐIỆN THOẠI */
+        
         @media (max-width: 1024px) {
-            .nav-container {
-                overflow-x: auto;            /* Bật tính năng cuộn ngang */
-                justify-content: flex-start; /* Căn trái để bắt đầu cuộn từ Logo */
-                gap: 30px;                   /* Khoảng cách giữa Logo và các nút */
-                -webkit-overflow-scrolling: touch; /* Hỗ trợ vuốt siêu mượt trên iOS */
-            }
-            
-            /* Ẩn thanh cuộn xám xấu xí của trình duyệt để nhìn đẹp như App */
-            .nav-container::-webkit-scrollbar {
-                display: none; 
-            }
-
-            .logo-area, .nav-links {
-                flex-shrink: 0; /* Khóa cứng kích thước, chống việc chữ bị bóp méo hay rớt dòng */
-            }
+            .nav-container { overflow-x: auto; justify-content: flex-start; gap: 30px; -webkit-overflow-scrolling: touch; }
+            .nav-container::-webkit-scrollbar { display: none; }
+            .logo-area, .nav-links { flex-shrink: 0; }
         }
+        @media(max-width: 768px) { footer { flex-direction: column; text-align: center; } .footer-logos { justify-content: center; } }
     </style>
 </head>
 <body>
@@ -245,6 +194,7 @@
         <div class="pl-text">LSCM</div>
     </div>
 
+    <!-- NAVBAR THÀNH VIÊN -->
     <header>
         <div class="nav-container">
             <div class="logo-area" onclick="switchTab('tab-gioi-thieu', this)">
@@ -302,22 +252,7 @@
                     <div class="contact-left">
                         <h3 id="contactTitle">Kết Nối Với Chúng Tôi</h3>
                         <p id="contactDesc">Bạn có câu hỏi, ý tưởng hay muốn trở thành một phần của đại gia đình LSCM? Hãy liên hệ trực tiếp với bộ phận chuyên trách hoặc để lại lời nhắn.</p>
-                        <div class="direct-contact" id="contactList">
-                            <div class="dc-item">
-                                <div class="dc-icon"><i class="fas fa-user-tie"></i></div>
-                                <div class="dc-text">
-                                    <h4>Liên hệ Chủ Nhiệm</h4>
-                                    <p>Nguyễn Văn A - 0123.456.789</p>
-                                </div>
-                            </div>
-                            <div class="dc-item">
-                                <div class="dc-icon"><i class="fas fa-bullhorn"></i></div>
-                                <div class="dc-text">
-                                    <h4>Liên hệ Trưởng Ban Truyền Thông</h4>
-                                    <p>Trương D - 0987.654.321</p>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="direct-contact" id="contactList"></div>
                         <div style="display: flex; gap: 15px;">
                             <a href="https://www.facebook.com/share/1EH4HHa5rk/" target="_blank" class="soc-btn fb" style="flex:1;"><i class="fab fa-facebook-f"></i> Facebook</a>
                             <a href="https://www.tiktok.com/@hunre.logistics.lscm" target="_blank" class="soc-btn tt" style="flex:1;"><i class="fab fa-tiktok"></i> TikTok</a>
@@ -397,52 +332,43 @@
                 <div class="sec-line"></div>
             </div>
             <div class="board-container">
-                <div class="group-container">
-                    <h3 class="group-title">Thành Viên Hiện Tại <span class="group-count" id="c-tv">0</span></h3>
-                    <div class="members-grid-6" id="mem-active-container"></div>
-                </div>
-                <div class="group-container">
-                    <h3 class="group-title">Cộng Tác Viên <span class="group-count" id="c-ctv">0</span></h3>
-                    <div class="members-grid-6" id="mem-ctv-container"></div>
-                </div>
-                <div class="group-container">
-                    <h3 class="group-title">Cựu Thành Viên <span class="group-count" id="c-cuu">0</span></h3>
-                    <div class="members-grid-6" id="mem-alumni-container"></div>
-                </div>
+                <div class="group-container"><h3 class="group-title">Thành Viên Hiện Tại <span class="group-count" id="c-tv">0</span></h3><div class="members-grid-6" id="mem-active-container"></div></div>
+                <div class="group-container"><h3 class="group-title">Cộng Tác Viên <span class="group-count" id="c-ctv">0</span></h3><div class="members-grid-6" id="mem-ctv-container"></div></div>
+                <div class="group-container"><h3 class="group-title">Cựu Thành Viên <span class="group-count" id="c-cuu">0</span></h3><div class="members-grid-6" id="mem-alumni-container"></div></div>
             </div>
         </section>
 
         <section id="tab-hoat-dong" class="page-tab">
-            <div class="sec-header">
-                <h2 class="sec-title">Dấu Ấn Sự Kiện LSCM</h2>
-                <div class="sec-line"></div>
-            </div>
-            <div class="news-grid" id="newsPublicContainer">
-                <p style="text-align: center; grid-column: 1/-1; color: gray;">Đang tải danh sách sự kiện...</p>
-            </div>
+            <div class="sec-header"><h2 class="sec-title">Dấu Ấn Sự Kiện LSCM</h2><div class="sec-line"></div></div>
+            <div class="news-grid" id="newsPublicContainer"><p style="text-align: center; grid-column: 1/-1; color: gray;">Đang tải danh sách sự kiện...</p></div>
         </section>
 
+        <!-- KHO TÀI LIỆU CỦA THÀNH VIÊN VỚI THANH TÌM KIẾM -->
         <section id="tab-tai-lieu" class="page-tab">
             <div class="sec-header">
                 <h2 class="sec-title" style="color: var(--primary);">Thư Mục Tài Liệu Nội Bộ</h2>
                 <div class="sec-line" style="background: var(--secondary);"></div>
             </div>
             
-            <div style="max-width: 1200px; margin: 0 auto 30px; text-align: right; padding: 0 20px;">
+            <div style="max-width: 1200px; margin: 0 auto 20px; text-align: right; padding: 0 20px;">
                 <button class="btn-login" style="display:inline-flex;" onclick="openModal('uploadDocModal')"><i class="fas fa-upload"></i> Đóng góp tài liệu</button>
+            </div>
+
+            <!-- THANH TÌM KIẾM TÀI LIỆU -->
+            <div style="max-width:1200px; margin: 0 auto 30px; padding: 0 20px;">
+                <input type="text" id="docSearchInput" placeholder="🔍 Nhập từ khóa tìm kiếm tài liệu (Ví dụ: Kho, Logistics...)" oninput="filterDocs()" style="width:100%; padding:15px 20px; border-radius:12px; border:2px solid var(--border-color); font-size:15px; outline:none; transition: 0.3s;">
             </div>
 
             <div class="news-grid" id="docsContainer" style="padding-bottom: 50px;">
                 <p style="text-align:center; grid-column:1/-1; color: gray;">Đang đồng bộ dữ liệu thư viện...</p>
             </div>
         </section>
-
-
     </main>
 
+    <!-- FOOTER MỚI VỚI 3 LOGO CHUẨN XÁC -->
     <footer>
         <div class="footer-text">
-            <p>© 2026 Bản quyền thuộc về Câu lạc bộ Logistics & Quản lý Chuỗi cung ứng HUNRE - LSCM</p>
+            <p>© 2026 Bản quyền thuộc về Câu lạc bộ Logistics & Quản lý Chuỗi cung ứng (LSCM)</p>
             <p style="font-size: 13px; font-weight: 500;">Khoa Kinh tế - Trường Đại học Tài nguyên và Môi trường Hà Nội</p>
         </div>
         <div class="footer-logos">
@@ -452,6 +378,7 @@
         </div>
     </footer>
 
+    <!-- MODAL HIỂN THỊ HỒ SƠ -->
     <div class="modal-overlay" id="profileModal" onclick="closeModal(event, 'profileModal')">
         <div class="pro-modal">
             <span class="btn-close" onclick="document.getElementById('profileModal').classList.remove('show')"><i class="fas fa-times"></i></span>
@@ -469,6 +396,7 @@
         </div>
     </div>
 
+    <!-- MODAL HIỂN THỊ BÀI BÁO (TIN TỨC) CHI TIẾT -->
     <div class="modal-overlay" id="articleModal" onclick="closeModal(event, 'articleModal')">
         <div class="article-modal">
             <div class="article-header">
@@ -476,10 +404,12 @@
                 <span class="btn-close dark" onclick="document.getElementById('articleModal').classList.remove('show')"><i class="fas fa-times"></i></span>
             </div>
             <div class="article-body" id="a-body">
-                </div>
+                <!-- Nội dung chữ và ảnh sẽ đổ vào đây -->
+            </div>
         </div>
     </div>
 
+    <!-- MODAL SỬA HỒ SƠ CÁ NHÂN -->
     <div class="modal-overlay" id="editProfileModal" onclick="closeModal(event, 'editProfileModal')">
         <div class="member-form-box">
             <span class="btn-close" onclick="document.getElementById('editProfileModal').classList.remove('show')"><i class="fas fa-times"></i></span>
@@ -499,7 +429,7 @@
                 <input type="text" id="p_img" required placeholder="VD: https://... hoặc images/avatar.jpg">
                 
                 <hr style="border: 0; border-top: 1px dashed var(--border-color); margin: 20px 0;">
-                <label style="color: var(--danger);"><i class="fas fa-key"></i> Đổi Mật Khẩu (Tùy chọn)</label>
+                <label style="color: var(--danger);"><i class="fas fa-key"></i> Đổi Mật Khẩu Đăng Nhập (Tùy chọn)</label>
                 <input type="password" id="p_newPass" placeholder="Bỏ trống nếu không đổi... (Tối thiểu 6 ký tự)">
 
                 <button type="submit" id="btnUpdateProfile">Cập Nhật Thông Tin</button>
@@ -508,6 +438,7 @@
         </div>
     </div>
 
+    <!-- MODAL UPLOAD TÀI LIỆU -->
     <div class="modal-overlay" id="uploadDocModal" onclick="closeModal(event, 'uploadDocModal')">
         <div class="member-form-box">
             <span class="btn-close" onclick="document.getElementById('uploadDocModal').classList.remove('show')"><i class="fas fa-times"></i></span>
@@ -525,6 +456,7 @@
         </div>
     </div>
 
+    <!-- TÍCH HỢP FIREBASE -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
@@ -545,17 +477,18 @@
 
         let currentUserId = null; 
         let globalMembers = [];
-        let globalNews = []; // Biến chứa tất cả tin tức để mở Modal
+        let globalNews = []; 
+        let globalDocs = []; // Biến lưu tài liệu phục vụ việc tìm kiếm
 
         document.addEventListener("DOMContentLoaded", function() {
             setTimeout(() => { document.getElementById('preloader').style.display = 'none'; }, 500);
-
+            
             // Kiểm tra Auth: Chỉ chạy khi chắc chắn đã đăng nhập
             auth.onAuthStateChanged(user => {
                 if (user) {
                     currentUserId = user.uid;
                     loadAboutSections();
-                    loadLibraryDocs();
+                    loadLibraryDocs(); 
                     loadPublicNews();
                     loadMembersFromFirebase();
                     loadContactSection();
@@ -568,7 +501,6 @@
                 }
             });
         });
-
 
         function handleLogout() {
             if(confirm("Bạn muốn đăng xuất khỏi hệ thống?")) {
@@ -670,7 +602,7 @@
             });
         }
 
-        // TẢI HOẠT ĐỘNG (NEWS) DẠNG MODAL CẮT CHỮ
+        // TẢI HOẠT ĐỘNG (NEWS) CẮT CHỮ BÊN NGOÀI
         function loadPublicNews() {
             const container = document.getElementById('newsPublicContainer');
             db.collection("news").orderBy("date", "desc").onSnapshot(snapshot => {
@@ -686,12 +618,8 @@
                     globalNews.push(n);
 
                     const dParts = n.date.split('-'); const displayDate = `${dParts[2]}/${dParts[1]}/${dParts[0]}`;
+                    let coverImg = n.image; 
                     
-                    // Lọc để lấy bức ảnh ĐẦU TIÊN làm ảnh bìa ngoài thẻ
-                    // Giả sử trong bài viết (desc) Admin có chèn link ảnh dạng http://...png hoặc jpg
-                    let coverImg = n.image; // Mặc định là ảnh cover cũ
-                    
-                    // Giao diện bên ngoài: Cắt chữ ngắn lại (news-desc-short)
                     container.innerHTML += `
                         <div class="news-card" onclick="openArticle('${n.id}')">
                             <div class="news-img-box">
@@ -715,20 +643,15 @@
             if(article) {
                 document.getElementById('a-title').innerText = article.title;
                 
-                // Thuật toán: Tìm các link http có đuôi ảnh (jpg, png, jpeg, gif) trong phần nội dung và biến nó thành thẻ <img>
                 let fullContent = article.desc;
-                
-                // Mẹo Regex đơn giản để tìm link ảnh và thay thế thành thẻ <img src="...">
                 const urlRegex = /(https?:\/\/[^\s]+(?:\.jpg|\.jpeg|\.png|\.gif|\.webp))/gi;
                 fullContent = fullContent.replace(urlRegex, function(url) {
                     return `<img src="${url}" alt="LSCM Image" onerror="this.style.display='none'">`;
                 });
 
-                // Tách các đoạn xuống dòng thành các thẻ <p>
                 const paragraphs = fullContent.split('\n').filter(p => p.trim() !== '');
                 let formattedHtml = '';
                 paragraphs.forEach(p => {
-                    // Nếu đoạn này chứa thẻ img rồi thì không cần bọc thẻ p nữa
                     if(p.includes('<img')) {
                         formattedHtml += p;
                     } else {
@@ -736,42 +659,55 @@
                     }
                 });
 
-                // Luôn hiển thị ảnh tiêu đề chính ở đầu bài viết nếu có
-                if(article.image) {
-                    formattedHtml = `<img src="${article.image}" alt="Cover">` + formattedHtml;
-                }
+                // Luôn hiển thị ảnh tiêu đề chính ở đầu bài viết
+                formattedHtml = `<img src="${article.image}" alt="Cover">` + formattedHtml;
 
                 document.getElementById('a-body').innerHTML = formattedHtml;
                 openModal('articleModal');
             }
         }
 
-        // LOGIC TÀI LIỆU
+        // TÀI LIỆU VỚI THANH TÌM KIẾM THÔNG MINH
         function loadLibraryDocs() {
-            const container = document.getElementById('docsContainer');
-            db.collection("documents").where("status", "==", "APPROVED").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
-                container.innerHTML = '';
-                if(snapshot.empty) {
-                    container.innerHTML = '<p style="text-align:center; grid-column:1/-1;">Kho tài liệu trống hoặc chưa có tài liệu nào được duyệt.</p>';
-                    return;
-                }
+            db.collection("documents").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
+                globalDocs = [];
                 snapshot.forEach(doc => {
                     const d = doc.data();
-                    let iconClass = 'fa-file-alt'; let iconColor = 'var(--secondary)'; let iconBg = '#fffbeb';
-                    const nameLower = d.name.toLowerCase();
-                    if(nameLower.includes('pdf')) { iconClass = 'fa-file-pdf'; iconColor = '#ef4444'; iconBg = '#fee2e2'; }
-                    else if(nameLower.includes('excel') || nameLower.includes('kinh phí')) { iconClass = 'fa-file-excel'; iconColor = '#10b981'; iconBg = '#d1fae5'; }
-                    
-                    container.innerHTML += `
-                        <div style="background: white; border-radius: 16px; padding: 25px; border: 1px solid var(--border-color); display:flex; flex-direction:column;">
-                            <div style="width: 50px; height: 50px; background: ${iconBg}; color: ${iconColor}; border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 24px; margin-bottom: 15px;"><i class="fas ${iconClass}"></i></div>
-                            <h4 style="font-size: 16px; font-weight: 800; color: var(--text-main); margin-bottom: 10px;">${d.name}</h4>
-                            <div style="margin-top: auto; padding-top: 15px; border-top: 1px dashed var(--border-color); text-align: right;">
-                                <a href="${d.link}" target="_blank" style="background: #f1f5f9; color: var(--primary-dark); padding: 8px 15px; border-radius: 8px; font-size: 13px; font-weight: 700;"><i class="fas fa-download"></i> Xem / Tải</a>
-                            </div>
-                        </div>
-                    `;
+                    d.id = doc.id;
+                    if(d.status === 'APPROVED') { globalDocs.push(d); }
                 });
+                filterDocs(); // Lần đầu tải cũng gọi hàm vẽ ra html
+            });
+        }
+
+        // Hàm TÌM KIẾM (Render danh sách theo từ khóa)
+        function filterDocs() {
+            const container = document.getElementById('docsContainer');
+            const searchTerm = document.getElementById('docSearchInput').value.toLowerCase().trim();
+            container.innerHTML = '';
+            
+            const filteredDocs = globalDocs.filter(d => d.name.toLowerCase().includes(searchTerm));
+
+            if(filteredDocs.length === 0) {
+                container.innerHTML = '<p style="text-align:center; grid-column:1/-1; padding: 20px;">Không tìm thấy tài liệu phù hợp với từ khóa của bạn.</p>';
+                return;
+            }
+
+            filteredDocs.forEach(d => {
+                let iconClass = 'fa-file-alt'; let iconColor = 'var(--secondary)'; let iconBg = '#fffbeb';
+                const nameLower = d.name.toLowerCase();
+                if(nameLower.includes('pdf')) { iconClass = 'fa-file-pdf'; iconColor = '#ef4444'; iconBg = '#fee2e2'; }
+                else if(nameLower.includes('excel') || nameLower.includes('kinh phí')) { iconClass = 'fa-file-excel'; iconColor = '#10b981'; iconBg = '#d1fae5'; }
+                
+                container.innerHTML += `
+                    <div style="background: white; border-radius: 16px; padding: 25px; border: 1px solid var(--border-color); display:flex; flex-direction:column;">
+                        <div style="width: 50px; height: 50px; background: ${iconBg}; color: ${iconColor}; border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 24px; margin-bottom: 15px;"><i class="fas ${iconClass}"></i></div>
+                        <h4 style="font-size: 16px; font-weight: 800; color: var(--text-main); margin-bottom: 10px;">${d.name}</h4>
+                        <div style="margin-top: auto; padding-top: 15px; border-top: 1px dashed var(--border-color); text-align: right;">
+                            <a href="${d.link}" target="_blank" style="background: #f1f5f9; color: var(--primary-dark); padding: 8px 15px; border-radius: 8px; font-size: 13px; font-weight: 700;"><i class="fas fa-download"></i> Xem / Tải</a>
+                        </div>
+                    </div>
+                `;
             });
         }
 
@@ -782,7 +718,7 @@
             db.collection("documents").add({
                 name: document.getElementById('d_name').value,
                 link: document.getElementById('d_link').value,
-                status: 'PENDING', // Gửi cho Admin duyệt
+                status: 'PENDING', // Cờ PENDING để gửi cho Admin duyệt
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             }).then(() => {
                 alert("Đã gửi link tài liệu! Vui lòng chờ Ban Chủ Nhiệm xét duyệt để hiển thị lên kho chung.");
@@ -792,7 +728,7 @@
             });
         }
 
-        // LOGIC SỬA HỒ SƠ & ĐỔI PASS
+        // SỬA HỒ SƠ CÁ NHÂN VÀ ĐỔI MẬT KHẨU
         function loadMyDataForEdit(uid) {
             db.collection("members").doc(uid).get().then((doc) => {
                 if(doc.exists) {
@@ -819,7 +755,6 @@
             const user = auth.currentUser;
             let tasks = [];
 
-            // Task 1: Update Firestore
             const updateInfoTask = db.collection("members").doc(currentUserId).update({
                 slogan: document.getElementById('p_slogan').value,
                 bio: document.getElementById('p_bio').value,
@@ -828,7 +763,6 @@
             });
             tasks.push(updateInfoTask);
 
-            // Task 2: Update Password (Nếu có)
             if (newPass) {
                 if (newPass.length < 6) {
                     alert("Mật khẩu mới phải có ít nhất 6 ký tự!");
@@ -842,7 +776,7 @@
                 let msg = newPass ? "Cập nhật hồ sơ và ĐỔI MẬT KHẨU thành công!" : "Cập nhật hồ sơ thành công!";
                 alert(msg + " Mọi thay đổi sẽ hiển thị ở trang chủ.");
                 document.getElementById('editProfileModal').classList.remove('show');
-                if (document.getElementById('p_newPass')) document.getElementById('p_newPass').value = '';
+                if (document.getElementById('p_newPass')) document.getElementById('p_newPass').value = ''; 
             }).catch(err => {
                 if(err && err.code === 'auth/requires-recent-login') {
                     alert("⚠️ BẢO MẬT: Đã lâu bạn chưa đăng nhập. Vui lòng đăng xuất và đăng nhập lại trước khi đổi mật khẩu mới!");
@@ -851,18 +785,22 @@
             .finally(() => { btn.innerText = "Cập Nhật Thông Tin"; btn.disabled = false; });
         }
 
-        // TẢI & RENDER THÀNH VIÊN
+        // TẢI & RENDER THÀNH VIÊN TỪ FIREBASE ĐỘNG 100%
         function loadMembersFromFirebase() {
             db.collection("members").orderBy("roleLevel", "asc").onSnapshot(snapshot => {
                 globalMembers = [];
                 snapshot.forEach(doc => {
-                    let m = doc.data(); m.id = doc.id;
+                    let m = doc.data();
+                    m.id = doc.id;
                     globalMembers.push(m);
                 });
+                
+                // Sắp xếp tăng dần theo RoleLevel, nếu bằng nhau thì xếp theo Ban
                 globalMembers.sort((a, b) => {
                     if (a.roleLevel !== b.roleLevel) return a.roleLevel - b.roleLevel;
                     return a.ban.localeCompare(b.ban);
                 });
+
                 renderSystem();
             });
         }
@@ -883,12 +821,13 @@
             const boardLevel4 = globalMembers.filter(m => m.roleLevel === 4 && m.status !== 'ALUMNI');
             const boardLevel5 = globalMembers.filter(m => m.roleLevel === 5 && m.status !== 'ALUMNI');
 
+            // Hiển thị ở Tab 1 (Home) & Tab 2 (Ban Chủ Nhiệm)
             document.getElementById('homeBoardContainer').innerHTML = boardLevel1to3.slice(0,4).map(createBoardCard).join('');
             document.getElementById('boardRow1').innerHTML = boardLevel1to3.map(createBoardCard).join('');
             document.getElementById('boardRow2').innerHTML = boardLevel4.map(createBoardCard).join('');
             document.getElementById('boardRow3').innerHTML = boardLevel5.map(createBoardCard).join('');
 
-            // Gom tất cả vào thành viên để tính tổng
+            // HIỂN THỊ TAB THÀNH VIÊN - GOM TẤT CẢ VÀ XẾP NGẪU NHIÊN
             const activeMems = globalMembers.filter(m => m.status === 'ACTIVE').sort(() => Math.random() - 0.5);
             const ctvMems = globalMembers.filter(m => m.status === 'CTV').sort(() => Math.random() - 0.5);
             const alumniMems = globalMembers.filter(m => m.status === 'ALUMNI').sort(() => Math.random() - 0.5);

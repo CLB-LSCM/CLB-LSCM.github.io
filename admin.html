@@ -18,7 +18,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background-color: var(--light-bg); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
 
-        /* SIDEBAR & BỐ CỤC CHUNG GIỮ NGUYÊN */
         .sidebar { width: 280px; background: var(--dark-bg); color: white; display: flex; flex-direction: column; z-index: 100; box-shadow: 4px 0 15px rgba(0,0,0,0.05);}
         .sidebar-header { padding: 25px 20px; display: flex; align-items: center; gap: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .sidebar-header img { width: 45px; border-radius: 8px; }
@@ -45,7 +44,6 @@
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* UI PANEL VÀ FORM */
         .panel { background: var(--white); border-radius: 20px; border: 1px solid var(--border-color); padding: 30px; margin-bottom: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
         .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px dashed var(--border-color); padding-bottom: 15px;}
         .panel-title { font-size: 18px; font-weight: 900; display: flex; align-items: center; gap: 10px; color: var(--text-main);}
@@ -74,7 +72,6 @@
         .badge-ctv { background: #ffedd5; color: #c2410c; }
         .badge-alumni { background: #f1f5f9; color: #475569; }
 
-        /* UI XÉT DUYỆT VÀ DANH SÁCH MỚI */
         .approval-card { background: white; border: 1px solid var(--secondary); border-left: 4px solid var(--secondary); padding: 15px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;}
         .approval-info h4 { margin-bottom: 5px; font-size: 15px; color: var(--text-main); font-weight: 800;}
         .approval-info p { font-size: 12px; color: var(--text-muted); margin: 0;}
@@ -138,30 +135,12 @@
                         <h2 class="panel-title"><i class="fas fa-address-book"></i> Quản Trị "Kết Nối Với Chúng Tôi"</h2>
                     </div>
                     <div class="form-grid">
-                        <div class="input-group full">
-                            <label>Tiêu đề mục liên hệ</label>
-                            <input type="text" id="contactTitleInput" placeholder="Kết Nối Với Chúng Tôi">
-                        </div>
-                        <div class="input-group full">
-                            <label>Nội dung mô tả</label>
-                            <textarea id="contactDescInput" rows="4" placeholder="Bạn có câu hỏi, ý tưởng..." ></textarea>
-                        </div>
-                        <div class="input-group full">
-                            <label>Tiêu đề liên hệ 1</label>
-                            <input type="text" id="contactRole1Input" placeholder="Liên hệ Chủ Nhiệm">
-                        </div>
-                        <div class="input-group full">
-                            <label>Thông tin liên hệ 1</label>
-                            <input type="text" id="contactInfo1Input" placeholder="Nguyễn Văn A - 0123.456.789">
-                        </div>
-                        <div class="input-group full">
-                            <label>Tiêu đề liên hệ 2</label>
-                            <input type="text" id="contactRole2Input" placeholder="Liên hệ Trưởng Ban Truyền Thông">
-                        </div>
-                        <div class="input-group full">
-                            <label>Thông tin liên hệ 2</label>
-                            <input type="text" id="contactInfo2Input" placeholder="Trương D - 0987.654.321">
-                        </div>
+                        <div class="input-group full"><label>Tiêu đề mục liên hệ</label><input type="text" id="contactTitleInput" placeholder="Kết Nối Với Chúng Tôi"></div>
+                        <div class="input-group full"><label>Nội dung mô tả</label><textarea id="contactDescInput" rows="4" placeholder="Bạn có câu hỏi, ý tưởng..." ></textarea></div>
+                        <div class="input-group full"><label>Tiêu đề liên hệ 1</label><input type="text" id="contactRole1Input" placeholder="Liên hệ Chủ Nhiệm"></div>
+                        <div class="input-group full"><label>Thông tin liên hệ 1</label><input type="text" id="contactInfo1Input" placeholder="Nguyễn Văn A - 0123.456.789"></div>
+                        <div class="input-group full"><label>Tiêu đề liên hệ 2</label><input type="text" id="contactRole2Input" placeholder="Liên hệ Trưởng Ban Truyền Thông"></div>
+                        <div class="input-group full"><label>Thông tin liên hệ 2</label><input type="text" id="contactInfo2Input" placeholder="Trương D - 0987.654.321"></div>
                         <div class="input-group full" style="display:flex; justify-content:flex-end;">
                             <button class="btn-action" type="button" onclick="saveContactSection()"><i class="fas fa-save"></i> Lưu nội dung liên hệ</button>
                         </div>
@@ -175,22 +154,10 @@
                         <h2 class="panel-title"><i class="fas fa-building"></i> Quản Trị Mô Tả Các Ban</h2>
                     </div>
                     <div class="form-grid">
-                        <div class="input-group full">
-                            <label>Ban Truyền Thông</label>
-                            <textarea id="deptDescTruyenThong" rows="3" placeholder="Sáng tạo nội dung, thiết kế hình ảnh, quản trị Fanpage và lan tỏa thông điệp."></textarea>
-                        </div>
-                        <div class="input-group full">
-                            <label>Ban Kỹ Thuật</label>
-                            <textarea id="deptDescKyThuat" rows="3" placeholder="Hỗ trợ công nghệ, âm thanh ánh sáng và vận hành nền tảng kỹ thuật số."></textarea>
-                        </div>
-                        <div class="input-group full">
-                            <label>Ban Đối Ngoại & Tổ chức sự kiện</label>
-                            <textarea id="deptDescDoiNgoai" rows="3" placeholder="Đại diện liên hệ doanh nghiệp, xin tài trợ và điều phối sự kiện."></textarea>
-                        </div>
-                        <div class="input-group full">
-                            <label>Ban Chuyên Môn</label>
-                            <textarea id="deptDescChuyenMon" rows="3" placeholder="Nghiên cứu tài liệu Logistics, tổ chức training kiến thức nội bộ."></textarea>
-                        </div>
+                        <div class="input-group full"><label>Ban Truyền Thông</label><textarea id="deptDescTruyenThong" rows="3" placeholder="Sáng tạo nội dung..."></textarea></div>
+                        <div class="input-group full"><label>Ban Kỹ Thuật</label><textarea id="deptDescKyThuat" rows="3" placeholder="Hỗ trợ công nghệ..."></textarea></div>
+                        <div class="input-group full"><label>Ban Đối Ngoại & Tổ chức sự kiện</label><textarea id="deptDescDoiNgoai" rows="3" placeholder="Đại diện liên hệ doanh nghiệp..."></textarea></div>
+                        <div class="input-group full"><label>Ban Chuyên Môn</label><textarea id="deptDescChuyenMon" rows="3" placeholder="Nghiên cứu tài liệu..."></textarea></div>
                         <div class="input-group full" style="display:flex; justify-content:flex-end;">
                             <button class="btn-action" type="button" onclick="saveDeptDescriptions()"><i class="fas fa-save"></i> Lưu mô tả các ban</button>
                         </div>
@@ -215,17 +182,12 @@
                     </div>
                     <form id="memberForm" onsubmit="saveMember(event)">
                         <input type="hidden" id="m_id">
-                        <input type="hidden" id="m_email_hidden"> <div class="form-grid">
+                        <input type="hidden" id="m_email_hidden">
+                        <div class="form-grid">
                             <div class="security-box" id="securityBox">
                                 <div class="security-title"><i class="fas fa-shield-alt"></i> Thông tin đăng nhập Firebase</div>
-                                <div class="input-group">
-                                    <label>Email Đăng Nhập</label>
-                                    <input type="email" id="m_email" placeholder="VD: hv@lscm.vn">
-                                </div>
-                                <div class="input-group">
-                                    <label>Mật Khẩu Mới (Dùng khi tạo mới hoặc Cấp lại pass)</label>
-                                    <input type="text" id="m_pass" placeholder="Tối thiểu 6 ký tự" minlength="6">
-                                </div>
+                                <div class="input-group"><label>Email Đăng Nhập</label><input type="email" id="m_email" placeholder="VD: hv@lscm.vn"></div>
+                                <div class="input-group"><label>Mật Khẩu</label><input type="text" id="m_pass" placeholder="Tối thiểu 6 ký tự" minlength="6"></div>
                             </div>
 
                             <div class="input-group full" id="resetPassBox" style="display: none;">
@@ -307,10 +269,7 @@
                             <div class="input-group full"><label>Tiêu đề Sự kiện</label><input type="text" id="n_title" required></div>
                             <div class="input-group"><label>Ngày Sự Kiện</label><input type="date" id="n_date" required></div>
                             <div class="input-group"><label>Link Ảnh Bìa</label><input type="url" id="n_img" required></div>
-                            <div class="input-group full">
-                                <label>Nội dung chi tiết (Mẹo: Chèn link ảnh dạng http...jpg vào để hiện nhiều ảnh)</label>
-                                <textarea id="n_desc" rows="5" required></textarea>
-                            </div>
+                            <div class="input-group full"><label>Nội dung chi tiết (Chèn link ảnh http...jpg để hiện nhiều ảnh)</label><textarea id="n_desc" rows="5" required></textarea></div>
                         </div>
                         <div style="display:flex; gap:10px;">
                             <button type="button" class="btn-delete" onclick="document.getElementById('newsForm').style.display='none'">Hủy</button>
@@ -333,7 +292,7 @@
                     </div>
                     <form id="docForm" onsubmit="saveDoc(event)" style="display:none; background:#f8fafc; padding:20px; border-radius:12px; margin-bottom: 25px; border:1px solid var(--border-color);">
                         <input type="hidden" id="d_id">
-                        <div class="form-grid">
+                        <input type="hidden" id="d_status"> <div class="form-grid">
                             <div class="input-group full"><label>Tên bài giảng / Tài liệu</label><input type="text" id="d_name" required></div>
                             <div class="input-group full"><label>Link Google Drive</label><input type="url" id="d_link" required></div>
                         </div>
@@ -405,7 +364,7 @@
             document.getElementById('m_id').value = '';
             document.getElementById('m_email_hidden').value = '';
             document.getElementById('securityBox').style.display = 'grid';
-            document.getElementById('resetPassBox').style.display = 'none'; // Ẩn ô đổi pass đi
+            document.getElementById('resetPassBox').style.display = 'none';
             document.getElementById('m_email').required = true;
             document.getElementById('m_pass').required = true;
             document.getElementById('formMemberTitle').innerHTML = '<i class="fas fa-user-plus"></i> Cấp Tài Khoản & Thêm Hồ Sơ';
@@ -417,7 +376,7 @@
                 if(doc.exists) {
                     const m = doc.data();
                     document.getElementById('m_id').value = doc.id;
-                    document.getElementById('m_email_hidden').value = m.email; // Lưu lại email ngầm để tý nữa đổi pass
+                    document.getElementById('m_email_hidden').value = m.email; 
                     document.getElementById('m_name').value = m.name;
                     document.getElementById('m_gen').value = m.gen;
                     document.getElementById('m_gradDate').value = m.gradDate;
@@ -433,26 +392,18 @@
                     document.getElementById('securityBox').style.display = 'none';
                     document.getElementById('m_email').required = false;
                     document.getElementById('m_pass').required = false;
-                    
-                    document.getElementById('resetPassBox').style.display = 'block'; // Hiện ô cho phép admin đổi pass
-
+                    document.getElementById('resetPassBox').style.display = 'block'; 
                     document.getElementById('formMemberTitle').innerHTML = '<i class="fas fa-user-edit"></i> Sửa Hồ Sơ (' + m.email + ')';
                     toggleAddMember(true);
                 }
             });
         }
 
-        // HÀM RESET MẬT KHẨU CHO THÀNH VIÊN
         function resetMemberPassword() {
             const email = document.getElementById('m_email_hidden').value;
             const newPass = document.getElementById('m_reset_pass').value;
-
             if(!newPass || newPass.length < 6) return alert("Vui lòng nhập mật khẩu mới có ít nhất 6 ký tự!");
-            if(!confirm(`Xác nhận ép đổi mật khẩu của tài khoản ${email} thành: ${newPass} ?\n\n(Lưu ý: Tính năng này sử dụng cơ chế đăng nhập tạm thời để ghi đè mật khẩu)`)) return;
-
-            // Kỹ thuật "Mượn xác": Đăng nhập bằng Auth cũ của người dùng rồi lập tức đổi pass
-            // Lưu ý: Cách này đòi hỏi admin phải... điền lại đúng mật khẩu cũ thì mới đổi được (Bảo mật Firebase).
-            // NẾU ADMIN KHÔNG NHỚ PASS CŨ, cách DUY NHẤT để đổi pass mà không cần backend là: Xóa tài khoản tạo lại.
+            if(!confirm(`Xác nhận ép đổi mật khẩu của tài khoản ${email} thành: ${newPass} ?`)) return;
             alert("⚠️ Do giới hạn bảo mật của Google Firebase bản miễn phí, Admin KHÔNG THỂ tự động ép đổi mật khẩu của thành viên nếu không nhớ mật khẩu cũ của họ.\n\n👉 GIẢI PHÁP: Hãy XÓA hồ sơ của thành viên này ở bảng bên dưới và TẠO LẠI một hồ sơ mới với cùng Email đó nhưng Mật khẩu mới.");
             document.getElementById('m_reset_pass').value = '';
         }
@@ -508,13 +459,9 @@
 
         function approveCTV(id) { if(confirm("Duyệt Cộng Tác Viên này thành Thành Viên Chính Thức?")) db.collection("members").doc(id).update({ status: 'ACTIVE' }).then(fetchMembers); }
         
-        // HÀM XÓA ĐÃ ĐƯỢC SỬA LỖI INTERNAL
         function deleteMember(id) {
-            if(confirm("Xác nhận xóa vĩnh viễn hồ sơ này khỏi danh sách hiển thị?\n\n(Lưu ý: Thao tác này sẽ xóa hồ sơ trên web. Bạn cần vào Firebase -> Authentication xóa email để thu hồi quyền đăng nhập hoàn toàn).")) {
-                db.collection("members").doc(id).delete().then(() => {
-                    alert("Đã xóa hồ sơ thành công!");
-                    fetchMembers();
-                }).catch(err => alert("Lỗi khi xóa: " + err.message));
+            if(confirm("Xác nhận xóa vĩnh viễn hồ sơ này khỏi danh sách hiển thị?\n\n(Lưu ý: Bạn cần vào Firebase -> Authentication xóa email để thu hồi quyền đăng nhập hoàn toàn).")) {
+                db.collection("members").doc(id).delete().then(() => { alert("Đã xóa hồ sơ thành công!"); fetchMembers(); }).catch(err => alert("Lỗi khi xóa: " + err.message));
             }
         }
 
@@ -539,35 +486,85 @@
         function editNews(id, t, d, i, desc) { openNewsForm(); document.getElementById('n_id').value=id; document.getElementById('n_title').value=t; document.getElementById('n_date').value=d; document.getElementById('n_img').value=i; document.getElementById('n_desc').value=desc; }
         function deleteNews(id) { if(confirm("Xóa sự kiện này?")) db.collection("news").doc(id).delete(); }
 
-        function openDocForm() { document.getElementById('docForm').reset(); document.getElementById('d_id').value=''; document.getElementById('docForm').style.display='block'; }
+        // LOGIC TÀI LIỆU CHO ADMIN (ĐÃ SỬA LỖI SỬA FILE)
+        function openDocForm() { 
+            document.getElementById('docForm').reset(); 
+            document.getElementById('d_id').value=''; 
+            document.getElementById('d_status').value='APPROVED'; // Mặc định Admin up là Approved
+            document.getElementById('docForm').style.display='block'; 
+        }
+
         function saveDoc(e) {
             e.preventDefault();
             const id = document.getElementById('d_id').value;
-            const payload = { name: document.getElementById('d_name').value, link: document.getElementById('d_link').value, status: 'APPROVED', timestamp: firebase.firestore.FieldValue.serverTimestamp() };
-            if(id) db.collection("documents").doc(id).update(payload).then(() => { document.getElementById('docForm').style.display='none'; });
-            else db.collection("documents").add(payload).then(() => { document.getElementById('docForm').style.display='none'; });
+            // Lấy lại status cũ (nếu đang sửa file Pending thì vẫn giữ là Pending)
+            const currentStatus = document.getElementById('d_status').value || 'APPROVED'; 
+            
+            const payload = { 
+                name: document.getElementById('d_name').value, 
+                link: document.getElementById('d_link').value, 
+                status: currentStatus 
+            };
+            
+            if(id) {
+                // Nếu là sửa file, không được đè lại timestamp cũ để file không bị nhảy thứ tự lung tung
+                db.collection("documents").doc(id).update(payload).then(() => { document.getElementById('docForm').style.display='none'; });
+            } else {
+                // Nếu là thêm file mới
+                payload.timestamp = firebase.firestore.FieldValue.serverTimestamp();
+                db.collection("documents").add(payload).then(() => { document.getElementById('docForm').style.display='none'; });
+            }
         }
+
         function fetchDocs() {
             const pendBox = document.getElementById('pendingDocsContainer');
             const apprBox = document.getElementById('approvedDocsContainer');
+            
+            // XÓA ĐIỀU KIỆN WHERE ĐỂ LẤY TOÀN BỘ RỒI LỌC BẰNG JAVASCRIPT (TRÁNH LỖI INDEX FIREBASE)
             db.collection("documents").orderBy("timestamp", "desc").onSnapshot(snapshot => {
                 pendBox.innerHTML = ''; apprBox.innerHTML = ''; let hasPend = false;
                 snapshot.forEach(doc => {
                     const d = doc.data();
                     if(d.status === 'PENDING') {
                         hasPend = true;
-                        pendBox.innerHTML += `<div class="approval-card"><div class="approval-info"><h4><i class="fas fa-file"></i> ${d.name}</h4><a href="${d.link}" target="_blank" style="font-size:12px; color:var(--secondary); text-decoration:underline;">Mở xem Link Drive</a></div><div class="approval-actions"><button class="btn-success" onclick="approveDoc('${doc.id}')">Duyệt File</button> <button class="btn-delete" onclick="deleteDoc('${doc.id}')">Xóa</button></div></div>`;
-                    } else {
-                        apprBox.innerHTML += `<div class="list-item" style="padding:15px;"><div style="width:40px; height:40px; background:#f1f5f9; color:var(--primary); display:flex; justify-content:center; align-items:center; border-radius:8px; font-size:18px;"><i class="fas fa-folder"></i></div><div class="list-item-content"><h3 style="margin:0;">${d.name}</h3><a href="${d.link}" target="_blank" style="font-size:12px; color:var(--text-muted);">Link Drive gốc</a></div><div><button class="btn-edit" onclick="editDoc('${doc.id}', '${d.name}', '${d.link}')">Sửa</button> <button class="btn-delete" onclick="deleteDoc('${doc.id}')">Xóa</button></div></div>`;
+                        // THÊM NÚT SỬA VÀO FILE CHỜ DUYỆT
+                        pendBox.innerHTML += `
+                            <div class="approval-card">
+                                <div class="approval-info"><h4><i class="fas fa-file"></i> ${d.name}</h4><a href="${d.link}" target="_blank" style="font-size:12px; color:var(--secondary); text-decoration:underline;">Mở xem Link Drive</a></div>
+                                <div class="approval-actions">
+                                    <button class="btn-success" onclick="approveDoc('${doc.id}')">Duyệt File</button> 
+                                    <button class="btn-edit" onclick="editDoc('${doc.id}', '${d.name}', '${d.link}', 'PENDING')">Sửa</button> 
+                                    <button class="btn-delete" onclick="deleteDoc('${doc.id}')">Xóa</button>
+                                </div>
+                            </div>`;
+                    } else if(d.status === 'APPROVED') {
+                        apprBox.innerHTML += `
+                            <div class="list-item" style="padding:15px;">
+                                <div style="width:40px; height:40px; background:#f1f5f9; color:var(--primary); display:flex; justify-content:center; align-items:center; border-radius:8px; font-size:18px;"><i class="fas fa-folder"></i></div>
+                                <div class="list-item-content"><h3 style="margin:0;">${d.name}</h3><a href="${d.link}" target="_blank" style="font-size:12px; color:var(--text-muted);">Link Drive gốc</a></div>
+                                <div>
+                                    <button class="btn-edit" onclick="editDoc('${doc.id}', '${d.name}', '${d.link}', 'APPROVED')">Sửa</button> 
+                                    <button class="btn-delete" onclick="deleteDoc('${doc.id}')">Xóa</button>
+                                </div>
+                            </div>`;
                     }
                 });
                 if(!hasPend) pendBox.innerHTML = '<p style="color: #b45309; font-size: 13px;">Không có tài liệu nào chờ duyệt.</p>';
             });
         }
         function approveDoc(id) { db.collection("documents").doc(id).update({status: 'APPROVED'}); }
-        function editDoc(id, n, l) { openDocForm(); document.getElementById('d_id').value=id; document.getElementById('d_name').value=n; document.getElementById('d_link').value=l; }
+        
+        function editDoc(id, n, l, currentStatus) { 
+            openDocForm(); 
+            document.getElementById('d_id').value=id; 
+            document.getElementById('d_name').value=n; 
+            document.getElementById('d_link').value=l; 
+            document.getElementById('d_status').value=currentStatus; // Giữ nguyên trạng thái PENDING hoặc APPROVED
+        }
+        
         function deleteDoc(id) { if(confirm("Xóa tài liệu này khỏi kho?")) db.collection("documents").doc(id).delete(); }
 
+        // CÁC HÀM CŨ GIỮ NGUYÊN...
         function loadAboutSectionsForAdmin() {
             const container = document.getElementById('aboutListContainer');
             db.collection("about_sections").orderBy("order", "asc").onSnapshot((snapshot) => {

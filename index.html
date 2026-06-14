@@ -618,7 +618,7 @@
         }
 
         function renderSystem() {
-            // Lọc Cấp 1 đến 5 cho các vị trí Lãnh đạo
+            // Lọc Cấp 1 đến 5 cho các vị trí Lãnh đạo để hiển thị ở Tab Ban Chủ Nhiệm
             const boardLevel1to3 = globalMembers.filter(m => m.roleLevel <= 3 && m.status !== 'ALUMNI');
             const boardLevel4 = globalMembers.filter(m => m.roleLevel === 4 && m.status !== 'ALUMNI');
             const boardLevel5 = globalMembers.filter(m => m.roleLevel === 5 && m.status !== 'ALUMNI');
@@ -629,9 +629,10 @@
             document.getElementById('boardRow2').innerHTML = boardLevel4.map(createBoardCard).join('');
             document.getElementById('boardRow3').innerHTML = boardLevel5.map(createBoardCard).join('');
 
-            // Lọc CHỈ CẤP 6 (Thành viên/CTV/Cựu) để cho vào Tab Thành Viên CLB
-            const activeMems = globalMembers.filter(m => m.status === 'ACTIVE' && m.roleLevel === 6).sort(() => Math.random() - 0.5);
-            const ctvMems = globalMembers.filter(m => m.status === 'CTV' && m.roleLevel === 6).sort(() => Math.random() - 0.5);
+            // HIỂN THỊ TAB THÀNH VIÊN - GOM TẤT CẢ (LÃNH ĐẠO + THÀNH VIÊN) VÀ XẾP NGẪU NHIÊN
+            // Chỉ cần status là 'ACTIVE', không phân biệt roleLevel nữa
+            const activeMems = globalMembers.filter(m => m.status === 'ACTIVE').sort(() => Math.random() - 0.5);
+            const ctvMems = globalMembers.filter(m => m.status === 'CTV').sort(() => Math.random() - 0.5);
             const alumniMems = globalMembers.filter(m => m.status === 'ALUMNI').sort(() => Math.random() - 0.5);
 
             document.getElementById('c-tv').innerText = activeMems.length;

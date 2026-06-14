@@ -480,17 +480,19 @@
             loadDeptDescriptions();
         });
 
-        // HÀM CẬP NHẬT LƯỢT TRUY CẬP (BASE: 50.000)
+        // HÀM CẬP NHẬT LƯỢT TRUY CẬP ĐỒNG BỘ QUA FIRESTORE
         function updatePageViews() {
-            const BASE_VIEWS = 50000;
-            let currentViews = localStorage.getItem('lscm_page_views');
-            if(!currentViews) {
-                currentViews = BASE_VIEWS + 1;
-            } else {
-                currentViews = parseInt(currentViews) + 1;
-            }
-            localStorage.setItem('lscm_page_views', currentViews);
-            document.getElementById('pageViews').innerText = currentViews.toLocaleString('en-US'); // Hiển thị có dấu phẩy
+            const pageViewsRef = db.collection('site_settings').doc('page_views');
+            pageViewsRef.set({ views: firebase.firestore.FieldValue.increment(1) }, { merge: true })
+                .catch(err => console.error('Không thể cập nhật lượt truy cập:', err));
+        }
+        function watchPageViews() {
+            const FAKE_OFFSET = 51430;
+            const pageViewsRef = db.collection('site_settings').doc('page_views');
+            pageViewsRef.onSnapshot(doc => {
+                const storedViews = doc.exists && typeof doc.data().views === 'number' ? doc.data().views : 0;
+                document.getElementById('pageViews').innerText = (storedViews + FAKE_OFFSET).toLocaleString('en-US');
+            }, err => console.error('Lỗi đọc lượt truy cập:', err));
         }
 
         function switchTab(tabId, btnElement) {
@@ -643,8 +645,8 @@
                     }
                 });
 
-                // Nếu bài viết không có ảnh nào bên trong đoạn văn, thì lấy ảnh bìa (article.image) chèn lên đầu tiên
-                if(!formattedHtml.includes('<img')) {
+                // Luôn hiển thị ảnh tiêu đề chính ở đầu bài viết nếu có
+                if(article.image) {
                     formattedHtml = `<img src="${article.image}" alt="Cover">` + formattedHtml;
                 }
 

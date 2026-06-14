@@ -532,7 +532,7 @@
                 container.innerHTML = '';
                 snapshot.forEach(doc => {
                     const n = doc.data(); const dParts = n.date.split('-'); const displayDate = `${dParts[2]}/${dParts[1]}/${dParts[0]}`;
-                    container.innerHTML += `<div class="list-item"><img src="${n.image}" onerror="this.src='https://via.placeholder.com/80'"><div class="list-item-content"><h3>${n.title}</h3><span style="font-size:12px; font-weight:800; color:var(--primary); background:#ecfdf5; padding:3px 8px; border-radius:4px;"><i class="far fa-calendar"></i> ${displayDate}</span><p style="margin-top:5px; max-height:45px; overflow:hidden;">${n.desc}</p></div><div><button class="btn-edit" onclick="editNews('${doc.id}', '${n.title}', '${n.date}', '${n.image}', '${n.desc.replace(/'/g, "\\'")}')">Sửa</button> <button class="btn-delete" onclick="deleteNews('${doc.id}')">Xóa</button></div></div>`;
+                    container.innerHTML += `<div class="list-item"><img src="${n.image}" onerror="this.src='https://via.placeholder.com/80'"><div class="list-item-content"><h3>${n.title}</h3><span style="font-size:12px; font-weight:800; color:var(--primary); background:#ecfdf5; padding:3px 8px; border-radius:4px;"><i class="far fa-calendar"></i> ${displayDate}</span><p style="margin-top:5px; max-height:45px; overflow:hidden;">${n.desc}</p></div><div><button class="btn-edit" onclick='editNews(${JSON.stringify(doc.id)}, ${JSON.stringify(n.title)}, ${JSON.stringify(n.date)}, ${JSON.stringify(n.image)}, ${JSON.stringify(n.desc)})'>Sửa</button> <button class="btn-delete" onclick="deleteNews('${doc.id}')">Xóa</button></div></div>`;
                 });
             });
         }

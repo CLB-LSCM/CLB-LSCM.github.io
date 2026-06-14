@@ -77,11 +77,13 @@
         @media(max-width: 600px) {
             /* Biến bảng danh sách thành luồng cuộn ngang mượt mà */
             .board-grid-4 {
-                grid-template-columns: none; /* Bỏ ép buộc 1 cột đứng */
+                grid-template-columns: unset; /* Bỏ ép buộc 1 cột đứng */
                 grid-auto-flow: column;     /* Ép các thẻ xếp thành 1 hàng ngang duy nhất */
                 grid-auto-columns: 75%;     /* Mỗi thẻ chiếm 75% màn hình để lộ một phần thẻ tiếp theo (kích thích vuốt) */
                 gap: 15px;                  /* Khoảng cách giữa các thẻ */
                 overflow-x: auto;           /* Kích hoạt tính năng cuộn ngang */
+                width: 100%;                /* Đảm bảo chiếm toàn bộ chiều rộng để cuộn */
+                max-width: none;            /* Xóa ràng buộc max-width từ rule phía trên */
                 padding: 10px 20px 20px;    /* Tạo khoảng trống bên dưới tránh bị sát cạnh */
                 scroll-snap-type: x mandatory; /* Hiệu ứng khựng: Vuốt phát nào ăn phát nấy, tự động căn giữa thẻ */
                 -webkit-overflow-scrolling: touch; /* Giúp vuốt siêu mượt trên điện thoại iPhone/iOS */
@@ -90,6 +92,7 @@
             /* Bổ sung hiệu ứng dừng cho từng thẻ khi vuốt */
             .board-card {
                 scroll-snap-align: start;
+                min-width: 75%;             /* Đảm bảo mỗi card có kích thước cố định */
             }
 
             /* Ẩn thanh cuộn xấu xí của trình duyệt di động để nhìn web gọn gàng hơn */
@@ -207,9 +210,6 @@
         .member-form-box input:focus, .member-form-box textarea:focus { border-color: var(--primary); outline: none; }
         .member-form-box button { width: 100%; background: var(--primary); color: white; border: none; padding: 12px; border-radius: 10px; font-weight: 800; font-size: 14px; cursor: pointer; transition: 0.3s; margin-top: 10px;}
         
-        /* BỘ ĐẾM VIEW TRUY CẬP */
-
-
         /* FOOTER */
         footer { background: white; border-top: 1px solid var(--border-color); padding: 30px 5%; margin-top: 50px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;}
         .footer-text p { color: var(--text-muted); font-size: 14px; font-weight: 600; margin-bottom: 5px; }
@@ -423,7 +423,7 @@
 
     <footer>
         <div class="footer-text">
-            <p>© 2026 Bản quyền thuộc về Câu lạc bộ Logistics & Quản lý Chuỗi cung ứng (LSCM)</p>
+            <p>© 2026 Bản quyền thuộc về Câu lạc bộ Logistics & Quản lý Chuỗi cung ứng HUNRE - LSCM</p>
             <p style="font-size: 13px; font-weight: 500;">Khoa Kinh tế - Trường Đại học Tài nguyên và Môi trường Hà Nội</p>
         </div>
         <div class="footer-logos">

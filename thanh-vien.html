@@ -74,7 +74,29 @@
         /* BẢNG CHỦ NHIỆM CHUNG */
         .board-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; max-width: 1200px; margin: auto; padding: 0 20px; }
         @media(max-width: 1024px) { .board-grid-4 { grid-template-columns: repeat(2, 1fr); } }
-        @media(max-width: 600px) { .board-grid-4 { grid-template-columns: 1fr; } }
+        @media(max-width: 600px) {
+            /* Biến bảng danh sách thành luồng cuộn ngang mượt mà */
+            .board-grid-4 {
+                grid-template-columns: none; /* Bỏ ép buộc 1 cột đứng */
+                grid-auto-flow: column;     /* Ép các thẻ xếp thành 1 hàng ngang duy nhất */
+                grid-auto-columns: 75%;     /* Mỗi thẻ chiếm 75% màn hình để lộ một phần thẻ tiếp theo (kích thích vuốt) */
+                gap: 15px;                  /* Khoảng cách giữa các thẻ */
+                overflow-x: auto;           /* Kích hoạt tính năng cuộn ngang */
+                padding: 10px 20px 20px;    /* Tạo khoảng trống bên dưới tránh bị sát cạnh */
+                scroll-snap-type: x mandatory; /* Hiệu ứng khựng: Vuốt phát nào ăn phát nấy, tự động căn giữa thẻ */
+                -webkit-overflow-scrolling: touch; /* Giúp vuốt siêu mượt trên điện thoại iPhone/iOS */
+            }
+
+            /* Bổ sung hiệu ứng dừng cho từng thẻ khi vuốt */
+            .board-card {
+                scroll-snap-align: start;
+            }
+
+            /* Ẩn thanh cuộn xấu xí của trình duyệt di động để nhìn web gọn gàng hơn */
+            .board-grid-4::-webkit-scrollbar {
+                display: none;
+            }
+        }
         .board-card { background: white; border-radius: 20px; overflow: hidden; border: 1px solid var(--border-color); text-align: center; padding-bottom: 20px; cursor: pointer; transition: var(--transition);}
         .board-card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(0,0,0,0.08); border-color: var(--primary); }
         .bc-img { width: 100%; height: 260px; object-fit: cover; border-bottom: 4px solid var(--primary); }
@@ -186,8 +208,7 @@
         .member-form-box button { width: 100%; background: var(--primary); color: white; border: none; padding: 12px; border-radius: 10px; font-weight: 800; font-size: 14px; cursor: pointer; transition: 0.3s; margin-top: 10px;}
         
         /* BỘ ĐẾM VIEW TRUY CẬP */
-        .view-counter-box { text-align: center; margin-top: 40px; padding: 20px; border-top: 1px dashed var(--border-color); }
-        .view-counter-number { font-size: 24px; font-weight: 900; color: var(--secondary); display: inline-flex; align-items: center; gap: 10px; background: rgba(245, 158, 11, 0.1); padding: 5px 20px; border-radius: 30px; letter-spacing: 2px;}
+
 
         /* FOOTER */
         footer { background: white; border-top: 1px solid var(--border-color); padding: 30px 5%; margin-top: 50px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;}
@@ -397,10 +418,7 @@
             </div>
         </section>
 
-        <div class="view-counter-box">
-            <p style="font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase;">Tổng Lượt Truy Cập</p>
-            <div class="view-counter-number"><i class="fas fa-chart-line"></i> <span id="pageViews">50,000</span></div>
-        </div>
+
     </main>
 
     <footer>
@@ -512,7 +530,6 @@
 
         document.addEventListener("DOMContentLoaded", function() {
             setTimeout(() => { document.getElementById('preloader').style.display = 'none'; }, 500);
-            updatePageViews(); // Gọi hàm tăng view
 
             // Kiểm tra Auth: Chỉ chạy khi chắc chắn đã đăng nhập
             auth.onAuthStateChanged(user => {
@@ -533,20 +550,6 @@
             });
         });
 
-        // HÀM CẬP NHẬT LƯỢT TRUY CẬP ĐỒNG BỘ QUA FIRESTORE
-        function updatePageViews() {
-            const pageViewsRef = db.collection('site_settings').doc('page_views');
-            pageViewsRef.set({ views: firebase.firestore.FieldValue.increment(1) }, { merge: true })
-                .catch(err => console.error('Không thể cập nhật lượt truy cập:', err));
-        }
-        function watchPageViews() {
-            const FAKE_OFFSET = 51430;
-            const pageViewsRef = db.collection('site_settings').doc('page_views');
-            pageViewsRef.onSnapshot(doc => {
-                const storedViews = doc.exists && typeof doc.data().views === 'number' ? doc.data().views : 0;
-                document.getElementById('pageViews').innerText = (storedViews + FAKE_OFFSET).toLocaleString('en-US');
-            }, err => console.error('Lỗi đọc lượt truy cập:', err));
-        }
 
         function handleLogout() {
             if(confirm("Bạn muốn đăng xuất khỏi hệ thống?")) {

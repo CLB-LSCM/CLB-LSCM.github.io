@@ -235,6 +235,18 @@
                 </div>
             </div>
 
+            <div id="dynamic-about-container">
+                <p style="text-align: center; padding: 50px; color: gray;">Đang kết nối hệ thống...</p>
+            </div>
+
+            <div class="sec-header">
+                <h2 class="sec-title">Ban Chủ Nhiệm</h2>
+                <div class="sec-line"></div>
+            </div>
+            <div class="board-grid-4" id="homeBoardContainer">
+                <p style="text-align: center; grid-column: 1/-1; color: gray;">Đang tải danh sách...</p>
+            </div>
+
             <div class="contact-section" id="contact-area">
                 <div class="contact-box">
                     <div class="contact-left">
@@ -361,17 +373,15 @@
         </section>
     </main>
 
-    <!-- FOOTER MỚI VỚI 3 LOGO -->
     <footer>
         <div class="footer-text">
             <p>© 2026 Bản quyền thuộc về Câu lạc bộ Logistics & Quản lý Chuỗi cung ứng HUNRE - LSCM</p>
             <p style="font-size: 13px; font-weight: 500;">Khoa Kinh tế - Trường Đại học Tài nguyên và Môi trường Hà Nội</p>
         </div>
         <div class="footer-logos">
-            <!-- Đã sửa lại đúng tên file trong ảnh bạn gửi -->
-            <img src="images/logoTRUONG.jpg" alt="HUNRE Logo" title="Trường Đại học Tài nguyên và Môi trường Hà Nội" onerror="this.src='https://via.placeholder.com/55'">
-            <img src="LogoKKT copy.jpg" alt="Khoa Kinh Tế Logo" title="Khoa Kinh tế - HUNRE" onerror="this.src='https://via.placeholder.com/55'">
-            <img src="images/logo.jpg" alt="LSCM Logo" title="CLB LSCM" onerror="this.src='https://via.placeholder.com/55'">
+            <img src="images/logoTRUONG.jpg?v=2" alt="HUNRE Logo" title="Trường Đại học Tài nguyên và Môi trường Hà Nội" onerror="this.src='https://via.placeholder.com/55'">
+            <img src="images/LogoKKT.jpg?v=2" alt="Khoa Kinh Tế Logo" title="Khoa Kinh tế - HUNRE" onerror="this.src='https://via.placeholder.com/55'">
+            <img src="images/logo.jpg?v=2" alt="LSCM Logo" title="CLB LSCM" onerror="this.src='https://via.placeholder.com/55'">
         </div>
     </footer>
 
@@ -401,7 +411,7 @@
 
             <div style="display: flex; background: var(--page-bg); border-radius: 8px; padding: 4px; margin-bottom: 20px;">
                 <button id="btnRoleMem" class="role-btn active" style="flex:1; padding:10px; border:none; border-radius:6px; font-weight:700; font-size:12px; cursor:pointer; background:var(--primary); color:white;" onclick="selectLoginRole('member')">Thành Viên</button>
-                <button id="btnRoleAdm" class="role-btn" style="flex:1; padding:10px; border:none; border-radius:6px; font-weight:700; font-size:12px; cursor:pointer; background:transparent; color:var(--text-muted);" onclick="selectLoginRole('admin')">Chủ Nhiệm</button>
+                <button id="btnRoleAdm" class="role-btn" style="flex:1; padding:10px; border:none; border-radius:6px; font-weight:700; font-size:12px; cursor:pointer; background:transparent; color:var(--text-muted);" onclick="selectLoginRole('admin')">Ban Chủ Nhiệm</button>
             </div>
 
             <input type="email" id="loginUser" placeholder="Email đăng nhập...">
@@ -585,6 +595,13 @@
                     m.id = doc.id;
                     globalMembers.push(m);
                 });
+                
+                // Sắp xếp tăng dần theo RoleLevel, nếu bằng nhau thì xếp theo Ban
+                globalMembers.sort((a, b) => {
+                    if (a.roleLevel !== b.roleLevel) return a.roleLevel - b.roleLevel;
+                    return a.ban.localeCompare(b.ban);
+                });
+
                 renderSystem();
             });
         }
@@ -601,19 +618,20 @@
         }
 
         function renderSystem() {
+            // Lọc Cấp 1 đến 5 cho các vị trí Lãnh đạo
             const boardLevel1to3 = globalMembers.filter(m => m.roleLevel <= 3 && m.status !== 'ALUMNI');
             const boardLevel4 = globalMembers.filter(m => m.roleLevel === 4 && m.status !== 'ALUMNI');
             const boardLevel5 = globalMembers.filter(m => m.roleLevel === 5 && m.status !== 'ALUMNI');
 
-            // Hiển thị ở Tab 1 (Home) & Tab 2 (Ban Chủ Nhiệm)
+            // Gán vào giao diện Ban Chủ Nhiệm
             document.getElementById('homeBoardContainer').innerHTML = boardLevel1to3.slice(0,4).map(createBoardCard).join('');
             document.getElementById('boardRow1').innerHTML = boardLevel1to3.map(createBoardCard).join('');
             document.getElementById('boardRow2').innerHTML = boardLevel4.map(createBoardCard).join('');
             document.getElementById('boardRow3').innerHTML = boardLevel5.map(createBoardCard).join('');
 
-            // Hiển thị Tab 4 (Danh sách Thành Viên) - loại bỏ Ban Chủ Nhiệm (roleLevel 1-5)
-            const activeMems = globalMembers.filter(m => m.status === 'ACTIVE' && m.roleLevel >= 6).sort(() => Math.random() - 0.5);
-            const ctvMems = globalMembers.filter(m => m.status === 'CTV').sort(() => Math.random() - 0.5);
+            // Lọc CHỈ CẤP 6 (Thành viên/CTV/Cựu) để cho vào Tab Thành Viên CLB
+            const activeMems = globalMembers.filter(m => m.status === 'ACTIVE' && m.roleLevel === 6).sort(() => Math.random() - 0.5);
+            const ctvMems = globalMembers.filter(m => m.status === 'CTV' && m.roleLevel === 6).sort(() => Math.random() - 0.5);
             const alumniMems = globalMembers.filter(m => m.status === 'ALUMNI').sort(() => Math.random() - 0.5);
 
             document.getElementById('c-tv').innerText = activeMems.length;

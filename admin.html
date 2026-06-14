@@ -422,7 +422,25 @@
         const secondaryApp = firebase.initializeApp(firebaseConfig, "SecondaryApp");
 
         const userRole = localStorage.getItem('userRole');
-        if (userRole !== 'ADMIN') { alert("Truy cập bị từ chối!"); window.location.href = 'index.html'; }
+        if (userRole !== 'ADMIN') {
+            alert("Truy cập bị từ chối!");
+            window.location.href = 'index.html';
+        }
+
+        auth.onAuthStateChanged(user => {
+            if (!user) {
+                alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
+                localStorage.clear();
+                window.location.href = 'index.html';
+                return;
+            }
+            if (user.email !== 'chunhiem@lscm.vn') {
+                alert("Tài khoản này không có quyền admin. Vui lòng đăng nhập lại bằng tài khoản Ban Chủ Nhiệm.");
+                auth.signOut();
+                localStorage.clear();
+                window.location.href = 'index.html';
+            }
+        });
 
         function switchTab(tabId, element) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
@@ -601,33 +619,35 @@
             }
         }
         function deleteMember(id) {
-            if(confirm("Xóa vĩnh viễn hồ sơ này? (Sẽ xóa cả tài khoản Auth)")) {
-                // Lấy email của người dùng trước
-                db.collection("members").doc(id).get().then(doc => {
-                    if(!doc.exists) return alert("Không tìm thấy hồ sơ!");
-                    
-                    const email = doc.data().email;
-                    
-                    if(!email) {
-                        // Nếu không có email, chỉ xóa hồ sơ Firestore
-                        return db.collection("members").doc(id).delete().then(fetchMembers);
-                    }
-                    
-                    // Gọi Cloud Function để xóa tài khoản Auth
-                    const deleteUserByEmail = firebase.functions().httpsCallable('deleteUserByEmail');
-                    deleteUserByEmail({ email: email }).then(result => {
+            if(!confirm("Xóa vĩnh viễn hồ sơ này? (Sẽ xóa cả tài khoản Auth)")) return;
+
+            db.collection("members").doc(id).get().then(doc => {
+                if(!doc.exists) return alert("Không tìm thấy hồ sơ!");
+                const email = doc.data().email;
+
+                if(!email) {
+                    return db.collection("members").doc(id).delete().then(() => {
+                        alert("Đã xóa hồ sơ Firestore thành công.");
+                        fetchMembers();
+                    });
+                }
+
+                const deleteUserByEmail = functions.httpsCallable('deleteUserByEmail');
+                deleteUserByEmail({ email: email })
+                    .then(result => {
                         console.log('Xóa tài khoản auth thành công:', result.data);
-                        // Xóa hồ sơ Firestore
                         return db.collection("members").doc(id).delete();
-                    }).then(() => {
+                    })
+                    .then(() => {
                         alert("Đã xóa hồ sơ và tài khoản auth thành công!");
                         fetchMembers();
-                    }).catch(error => {
+                    })
+                    .catch(error => {
                         console.error('Lỗi xóa:', error);
-                        alert("Lỗi: " + (error.message || error));
+                        const message = error && error.message ? error.message : 'Không thể xóa tài khoản. Kiểm tra Cloud Function hoặc đăng nhập Firebase.';
+                        alert("Lỗi: " + message);
                     });
-                }).catch(err => alert("Lỗi lấy dữ liệu: " + err.message));
-            }
+            }).catch(err => alert("Lỗi lấy dữ liệu: " + err.message));
         }
 
         // ==========================================

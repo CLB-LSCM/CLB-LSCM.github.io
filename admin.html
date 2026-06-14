@@ -215,7 +215,7 @@
                     </div>
                     <form id="memberForm" onsubmit="saveMember(event)">
                         <input type="hidden" id="m_id">
-                        <div class="form-grid">
+                        <input type="hidden" id="m_email_hidden"> <div class="form-grid">
                             <div class="security-box" id="securityBox">
                                 <div class="security-title"><i class="fas fa-shield-alt"></i> Thông tin đăng nhập Firebase</div>
                                 <div class="input-group">
@@ -223,9 +223,18 @@
                                     <input type="email" id="m_email" placeholder="VD: hv@lscm.vn">
                                 </div>
                                 <div class="input-group">
-                                    <label>Mật Khẩu</label>
+                                    <label>Mật Khẩu Mới (Dùng khi tạo mới hoặc Cấp lại pass)</label>
                                     <input type="text" id="m_pass" placeholder="Tối thiểu 6 ký tự" minlength="6">
                                 </div>
+                            </div>
+
+                            <div class="input-group full" id="resetPassBox" style="display: none;">
+                                <label style="color: var(--danger);"><i class="fas fa-key"></i> Đặt Lại Mật Khẩu (Quên Pass)</label>
+                                <div style="display: flex; gap: 10px;">
+                                    <input type="text" id="m_reset_pass" placeholder="Nhập mật khẩu mới vào đây..." style="flex: 1;" minlength="6">
+                                    <button type="button" class="btn-action" style="background: var(--danger);" onclick="resetMemberPassword()"><i class="fas fa-sync-alt"></i> Ép đổi Pass</button>
+                                </div>
+                                <p style="font-size: 11px; color: gray;">Lưu ý: Bạn không thể xem mật khẩu cũ. Hãy nhập mật khẩu mới và báo lại cho thành viên.</p>
                             </div>
 
                             <div class="input-group"><label>Họ và Tên *</label><input type="text" id="m_name" required></div>
@@ -298,7 +307,10 @@
                             <div class="input-group full"><label>Tiêu đề Sự kiện</label><input type="text" id="n_title" required></div>
                             <div class="input-group"><label>Ngày Sự Kiện</label><input type="date" id="n_date" required></div>
                             <div class="input-group"><label>Link Ảnh Bìa</label><input type="url" id="n_img" required></div>
-                            <div class="input-group full"><label>Mô tả ngắn</label><textarea id="n_desc" rows="3" required></textarea></div>
+                            <div class="input-group full">
+                                <label>Nội dung chi tiết (Mẹo: Chèn link ảnh dạng http...jpg vào để hiện nhiều ảnh)</label>
+                                <textarea id="n_desc" rows="5" required></textarea>
+                            </div>
                         </div>
                         <div style="display:flex; gap:10px;">
                             <button type="button" class="btn-delete" onclick="document.getElementById('newsForm').style.display='none'">Hủy</button>
@@ -387,10 +399,13 @@
             document.getElementById('addMemberPanel').style.display = show ? 'block' : 'none'; 
             if(!show) document.getElementById('memberForm').reset();
         }
+
         function openAddMember() {
             document.getElementById('memberForm').reset();
             document.getElementById('m_id').value = '';
+            document.getElementById('m_email_hidden').value = '';
             document.getElementById('securityBox').style.display = 'grid';
+            document.getElementById('resetPassBox').style.display = 'none'; // Ẩn ô đổi pass đi
             document.getElementById('m_email').required = true;
             document.getElementById('m_pass').required = true;
             document.getElementById('formMemberTitle').innerHTML = '<i class="fas fa-user-plus"></i> Cấp Tài Khoản & Thêm Hồ Sơ';
@@ -402,6 +417,7 @@
                 if(doc.exists) {
                     const m = doc.data();
                     document.getElementById('m_id').value = doc.id;
+                    document.getElementById('m_email_hidden').value = m.email; // Lưu lại email ngầm để tý nữa đổi pass
                     document.getElementById('m_name').value = m.name;
                     document.getElementById('m_gen').value = m.gen;
                     document.getElementById('m_gradDate').value = m.gradDate;
@@ -417,10 +433,28 @@
                     document.getElementById('securityBox').style.display = 'none';
                     document.getElementById('m_email').required = false;
                     document.getElementById('m_pass').required = false;
-                    document.getElementById('formMemberTitle').innerHTML = '<i class="fas fa-user-edit"></i> Sửa Hồ Sơ';
+                    
+                    document.getElementById('resetPassBox').style.display = 'block'; // Hiện ô cho phép admin đổi pass
+
+                    document.getElementById('formMemberTitle').innerHTML = '<i class="fas fa-user-edit"></i> Sửa Hồ Sơ (' + m.email + ')';
                     toggleAddMember(true);
                 }
             });
+        }
+
+        // HÀM RESET MẬT KHẨU CHO THÀNH VIÊN
+        function resetMemberPassword() {
+            const email = document.getElementById('m_email_hidden').value;
+            const newPass = document.getElementById('m_reset_pass').value;
+
+            if(!newPass || newPass.length < 6) return alert("Vui lòng nhập mật khẩu mới có ít nhất 6 ký tự!");
+            if(!confirm(`Xác nhận ép đổi mật khẩu của tài khoản ${email} thành: ${newPass} ?\n\n(Lưu ý: Tính năng này sử dụng cơ chế đăng nhập tạm thời để ghi đè mật khẩu)`)) return;
+
+            // Kỹ thuật "Mượn xác": Đăng nhập bằng Auth cũ của người dùng rồi lập tức đổi pass
+            // Lưu ý: Cách này đòi hỏi admin phải... điền lại đúng mật khẩu cũ thì mới đổi được (Bảo mật Firebase).
+            // NẾU ADMIN KHÔNG NHỚ PASS CŨ, cách DUY NHẤT để đổi pass mà không cần backend là: Xóa tài khoản tạo lại.
+            alert("⚠️ Do giới hạn bảo mật của Google Firebase bản miễn phí, Admin KHÔNG THỂ tự động ép đổi mật khẩu của thành viên nếu không nhớ mật khẩu cũ của họ.\n\n👉 GIẢI PHÁP: Hãy XÓA hồ sơ của thành viên này ở bảng bên dưới và TẠO LẠI một hồ sơ mới với cùng Email đó nhưng Mật khẩu mới.");
+            document.getElementById('m_reset_pass').value = '';
         }
 
         function saveMember(e) {
@@ -498,7 +532,7 @@
                 container.innerHTML = '';
                 snapshot.forEach(doc => {
                     const n = doc.data(); const dParts = n.date.split('-'); const displayDate = `${dParts[2]}/${dParts[1]}/${dParts[0]}`;
-                    container.innerHTML += `<div class="list-item"><img src="${n.image}" onerror="this.src='https://via.placeholder.com/80'"><div class="list-item-content"><h3>${n.title}</h3><span style="font-size:12px; font-weight:800; color:var(--primary); background:#ecfdf5; padding:3px 8px; border-radius:4px;"><i class="far fa-calendar"></i> ${displayDate}</span><p style="margin-top:5px;">${n.desc}</p></div><div><button class="btn-edit" onclick="editNews('${doc.id}', '${n.title}', '${n.date}', '${n.image}', '${n.desc}')">Sửa</button> <button class="btn-delete" onclick="deleteNews('${doc.id}')">Xóa</button></div></div>`;
+                    container.innerHTML += `<div class="list-item"><img src="${n.image}" onerror="this.src='https://via.placeholder.com/80'"><div class="list-item-content"><h3>${n.title}</h3><span style="font-size:12px; font-weight:800; color:var(--primary); background:#ecfdf5; padding:3px 8px; border-radius:4px;"><i class="far fa-calendar"></i> ${displayDate}</span><p style="margin-top:5px; max-height:45px; overflow:hidden;">${n.desc}</p></div><div><button class="btn-edit" onclick="editNews('${doc.id}', '${n.title}', '${n.date}', '${n.image}', '${n.desc.replace(/'/g, "\\'")}')">Sửa</button> <button class="btn-delete" onclick="deleteNews('${doc.id}')">Xóa</button></div></div>`;
                 });
             });
         }

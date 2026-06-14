@@ -49,7 +49,8 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         
         .sec-header { text-align: center; margin-bottom: 40px; padding-top: 40px; }
-        .sec-title { font-size: 28px; font-weight: 900; color: var(--text-main); margin-bottom: 10px; text-transform: uppercase;}
+        /* Tùy chỉnh sec-title để có thể chứa badge bên cạnh (cho số lượng thành viên) */
+        .sec-title { font-size: 28px; font-weight: 900; color: var(--text-main); margin-bottom: 10px; text-transform: uppercase; display: flex; justify-content: center; align-items: center; gap: 10px;}
         .sec-line { width: 60px; height: 5px; background: var(--primary); margin: auto; border-radius: 3px; }
 
         /* TAB 1: GIỚI THIỆU (HERO) */
@@ -138,15 +139,25 @@
         .mem-name { font-size: 15px; font-weight: 800; color: var(--text-main); margin-bottom: 5px; }
         .mem-ban { font-size: 11px; color: var(--primary); font-weight: 700; text-transform: uppercase; }
 
-        /* TAB 5: HOẠT ĐỘNG */
+        /* TAB 5: HOẠT ĐỘNG (DẠNG LƯỚI RÚT GỌN) */
         .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: auto; padding: 0 20px;}
-        .news-card { background: white; border-radius: 20px; overflow: hidden; border: 1px solid var(--border-color); transition: var(--transition);}
+        .news-card { background: white; border-radius: 20px; overflow: hidden; border: 1px solid var(--border-color); transition: var(--transition); cursor: pointer;}
         .news-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.08);}
         .news-img-box { position: relative; width: 100%; height: 220px; }
         .news-img { width: 100%; height: 100%; object-fit: cover; }
         .news-date-badge { position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.95); color: var(--primary-dark); padding: 6px 12px; border-radius: 10px; font-size: 12px; font-weight: 800; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 6px;}
         .news-info { padding: 25px; }
         .news-title { font-size: 20px; font-weight: 800; margin-bottom: 10px; line-height: 1.3;}
+        .news-desc-short { font-size: 14px; color: var(--text-muted); line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+        /* MODAL BÀI BÁO CHI TIẾT (XEM TOÀN BỘ SỰ KIỆN) */
+        .article-modal { background: white; width: 100%; max-width: 800px; border-radius: 24px; position: relative; transform: translateY(30px); transition: transform 0.3s; overflow: hidden; max-height: 90vh; display: flex; flex-direction: column;}
+        .modal-overlay.show .article-modal { transform: translateY(0); }
+        .article-header { padding: 25px 30px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; background: white;}
+        .article-header h2 { font-size: 22px; font-weight: 900; color: var(--primary); }
+        .article-body { padding: 30px; overflow-y: auto; line-height: 1.8; color: var(--text-main); font-size: 15px; }
+        .article-body img { width: 100%; border-radius: 12px; margin: 20px 0; border: 1px solid var(--border-color); }
+        .article-body p { margin-bottom: 15px; }
 
         /* MODAL HỒ SƠ */
         .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 2000; opacity: 0; transition: opacity 0.3s ease; }
@@ -154,6 +165,8 @@
         .pro-modal { background: white; width: 100%; max-width: 450px; border-radius: 24px; position: relative; transform: translateY(30px); transition: transform 0.3s; overflow: hidden;}
         .modal-overlay.show .pro-modal { transform: translateY(0); }
         .btn-close { position: absolute; top: 15px; right: 15px; font-size: 20px; color: white; cursor: pointer; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2); transition: 0.3s; z-index: 10;}
+        .btn-close.dark { color: var(--text-muted); background: #f1f5f9; position: static; }
+        .btn-close.dark:hover { background: #e2e8f0; color: var(--text-main); }
         .btn-close:hover { background: rgba(0,0,0,0.5); }
         .pro-header { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); padding: 50px 20px 30px; text-align: center; }
         .pro-img { width: 130px; height: 130px; border-radius: 50%; border: 5px solid white; object-fit: cover; margin-top: -85px; position: relative; z-index: 2; background: white; box-shadow: 0 5px 15px rgba(0,0,0,0.1);}
@@ -164,15 +177,19 @@
         .pro-bio { font-size: 14px; color: var(--text-muted); line-height: 1.7; text-align: justify; margin-bottom: 30px;}
         .pro-fb { display: inline-flex; align-items: center; gap: 10px; background: #1877F2; color: white; padding: 12px 30px; border-radius: 25px; font-weight: 700; font-size: 14px; transition: 0.3s; }
 
-        /* FORM DÀNH RIÊNG CHO THÀNH VIÊN SỬA HỒ SƠ & TẢI TÀI LIỆU */
+        /* FORM SỬA HỒ SƠ & TẢI TÀI LIỆU */
         .member-form-box { background: white; width: 100%; max-width: 450px; border-radius: 24px; padding: 30px; position: relative; text-align: left; }
-        .member-form-box .btn-close { background: #f1f5f9; color: var(--text-muted); }
+        .member-form-box .btn-close { position:absolute; top:15px; right:15px; cursor:pointer; background: #f1f5f9; color: var(--text-muted); }
         .member-form-box label { display: block; font-size: 12px; font-weight: 800; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase;}
         .member-form-box input, .member-form-box textarea { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 10px; margin-bottom: 15px; background: var(--page-bg); font-family: inherit; font-size: 14px;}
         .member-form-box input:focus, .member-form-box textarea:focus { border-color: var(--primary); outline: none; }
         .member-form-box button { width: 100%; background: var(--primary); color: white; border: none; padding: 12px; border-radius: 10px; font-weight: 800; font-size: 14px; cursor: pointer; transition: 0.3s; margin-top: 10px;}
         
-        /* FOOTER VỚI 3 LOGO */
+        /* BỘ ĐẾM VIEW TRUY CẬP */
+        .view-counter-box { text-align: center; margin-top: 40px; padding: 20px; border-top: 1px dashed var(--border-color); }
+        .view-counter-number { font-size: 24px; font-weight: 900; color: var(--secondary); display: inline-flex; align-items: center; gap: 10px; background: rgba(245, 158, 11, 0.1); padding: 5px 20px; border-radius: 30px; letter-spacing: 2px;}
+
+        /* FOOTER */
         footer { background: white; border-top: 1px solid var(--border-color); padding: 30px 5%; margin-top: 50px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;}
         .footer-text p { color: var(--text-muted); font-size: 14px; font-weight: 600; margin-bottom: 5px; }
         .footer-logos { display: flex; align-items: center; gap: 15px; }
@@ -336,7 +353,7 @@
 
         <section id="tab-thanh-vien" class="page-tab">
             <div class="sec-header">
-                <h2 class="sec-title">Thành Viên CLB</h2>
+                <h2 class="sec-title">Thành Viên CLB <span class="group-count" id="c-total-mems" style="font-size:16px;">0</span></h2>
                 <div class="sec-line"></div>
             </div>
             <div class="board-container">
@@ -379,6 +396,11 @@
                 <p style="text-align:center; grid-column:1/-1; color: gray;">Đang đồng bộ dữ liệu thư viện...</p>
             </div>
         </section>
+
+        <div class="view-counter-box">
+            <p style="font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase;">Tổng Lượt Truy Cập</p>
+            <div class="view-counter-number"><i class="fas fa-chart-line"></i> <span id="pageViews">50,000</span></div>
+        </div>
     </main>
 
     <footer>
@@ -388,7 +410,7 @@
         </div>
         <div class="footer-logos">
             <img src="images/logoTRUONG.jpg?v=2" alt="HUNRE Logo" title="Trường Đại học Tài nguyên và Môi trường Hà Nội" onerror="this.src='https://via.placeholder.com/55'">
-            <img src="./LogoKKT%20copy.jpg" alt="Khoa Kinh Tế Logo" title="Khoa Kinh tế - HUNRE" onerror="this.src='https://via.placeholder.com/55'">
+            <img src="./LogoKKT%20copy.jpg?v=2" alt="Khoa Kinh Tế Logo" title="Khoa Kinh tế - HUNRE" onerror="this.src='https://via.placeholder.com/55'">
             <img src="images/logo.jpg?v=2" alt="LSCM Logo" title="CLB LSCM" onerror="this.src='https://via.placeholder.com/55'">
         </div>
     </footer>
@@ -410,9 +432,20 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="articleModal" onclick="closeModal(event, 'articleModal')">
+        <div class="article-modal">
+            <div class="article-header">
+                <h2 id="a-title">Tiêu đề bài viết</h2>
+                <span class="btn-close dark" onclick="document.getElementById('articleModal').classList.remove('show')"><i class="fas fa-times"></i></span>
+            </div>
+            <div class="article-body" id="a-body">
+                </div>
+        </div>
+    </div>
+
     <div class="modal-overlay" id="editProfileModal" onclick="closeModal(event, 'editProfileModal')">
         <div class="member-form-box">
-            <span class="btn-close" style="position:absolute; top:15px; right:15px; cursor:pointer;" onclick="document.getElementById('editProfileModal').classList.remove('show')"><i class="fas fa-times"></i></span>
+            <span class="btn-close" onclick="document.getElementById('editProfileModal').classList.remove('show')"><i class="fas fa-times"></i></span>
             <h2 style="font-size: 20px; font-weight: 900; color: var(--primary); margin-bottom: 20px;">CHỈNH SỬA HỒ SƠ CỦA TÔI</h2>
             
             <form onsubmit="saveMyProfile(event)">
@@ -429,10 +462,10 @@
                 <input type="text" id="p_img" required placeholder="VD: https://... hoặc images/avatar.jpg">
                 
                 <hr style="border: 0; border-top: 1px dashed var(--border-color); margin: 20px 0;">
-                <label style="color: var(--danger);"><i class="fas fa-key"></i> Đổi Mật Khẩu Đăng Nhập (Tùy chọn)</label>
-                <input type="password" id="p_newPass" placeholder="Bỏ trống nếu không muốn đổi... (Tối thiểu 6 ký tự)">
-                
-                <button type="submit" id="btnUpdateProfile">Cập Nhật Thông Tin & Mật Khẩu</button>
+                <label style="color: var(--danger);"><i class="fas fa-key"></i> Đổi Mật Khẩu (Tùy chọn)</label>
+                <input type="password" id="p_newPass" placeholder="Bỏ trống nếu không đổi... (Tối thiểu 6 ký tự)">
+
+                <button type="submit" id="btnUpdateProfile">Cập Nhật Thông Tin</button>
             </form>
             <p style="font-size: 11px; color: gray; margin-top: 15px; text-align: center;">Lưu ý: Tên và Chức vụ do Ban Chủ Nhiệm quản lý, bạn không thể tự sửa.</p>
         </div>
@@ -440,7 +473,7 @@
 
     <div class="modal-overlay" id="uploadDocModal" onclick="closeModal(event, 'uploadDocModal')">
         <div class="member-form-box">
-            <span class="btn-close" style="position:absolute; top:15px; right:15px; cursor:pointer;" onclick="document.getElementById('uploadDocModal').classList.remove('show')"><i class="fas fa-times"></i></span>
+            <span class="btn-close" onclick="document.getElementById('uploadDocModal').classList.remove('show')"><i class="fas fa-times"></i></span>
             <h2 style="font-size: 20px; font-weight: 900; color: var(--secondary); margin-bottom: 20px;">ĐÓNG GÓP TÀI LIỆU</h2>
             
             <form onsubmit="saveDoc(event)">
@@ -475,9 +508,11 @@
 
         let currentUserId = null; 
         let globalMembers = [];
+        let globalNews = []; // Biến chứa tất cả tin tức để mở Modal
 
         document.addEventListener("DOMContentLoaded", function() {
             setTimeout(() => { document.getElementById('preloader').style.display = 'none'; }, 500);
+            updatePageViews(); // Gọi hàm tăng view
 
             // Kiểm tra Auth: Chỉ chạy khi chắc chắn đã đăng nhập
             auth.onAuthStateChanged(user => {
@@ -497,6 +532,19 @@
                 }
             });
         });
+
+        // HÀM CẬP NHẬT LƯỢT TRUY CẬP (BASE: 50.000)
+        function updatePageViews() {
+            const BASE_VIEWS = 50000;
+            let currentViews = localStorage.getItem('lscm_page_views');
+            if(!currentViews) {
+                currentViews = BASE_VIEWS + 1;
+            } else {
+                currentViews = parseInt(currentViews) + 1;
+            }
+            localStorage.setItem('lscm_page_views', currentViews);
+            document.getElementById('pageViews').innerText = currentViews.toLocaleString('en-US'); // Hiển thị có dấu phẩy
+        }
 
         function handleLogout() {
             if(confirm("Bạn muốn đăng xuất khỏi hệ thống?")) {
@@ -569,7 +617,7 @@
             }, err => console.warn('Không thể tải mô tả các ban:', err));
         }
 
-        // TẢI "VỀ CHÚNG TÔI" TỪ FIREBASE
+        // TẢI "VỀ CHÚNG TÔI"
         function loadAboutSections() {
             const container = document.getElementById('dynamic-about-container');
             db.collection("about_sections").orderBy("order", "asc").onSnapshot((snapshot) => {
@@ -598,27 +646,38 @@
             });
         }
 
-        // TẢI HOẠT ĐỘNG (NEWS)
+        // TẢI HOẠT ĐỘNG (NEWS) DẠNG MODAL CẮT CHỮ
         function loadPublicNews() {
             const container = document.getElementById('newsPublicContainer');
             db.collection("news").orderBy("date", "desc").onSnapshot(snapshot => {
                 container.innerHTML = '';
+                globalNews = [];
                 if(snapshot.empty) {
                     container.innerHTML = '<p style="text-align:center; grid-column:1/-1;">Chưa có sự kiện nào được đăng.</p>';
                     return;
                 }
                 snapshot.forEach(doc => {
                     const n = doc.data();
+                    n.id = doc.id;
+                    globalNews.push(n);
+
                     const dParts = n.date.split('-'); const displayDate = `${dParts[2]}/${dParts[1]}/${dParts[0]}`;
+                    
+                    // Lọc để lấy bức ảnh ĐẦU TIÊN làm ảnh bìa ngoài thẻ
+                    // Giả sử trong bài viết (desc) Admin có chèn link ảnh dạng http://...png hoặc jpg
+                    let coverImg = n.image; // Mặc định là ảnh cover cũ
+                    
+                    // Giao diện bên ngoài: Cắt chữ ngắn lại (news-desc-short)
                     container.innerHTML += `
-                        <div class="news-card">
+                        <div class="news-card" onclick="openArticle('${n.id}')">
                             <div class="news-img-box">
-                                <img src="${n.image}" class="news-img" onerror="this.src='https://via.placeholder.com/500x300'">
+                                <img src="${coverImg}" class="news-img" onerror="this.src='https://via.placeholder.com/500x300'">
                                 <div class="news-date-badge"><i class="far fa-calendar-alt"></i> ${displayDate}</div>
                             </div>
                             <div class="news-info">
                                 <h3 class="news-title">${n.title}</h3>
-                                <p class="news-desc">${n.desc}</p>
+                                <div class="news-desc-short">${n.desc}</div>
+                                <p style="color: var(--primary); font-size: 13px; font-weight: 800; margin-top: 10px;">Đọc tiếp <i class="fas fa-arrow-right"></i></p>
                             </div>
                         </div>
                     `;
@@ -626,7 +685,44 @@
             });
         }
 
-        // LOGIC TÀI LIỆU (UP & LOAD)
+        // MỞ MODAL ĐỌC TOÀN BỘ BÀI VIẾT (Tự động chuyển link thành ảnh)
+        function openArticle(id) {
+            const article = globalNews.find(x => x.id === id);
+            if(article) {
+                document.getElementById('a-title').innerText = article.title;
+                
+                // Thuật toán: Tìm các link http có đuôi ảnh (jpg, png, jpeg, gif) trong phần nội dung và biến nó thành thẻ <img>
+                let fullContent = article.desc;
+                
+                // Mẹo Regex đơn giản để tìm link ảnh và thay thế thành thẻ <img src="...">
+                const urlRegex = /(https?:\/\/[^\s]+(?:\.jpg|\.jpeg|\.png|\.gif|\.webp))/gi;
+                fullContent = fullContent.replace(urlRegex, function(url) {
+                    return `<img src="${url}" alt="LSCM Image" onerror="this.style.display='none'">`;
+                });
+
+                // Tách các đoạn xuống dòng thành các thẻ <p>
+                const paragraphs = fullContent.split('\n').filter(p => p.trim() !== '');
+                let formattedHtml = '';
+                paragraphs.forEach(p => {
+                    // Nếu đoạn này chứa thẻ img rồi thì không cần bọc thẻ p nữa
+                    if(p.includes('<img')) {
+                        formattedHtml += p;
+                    } else {
+                        formattedHtml += `<p>${p}</p>`;
+                    }
+                });
+
+                // Nếu bài viết không có ảnh nào bên trong đoạn văn, thì lấy ảnh bìa (article.image) chèn lên đầu tiên
+                if(!formattedHtml.includes('<img')) {
+                    formattedHtml = `<img src="${article.image}" alt="Cover">` + formattedHtml;
+                }
+
+                document.getElementById('a-body').innerHTML = formattedHtml;
+                openModal('articleModal');
+            }
+        }
+
+        // LOGIC TÀI LIỆU
         function loadLibraryDocs() {
             const container = document.getElementById('docsContainer');
             db.collection("documents").where("status", "==", "APPROVED").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
@@ -662,7 +758,7 @@
             db.collection("documents").add({
                 name: document.getElementById('d_name').value,
                 link: document.getElementById('d_link').value,
-                status: 'PENDING', // Cờ PENDING để gửi cho Admin duyệt
+                status: 'PENDING', // Gửi cho Admin duyệt
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             }).then(() => {
                 alert("Đã gửi link tài liệu! Vui lòng chờ Ban Chủ Nhiệm xét duyệt để hiển thị lên kho chung.");
@@ -672,7 +768,7 @@
             });
         }
 
-        // LOGIC SỬA HỒ SƠ
+        // LOGIC SỬA HỒ SƠ & ĐỔI PASS
         function loadMyDataForEdit(uid) {
             db.collection("members").doc(uid).get().then((doc) => {
                 if(doc.exists) {
@@ -697,11 +793,9 @@
 
             const newPass = document.getElementById('p_newPass') ? document.getElementById('p_newPass').value.trim() : '';
             const user = auth.currentUser;
-
-            // Tạo danh sách các công việc cần làm
             let tasks = [];
 
-            // Công việc 1: Cập nhật thông tin chữ (Bio, Slogan, Ảnh...) lên Firestore
+            // Task 1: Update Firestore
             const updateInfoTask = db.collection("members").doc(currentUserId).update({
                 slogan: document.getElementById('p_slogan').value,
                 bio: document.getElementById('p_bio').value,
@@ -710,57 +804,41 @@
             });
             tasks.push(updateInfoTask);
 
-            // Công việc 2: Cập nhật mật khẩu (nếu thành viên có gõ vào ô)
+            // Task 2: Update Password (Nếu có)
             if (newPass) {
                 if (newPass.length < 6) {
                     alert("Mật khẩu mới phải có ít nhất 6 ký tự!");
-                    btn.innerText = "Cập Nhật Thông Tin & Mật Khẩu"; btn.disabled = false;
+                    btn.innerText = "Cập Nhật Thông Tin"; btn.disabled = false;
                     return;
                 }
-                // Thêm lệnh đổi pass của Firebase
-                if (user && user.updatePassword) {
-                    tasks.push(user.updatePassword(newPass));
-                } else {
-                    tasks.push(Promise.reject(new Error('Người dùng chưa đăng nhập hoặc không thể cập nhật mật khẩu.')));
-                }
+                if (user && user.updatePassword) tasks.push(user.updatePassword(newPass));
             }
 
-            // Chạy đồng thời tất cả công việc
             Promise.all(tasks).then(() => {
                 let msg = newPass ? "Cập nhật hồ sơ và ĐỔI MẬT KHẨU thành công!" : "Cập nhật hồ sơ thành công!";
                 alert(msg + " Mọi thay đổi sẽ hiển thị ở trang chủ.");
                 document.getElementById('editProfileModal').classList.remove('show');
-                if (document.getElementById('p_newPass')) document.getElementById('p_newPass').value = ''; // Xóa trắng ô pass
+                if (document.getElementById('p_newPass')) document.getElementById('p_newPass').value = '';
             }).catch(err => {
-                // Firebase có cơ chế bảo mật: Nếu tài khoản treo lâu quá mới đổi pass, nó sẽ bắt đăng nhập lại
                 if(err && err.code === 'auth/requires-recent-login') {
                     alert("⚠️ BẢO MẬT: Đã lâu bạn chưa đăng nhập. Vui lòng đăng xuất và đăng nhập lại trước khi đổi mật khẩu mới!");
-                } else {
-                    alert("Lỗi: " + (err && err.message ? err.message : err));
-                }
+                } else { alert("Lỗi: " + (err && err.message ? err.message : err)); }
             })
-            .finally(() => { 
-                btn.innerText = "Cập Nhật Thông Tin & Mật Khẩu"; 
-                btn.disabled = false; 
-            });
+            .finally(() => { btn.innerText = "Cập Nhật Thông Tin"; btn.disabled = false; });
         }
 
-        // TẢI & RENDER THÀNH VIÊN TỪ FIREBASE ĐỘNG 100%
+        // TẢI & RENDER THÀNH VIÊN
         function loadMembersFromFirebase() {
             db.collection("members").orderBy("roleLevel", "asc").onSnapshot(snapshot => {
                 globalMembers = [];
                 snapshot.forEach(doc => {
-                    let m = doc.data();
-                    m.id = doc.id;
+                    let m = doc.data(); m.id = doc.id;
                     globalMembers.push(m);
                 });
-                
-                // Sắp xếp tăng dần theo RoleLevel, nếu bằng nhau thì xếp theo Ban
                 globalMembers.sort((a, b) => {
                     if (a.roleLevel !== b.roleLevel) return a.roleLevel - b.roleLevel;
                     return a.ban.localeCompare(b.ban);
                 });
-
                 renderSystem();
             });
         }
@@ -777,22 +855,23 @@
         }
 
         function renderSystem() {
-            // Lọc Cấp 1 đến 5 cho các vị trí Lãnh đạo để hiển thị ở Tab Ban Chủ Nhiệm
             const boardLevel1to3 = globalMembers.filter(m => m.roleLevel <= 3 && m.status !== 'ALUMNI');
             const boardLevel4 = globalMembers.filter(m => m.roleLevel === 4 && m.status !== 'ALUMNI');
             const boardLevel5 = globalMembers.filter(m => m.roleLevel === 5 && m.status !== 'ALUMNI');
 
-            // Gán vào giao diện Ban Chủ Nhiệm
             document.getElementById('homeBoardContainer').innerHTML = boardLevel1to3.slice(0,4).map(createBoardCard).join('');
             document.getElementById('boardRow1').innerHTML = boardLevel1to3.map(createBoardCard).join('');
             document.getElementById('boardRow2').innerHTML = boardLevel4.map(createBoardCard).join('');
             document.getElementById('boardRow3').innerHTML = boardLevel5.map(createBoardCard).join('');
 
-            // HIỂN THỊ TAB THÀNH VIÊN - GOM TẤT CẢ (LÃNH ĐẠO + THÀNH VIÊN) VÀ XẾP NGẪU NHIÊN
-            // Chỉ cần status là 'ACTIVE', không phân biệt roleLevel nữa
+            // Gom tất cả vào thành viên để tính tổng
             const activeMems = globalMembers.filter(m => m.status === 'ACTIVE').sort(() => Math.random() - 0.5);
             const ctvMems = globalMembers.filter(m => m.status === 'CTV').sort(() => Math.random() - 0.5);
             const alumniMems = globalMembers.filter(m => m.status === 'ALUMNI').sort(() => Math.random() - 0.5);
+
+            // Cập nhật tổng số trên Tiêu đề lớn
+            const totalMembers = activeMems.length + ctvMems.length + alumniMems.length;
+            document.getElementById('c-total-mems').innerText = "(Tổng: " + totalMembers + ")";
 
             document.getElementById('c-tv').innerText = activeMems.length;
             document.getElementById('c-ctv').innerText = ctvMems.length;

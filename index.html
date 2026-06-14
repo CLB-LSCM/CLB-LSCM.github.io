@@ -49,7 +49,8 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         
         .sec-header { text-align: center; margin-bottom: 40px; padding-top: 40px; }
-        .sec-title { font-size: 28px; font-weight: 900; color: var(--text-main); margin-bottom: 10px; text-transform: uppercase;}
+        /* Tùy chỉnh sec-title để có thể chứa badge bên cạnh (cho số lượng thành viên) */
+        .sec-title { font-size: 28px; font-weight: 900; color: var(--text-main); margin-bottom: 10px; text-transform: uppercase; display: flex; justify-content: center; align-items: center; gap: 10px;}
         .sec-line { width: 60px; height: 5px; background: var(--primary); margin: auto; border-radius: 3px; }
 
         /* TAB 1: GIỚI THIỆU (HERO) */
@@ -141,21 +142,25 @@
         .mem-name { font-size: 15px; font-weight: 800; color: var(--text-main); margin-bottom: 5px; }
         .mem-ban { font-size: 11px; color: var(--primary); font-weight: 700; text-transform: uppercase; }
 
-        /* TAB 5: HOẠT ĐỘNG */
+        /* TAB 5: HOẠT ĐỘNG (DẠNG LƯỚI RÚT GỌN) */
         .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: auto; padding: 0 20px;}
-        .news-card { background: white; border-radius: 20px; overflow: hidden; border: 1px solid var(--border-color); transition: var(--transition);}
+        .news-card { background: white; border-radius: 20px; overflow: hidden; border: 1px solid var(--border-color); transition: var(--transition); cursor: pointer;}
         .news-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.08);}
         .news-img-box { position: relative; width: 100%; height: 220px; }
         .news-img { width: 100%; height: 100%; object-fit: cover; }
         .news-date-badge { position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.95); color: var(--primary-dark); padding: 6px 12px; border-radius: 10px; font-size: 12px; font-weight: 800; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 6px;}
         .news-info { padding: 25px; }
         .news-title { font-size: 20px; font-weight: 800; margin-bottom: 10px; line-height: 1.3;}
-        .news-desc { font-size: 14px; color: var(--text-muted); line-height: 1.8; margin-bottom: 15px; max-height: 120px; overflow: hidden; position: relative; }
-        .news-desc.expanded { max-height: none; }
-        .news-desc::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 45px; background: linear-gradient(180deg, rgba(255,255,255,0), white 90%); display: block; }
-        .news-desc.expanded::after { display: none; }
-        .show-more-btn { display: inline-flex; align-items: center; gap: 6px; color: var(--primary); font-weight: 800; background: transparent; border: none; padding: 0; cursor: pointer; }
-        .show-more-btn:hover { text-decoration: underline; }
+        .news-desc-short { font-size: 14px; color: var(--text-muted); line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+        /* MODAL BÀI BÁO CHI TIẾT (XEM TOÀN BỘ SỰ KIỆN) */
+        .article-modal { background: white; width: 100%; max-width: 800px; border-radius: 24px; position: relative; transform: translateY(30px); transition: transform 0.3s; overflow: hidden; max-height: 90vh; display: flex; flex-direction: column;}
+        .modal-overlay.show .article-modal { transform: translateY(0); }
+        .article-header { padding: 25px 30px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; background: white;}
+        .article-header h2 { font-size: 22px; font-weight: 900; color: var(--primary); }
+        .article-body { padding: 30px; overflow-y: auto; line-height: 1.8; color: var(--text-main); font-size: 15px; }
+        .article-body img { width: 100%; border-radius: 12px; margin: 20px 0; border: 1px solid var(--border-color); }
+        .article-body p { margin-bottom: 15px; }
 
         /* MODAL HỒ SƠ */
         .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 2000; opacity: 0; transition: opacity 0.3s ease; }
@@ -163,6 +168,8 @@
         .pro-modal { background: white; width: 100%; max-width: 450px; border-radius: 24px; position: relative; transform: translateY(30px); transition: transform 0.3s; overflow: hidden;}
         .modal-overlay.show .pro-modal { transform: translateY(0); }
         .btn-close { position: absolute; top: 15px; right: 15px; font-size: 20px; color: white; cursor: pointer; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2); transition: 0.3s; z-index: 10;}
+        .btn-close.dark { color: var(--text-muted); background: #f1f5f9; position: static; }
+        .btn-close.dark:hover { background: #e2e8f0; color: var(--text-main); }
         .btn-close:hover { background: rgba(0,0,0,0.5); }
         .pro-header { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); padding: 50px 20px 30px; text-align: center; }
         .pro-img { width: 130px; height: 130px; border-radius: 50%; border: 5px solid white; object-fit: cover; margin-top: -85px; position: relative; z-index: 2; background: white; box-shadow: 0 5px 15px rgba(0,0,0,0.1);}
@@ -182,6 +189,10 @@
         .btn-submit { width: 100%; background: var(--primary); color: white; border: none; padding: 12px; border-radius: 10px; font-weight: 800; font-size: 15px; cursor: pointer; transition: 0.3s; margin-top: 10px;}
         .btn-submit:hover { background: var(--primary-dark); }
         
+        /* BỘ ĐẾM VIEW TRUY CẬP */
+        .view-counter-box { text-align: center; margin-top: 40px; padding: 20px; border-top: 1px dashed var(--border-color); }
+        .view-counter-number { font-size: 24px; font-weight: 900; color: var(--secondary); display: inline-flex; align-items: center; gap: 10px; background: rgba(245, 158, 11, 0.1); padding: 5px 20px; border-radius: 30px; letter-spacing: 2px;}
+
         /* FOOTER MỚI VỚI 3 LOGO */
         footer { background: white; border-top: 1px solid var(--border-color); padding: 30px 5%; margin-top: 50px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;}
         .footer-text p { color: var(--text-muted); font-size: 14px; font-weight: 600; margin-bottom: 5px; }
@@ -343,7 +354,7 @@
 
         <section id="tab-thanh-vien" class="page-tab">
             <div class="sec-header">
-                <h2 class="sec-title">Thành Viên CLB</h2>
+                <h2 class="sec-title">Thành Viên CLB <span class="group-count" id="c-total-mems" style="font-size:16px;">0</span></h2>
                 <div class="sec-line"></div>
             </div>
             <div class="board-container">
@@ -371,16 +382,21 @@
                 <p style="text-align: center; grid-column: 1/-1; color: gray;">Đang tải danh sách sự kiện...</p>
             </div>
         </section>
+
+        <div class="view-counter-box">
+            <p style="font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase;">Tổng Lượt Truy Cập</p>
+            <div class="view-counter-number"><i class="fas fa-chart-line"></i> <span id="pageViews">50,000</span></div>
+        </div>
     </main>
 
     <footer>
         <div class="footer-text">
-            <p>© 2026 Bản quyền thuộc về Câu lạc bộ Logistics & Quản lý Chuỗi cung ứng HUNRE - LSCM</p>
+            <p>© 2026 Bản quyền thuộc về Câu lạc bộ Logistics & Quản lý Chuỗi cung ứng (LSCM)</p>
             <p style="font-size: 13px; font-weight: 500;">Khoa Kinh tế - Trường Đại học Tài nguyên và Môi trường Hà Nội</p>
         </div>
         <div class="footer-logos">
             <img src="images/logoTRUONG.jpg?v=2" alt="HUNRE Logo" title="Trường Đại học Tài nguyên và Môi trường Hà Nội" onerror="this.src='https://via.placeholder.com/55'">
-            <img src="images/LogoKKT.jpg?v=2" alt="Khoa Kinh Tế Logo" title="Khoa Kinh tế - HUNRE" onerror="this.src='https://via.placeholder.com/55'">
+            <img src="./LogoKKT%20copy.jpg?v=2" alt="Khoa Kinh Tế Logo" title="Khoa Kinh tế - HUNRE" onerror="this.src='https://via.placeholder.com/55'">
             <img src="images/logo.jpg?v=2" alt="LSCM Logo" title="CLB LSCM" onerror="this.src='https://via.placeholder.com/55'">
         </div>
     </footer>
@@ -399,6 +415,17 @@
                 <div class="pro-bio" id="m-bio">Bio</div>
                 <a href="#" target="_blank" id="m-fb" class="pro-fb"><i class="fab fa-facebook-f"></i> Kết nối Facebook</a>
             </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="articleModal" onclick="closeModal(event, 'articleModal')">
+        <div class="article-modal">
+            <div class="article-header">
+                <h2 id="a-title">Tiêu đề bài viết</h2>
+                <span class="btn-close dark" onclick="document.getElementById('articleModal').classList.remove('show')"><i class="fas fa-times"></i></span>
+            </div>
+            <div class="article-body" id="a-body">
+                </div>
         </div>
     </div>
 
@@ -426,7 +453,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
     <script>
-        // 1. CẤU HÌNH FIREBASE
+        // 1. CẤU HÌNH FIREBASE 
         const firebaseConfig = {
             apiKey: "AIzaSyAtKGpwqCA71JcPWxnQGZ_sFWWquADZKdk",
             authDomain: "lscm-hunre.firebaseapp.com",
@@ -439,24 +466,32 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // Biến toàn cục lưu danh sách thành viên kéo từ Firebase
         let globalMembers = [];
+        let globalNews = []; // Biến chứa tất cả tin tức để mở Modal
 
         document.addEventListener("DOMContentLoaded", function() {
-            setTimeout(() => {
-                const preloader = document.getElementById('preloader');
-                if(preloader) {
-                    preloader.style.opacity = '0';
-                    setTimeout(() => preloader.style.display = 'none', 500);
-                }
-            }, 1000);
+            setTimeout(() => { document.getElementById('preloader').style.display = 'none'; }, 500);
+            updatePageViews(); // Gọi hàm tăng view
             
             loadAboutSections();
-            loadMembersFromFirebase();
             loadPublicNews();
+            loadMembersFromFirebase();
             loadContactSection();
             loadDeptDescriptions();
         });
+
+        // HÀM CẬP NHẬT LƯỢT TRUY CẬP (BASE: 50.000)
+        function updatePageViews() {
+            const BASE_VIEWS = 50000;
+            let currentViews = localStorage.getItem('lscm_page_views');
+            if(!currentViews) {
+                currentViews = BASE_VIEWS + 1;
+            } else {
+                currentViews = parseInt(currentViews) + 1;
+            }
+            localStorage.setItem('lscm_page_views', currentViews);
+            document.getElementById('pageViews').innerText = currentViews.toLocaleString('en-US'); // Hiển thị có dấu phẩy
+        }
 
         function switchTab(tabId, btnElement) {
             document.querySelectorAll('.page-tab').forEach(t => t.classList.remove('active'));
@@ -465,6 +500,26 @@
             if(btnElement && btnElement.classList) btnElement.classList.add('active');
             window.scrollTo(0, 0);
             if(tabId === 'tab-co-cau') closeDeptDetail();
+        }
+
+        function openModal(id) { document.getElementById(id).classList.add('show'); }
+        function closeModal(e, modalId) { if (e.target.id === modalId) document.getElementById(modalId).classList.remove('show'); }
+
+        // GỬI LIÊN HỆ
+        function sendContactMessage(e) {
+            e.preventDefault();
+            const btn = document.getElementById('contactBtn');
+            btn.innerText = "Đang gửi...";
+            db.collection("messages").add({
+                name: document.getElementById('contactName').value,
+                email: document.getElementById('contactEmail').value,
+                content: document.getElementById('contactMsg').value,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                alert('Cảm ơn bạn! Câu hỏi đã được gửi tới Ban Quản Trị.');
+                e.target.reset();
+                btn.innerText = "Gửi Tin Nhắn";
+            });
         }
 
         function loadContactSection() {
@@ -499,25 +554,6 @@
                 Object.assign(deptDesc, data);
             }, err => console.warn('Không thể tải mô tả các ban:', err));
         }
-        function openModal(id) { document.getElementById(id).classList.add('show'); }
-        function closeModal(e, modalId) { if (e.target.id === modalId) document.getElementById(modalId).classList.remove('show'); }
-
-        // GỬI LIÊN HỆ
-        function sendContactMessage(e) {
-            e.preventDefault();
-            const btn = document.getElementById('contactBtn');
-            btn.innerText = "Đang gửi...";
-            db.collection("messages").add({
-                name: document.getElementById('contactName').value,
-                email: document.getElementById('contactEmail').value,
-                content: document.getElementById('contactMsg').value,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            }).then(() => {
-                alert('Cảm ơn bạn! Câu hỏi đã được gửi tới Ban Quản Trị.');
-                e.target.reset();
-                btn.innerText = "Gửi Tin Nhắn";
-            });
-        }
 
         // TẢI "VỀ CHÚNG TÔI" TỪ FIREBASE
         function loadAboutSections() {
@@ -548,30 +584,34 @@
             });
         }
 
-        // TẢI HOẠT ĐỘNG (NEWS) TỪ FIREBASE
+        // TẢI HOẠT ĐỘNG (NEWS) DẠNG MODAL CẮT CHỮ
         function loadPublicNews() {
             const container = document.getElementById('newsPublicContainer');
             db.collection("news").orderBy("date", "desc").onSnapshot(snapshot => {
                 container.innerHTML = '';
+                globalNews = [];
                 if(snapshot.empty) {
                     container.innerHTML = '<p style="text-align:center; grid-column:1/-1;">Chưa có sự kiện nào được đăng.</p>';
                     return;
                 }
                 snapshot.forEach(doc => {
                     const n = doc.data();
+                    n.id = doc.id;
+                    globalNews.push(n);
+
                     const dParts = n.date.split('-'); const displayDate = `${dParts[2]}/${dParts[1]}/${dParts[0]}`;
-                    const descId = `news-desc-${doc.id}`;
-                    const isLongDesc = n.desc && n.desc.length > 220;
+                    let coverImg = n.image; 
+                    
                     container.innerHTML += `
-                        <div class="news-card">
+                        <div class="news-card" onclick="openArticle('${n.id}')">
                             <div class="news-img-box">
-                                <img src="${n.image}" class="news-img" onerror="this.src='https://via.placeholder.com/500x300'">
+                                <img src="${coverImg}" class="news-img" onerror="this.src='https://via.placeholder.com/500x300'">
                                 <div class="news-date-badge"><i class="far fa-calendar-alt"></i> ${displayDate}</div>
                             </div>
                             <div class="news-info">
                                 <h3 class="news-title">${n.title}</h3>
-                                <p id="${descId}" class="news-desc${isLongDesc ? '' : ' expanded'}">${n.desc}</p>
-                                ${isLongDesc ? `<button class="show-more-btn" onclick="toggleNewsDesc('${descId}', this)">Xem thêm</button>` : ''}
+                                <div class="news-desc-short">${n.desc}</div>
+                                <p style="color: var(--primary); font-size: 13px; font-weight: 800; margin-top: 10px;">Đọc tiếp <i class="fas fa-arrow-right"></i></p>
                             </div>
                         </div>
                     `;
@@ -579,11 +619,38 @@
             });
         }
 
-        function toggleNewsDesc(descId, btn) {
-            const descEl = document.getElementById(descId);
-            if (!descEl) return;
-            const expanded = descEl.classList.toggle('expanded');
-            btn.innerText = expanded ? 'Thu gọn' : 'Xem thêm';
+        // MỞ MODAL ĐỌC TOÀN BỘ BÀI VIẾT (Tự động chuyển link thành ảnh)
+        function openArticle(id) {
+            const article = globalNews.find(x => x.id === id);
+            if(article) {
+                document.getElementById('a-title').innerText = article.title;
+                
+                // Thuật toán: Tìm các link http có đuôi ảnh (jpg, png, jpeg, gif, webp) trong phần nội dung và biến nó thành thẻ <img>
+                let fullContent = article.desc;
+                const urlRegex = /(https?:\/\/[^\s]+(?:\.jpg|\.jpeg|\.png|\.gif|\.webp))/gi;
+                fullContent = fullContent.replace(urlRegex, function(url) {
+                    return `<img src="${url}" alt="LSCM Image" onerror="this.style.display='none'">`;
+                });
+
+                // Tách các đoạn xuống dòng thành các thẻ <p>
+                const paragraphs = fullContent.split('\n').filter(p => p.trim() !== '');
+                let formattedHtml = '';
+                paragraphs.forEach(p => {
+                    if(p.includes('<img')) {
+                        formattedHtml += p;
+                    } else {
+                        formattedHtml += `<p>${p}</p>`;
+                    }
+                });
+
+                // Nếu bài viết không có ảnh nào bên trong đoạn văn, thì lấy ảnh bìa (article.image) chèn lên đầu tiên
+                if(!formattedHtml.includes('<img')) {
+                    formattedHtml = `<img src="${article.image}" alt="Cover">` + formattedHtml;
+                }
+
+                document.getElementById('a-body').innerHTML = formattedHtml;
+                openModal('articleModal');
+            }
         }
 
         // TẢI & RENDER THÀNH VIÊN TỪ FIREBASE ĐỘNG 100%
@@ -634,6 +701,10 @@
             const activeMems = globalMembers.filter(m => m.status === 'ACTIVE').sort(() => Math.random() - 0.5);
             const ctvMems = globalMembers.filter(m => m.status === 'CTV').sort(() => Math.random() - 0.5);
             const alumniMems = globalMembers.filter(m => m.status === 'ALUMNI').sort(() => Math.random() - 0.5);
+
+            // Cập nhật tổng số trên Tiêu đề lớn
+            const totalMembers = activeMems.length + ctvMems.length + alumniMems.length;
+            document.getElementById('c-total-mems').innerText = "(Tổng: " + totalMembers + ")";
 
             document.getElementById('c-tv').innerText = activeMems.length;
             document.getElementById('c-ctv').innerText = ctvMems.length;

@@ -194,7 +194,6 @@
         <div class="pl-text">LSCM</div>
     </div>
 
-    <!-- NAVBAR THÀNH VIÊN -->
     <header>
         <div class="nav-container">
             <div class="logo-area" onclick="switchTab('tab-gioi-thieu', this)">
@@ -226,7 +225,7 @@
                 <div class="hero">
                     <div style="position: relative; z-index: 10;">
                         <div class="hero-badge"><i class="fas fa-bolt" style="color: #F59E0B;"></i> Xin chào Thành viên LSCM!</div>
-                        <h1 class="hero-title">Câu lạc bộ Logistics & Quản lý Chuỗi cung ứng HUNRE <span>LSCM</span></h1>
+                        <h1 class="hero-title">Câu lạc bộ Logistics & Quản lý chuỗi cung ứng HUNRE <span>LSCM</span></h1>
                         <div class="hero-slogan-box">
                             <p class="hero-slogan">KẾT NỐI - HỢP TÁC - PHÁT TRIỂN</p>
                             <p class="hero-sub">Connect • Cooperate • Develop</p>
@@ -343,7 +342,6 @@
             <div class="news-grid" id="newsPublicContainer"><p style="text-align: center; grid-column: 1/-1; color: gray;">Đang tải danh sách sự kiện...</p></div>
         </section>
 
-        <!-- KHO TÀI LIỆU CỦA THÀNH VIÊN VỚI THANH TÌM KIẾM -->
         <section id="tab-tai-lieu" class="page-tab">
             <div class="sec-header">
                 <h2 class="sec-title" style="color: var(--primary);">Thư Mục Tài Liệu Nội Bộ</h2>
@@ -354,7 +352,6 @@
                 <button class="btn-login" style="display:inline-flex;" onclick="openModal('uploadDocModal')"><i class="fas fa-upload"></i> Đóng góp tài liệu</button>
             </div>
 
-            <!-- THANH TÌM KIẾM TÀI LIỆU -->
             <div style="max-width:1200px; margin: 0 auto 30px; padding: 0 20px;">
                 <input type="text" id="docSearchInput" placeholder="🔍 Nhập từ khóa tìm kiếm tài liệu (Ví dụ: Kho, Logistics...)" oninput="filterDocs()" style="width:100%; padding:15px 20px; border-radius:12px; border:2px solid var(--border-color); font-size:15px; outline:none; transition: 0.3s;">
             </div>
@@ -365,10 +362,9 @@
         </section>
     </main>
 
-    <!-- FOOTER MỚI VỚI 3 LOGO CHUẨN XÁC -->
     <footer>
         <div class="footer-text">
-            <p>© 2026 Bản quyền thuộc về Câu lạc bộ Logistics & Quản lý Chuỗi cung ứng (LSCM)</p>
+            <p>© 2026 Bản quyền thuộc về Câu lạc bộ Logistics & Quản lý chuỗi cung ứng HUNRE - LSCM</p>
             <p style="font-size: 13px; font-weight: 500;">Khoa Kinh tế - Trường Đại học Tài nguyên và Môi trường Hà Nội</p>
         </div>
         <div class="footer-logos">
@@ -378,7 +374,6 @@
         </div>
     </footer>
 
-    <!-- MODAL HIỂN THỊ HỒ SƠ -->
     <div class="modal-overlay" id="profileModal" onclick="closeModal(event, 'profileModal')">
         <div class="pro-modal">
             <span class="btn-close" onclick="document.getElementById('profileModal').classList.remove('show')"><i class="fas fa-times"></i></span>
@@ -396,7 +391,6 @@
         </div>
     </div>
 
-    <!-- MODAL HIỂN THỊ BÀI BÁO (TIN TỨC) CHI TIẾT -->
     <div class="modal-overlay" id="articleModal" onclick="closeModal(event, 'articleModal')">
         <div class="article-modal">
             <div class="article-header">
@@ -404,12 +398,10 @@
                 <span class="btn-close dark" onclick="document.getElementById('articleModal').classList.remove('show')"><i class="fas fa-times"></i></span>
             </div>
             <div class="article-body" id="a-body">
-                <!-- Nội dung chữ và ảnh sẽ đổ vào đây -->
-            </div>
+                </div>
         </div>
     </div>
 
-    <!-- MODAL SỬA HỒ SƠ CÁ NHÂN -->
     <div class="modal-overlay" id="editProfileModal" onclick="closeModal(event, 'editProfileModal')">
         <div class="member-form-box">
             <span class="btn-close" onclick="document.getElementById('editProfileModal').classList.remove('show')"><i class="fas fa-times"></i></span>
@@ -424,9 +416,6 @@
 
                 <label>Link Facebook (URL)</label>
                 <input type="url" id="p_fb" required>
-
-                <label>Link hoặc đường dẫn Ảnh Avatar mới</label>
-                <input type="text" id="p_img" required placeholder="VD: https://... hoặc images/avatar.jpg">
                 
                 <hr style="border: 0; border-top: 1px dashed var(--border-color); margin: 20px 0;">
                 <label style="color: var(--danger);"><i class="fas fa-key"></i> Đổi Mật Khẩu Đăng Nhập (Tùy chọn)</label>
@@ -434,11 +423,10 @@
 
                 <button type="submit" id="btnUpdateProfile">Cập Nhật Thông Tin</button>
             </form>
-            <p style="font-size: 11px; color: gray; margin-top: 15px; text-align: center;">Lưu ý: Tên và Chức vụ do Ban Chủ Nhiệm quản lý, bạn không thể tự sửa.</p>
+            <p style="font-size: 11px; color: gray; margin-top: 15px; text-align: center;">Lưu ý: Tên, Chức vụ và Ảnh đại diện do Ban Chủ Nhiệm quản lý, bạn không thể tự sửa.</p>
         </div>
     </div>
 
-    <!-- MODAL UPLOAD TÀI LIỆU -->
     <div class="modal-overlay" id="uploadDocModal" onclick="closeModal(event, 'uploadDocModal')">
         <div class="member-form-box">
             <span class="btn-close" onclick="document.getElementById('uploadDocModal').classList.remove('show')"><i class="fas fa-times"></i></span>
@@ -456,7 +444,6 @@
         </div>
     </div>
 
-    <!-- TÍCH HỢP FIREBASE -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
@@ -493,7 +480,7 @@
                     loadMembersFromFirebase();
                     loadContactSection();
                     loadDeptDescriptions();
-                    // Load thông tin hồ sơ của chính user này vào form chỉnh sửa
+                    // Load thông hồ sơ của chính user này vào form chỉnh sửa
                     loadMyDataForEdit(user.uid);
                 } else {
                     // Nếu chưa đăng nhập -> Kick về trang chủ
@@ -736,7 +723,6 @@
                     document.getElementById('p_slogan').value = data.slogan || "";
                     document.getElementById('p_bio').value = data.bio || "";
                     document.getElementById('p_fb').value = data.fb || "";
-                    document.getElementById('p_img').value = data.image || "";
                 }
             });
         }
@@ -758,8 +744,7 @@
             const updateInfoTask = db.collection("members").doc(currentUserId).update({
                 slogan: document.getElementById('p_slogan').value,
                 bio: document.getElementById('p_bio').value,
-                fb: document.getElementById('p_fb').value,
-                image: document.getElementById('p_img').value
+                fb: document.getElementById('p_fb').value
             });
             tasks.push(updateInfoTask);
 

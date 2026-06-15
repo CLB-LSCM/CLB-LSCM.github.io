@@ -215,7 +215,6 @@
         .btn-submit:hover { background: var(--primary-dark); }
         
 
-
         /* FOOTER MỚI VỚI 3 LOGO */
         footer { background: white; border-top: 1px solid var(--border-color); padding: 30px 5%; margin-top: 50px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;}
         .footer-text p { color: var(--text-muted); font-size: 14px; font-weight: 600; margin-bottom: 5px; }
@@ -268,7 +267,7 @@
                 <button class="nav-link" onclick="switchTab('tab-hoat-dong', this)">Hoạt Động</button>
                 <button class="nav-link" onclick="switchTab('tab-gioi-thieu', this); setTimeout(()=>document.getElementById('contact-area').scrollIntoView(), 100);">Liên Hệ</button>
                 
-                <button class="btn-login" onclick="openModal('loginModal')"><i class="fas fa-sign-in-alt"></i> Đăng Nhập</button>
+                <button class="btn-login" id="navLoginBtn" onclick="openModal('loginModal')"><i class="fas fa-sign-in-alt"></i> Đăng Nhập</button>
             </nav>
         </div>
     </header>
@@ -279,7 +278,7 @@
                 <div class="hero">
                     <div style="position: relative; z-index: 10;">
                         <div class="hero-badge" onclick="openModal('loginModal')"><i class="fas fa-lock" style="color: #F59E0B;"></i> Xin chào! Đăng nhập ngay</div>
-                        <h1 class="hero-title">Câu lạc bộ Logistics & Quản lý Chuỗi cung ứng HUNRE <span>LSCM</span></h1>
+                        <h1 class="hero-title">Câu lạc bộ Logistics & Quản lý chuỗi cung ứng HUNRE <span>LSCM</span></h1>
                         <div class="hero-slogan-box">
                             <p class="hero-slogan">KẾT NỐI - HỢP TÁC - PHÁT TRIỂN</p>
                             <p class="hero-sub">Connect • Cooperate • Develop</p>
@@ -305,22 +304,7 @@
                     <div class="contact-left">
                         <h3 id="contactTitle">Kết Nối Với Chúng Tôi</h3>
                         <p id="contactDesc">Bạn có câu hỏi, ý tưởng hay muốn trở thành một phần của đại gia đình LSCM? Hãy liên hệ trực tiếp với bộ phận chuyên trách hoặc để lại lời nhắn.</p>
-                        <div class="direct-contact" id="contactList">
-                            <div class="dc-item">
-                                <div class="dc-icon"><i class="fas fa-user-tie"></i></div>
-                                <div class="dc-text">
-                                    <h4>Liên hệ Chủ Nhiệm</h4>
-                                    <p>Nguyễn Văn A - 0123.456.789</p>
-                                </div>
-                            </div>
-                            <div class="dc-item">
-                                <div class="dc-icon"><i class="fas fa-bullhorn"></i></div>
-                                <div class="dc-text">
-                                    <h4>Liên hệ Trưởng Ban Truyền Thông</h4>
-                                    <p>Trương D - 0987.654.321</p>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="direct-contact" id="contactList"></div>
                         <div style="display: flex; gap: 15px;">
                             <a href="https://www.facebook.com/share/1EH4HHa5rk/" target="_blank" class="soc-btn fb" style="flex:1;"><i class="fab fa-facebook-f"></i> Facebook</a>
                             <a href="https://www.tiktok.com/@hunre.logistics.lscm" target="_blank" class="soc-btn tt" style="flex:1;"><i class="fab fa-tiktok"></i> TikTok</a>
@@ -363,18 +347,10 @@
                 </div>
                 <div class="dept-container">
                     <div class="dept-grid">
-                        <div class="dept-card" onclick="openDeptDetail('Truyền Thông')">
-                            <i class="fas fa-bullhorn dept-icon" style="color: var(--primary);"></i><h3>Ban Truyền Thông</h3>
-                        </div>
-                        <div class="dept-card" onclick="openDeptDetail('Kỹ Thuật')">
-                            <i class="fas fa-laptop-code dept-icon" style="color: #3b82f6;"></i><h3>Ban Kỹ Thuật</h3>
-                        </div>
-                        <div class="dept-card" onclick="openDeptDetail('Đối Ngoại & Tổ chức sự kiện')">
-                            <i class="fas fa-handshake dept-icon" style="color: var(--secondary);"></i><h3>Ban Đối Ngoại & TCSK</h3>
-                        </div>
-                        <div class="dept-card" onclick="openDeptDetail('Chuyên Môn')">
-                            <i class="fas fa-book-open dept-icon" style="color: #ef4444;"></i><h3>Ban Chuyên Môn</h3>
-                        </div>
+                        <div class="dept-card" onclick="openDeptDetail('Truyền Thông')"><i class="fas fa-bullhorn dept-icon" style="color: var(--primary);"></i><h3>Ban Truyền Thông</h3></div>
+                        <div class="dept-card" onclick="openDeptDetail('Kỹ Thuật')"><i class="fas fa-laptop-code dept-icon" style="color: #3b82f6;"></i><h3>Ban Kỹ Thuật</h3></div>
+                        <div class="dept-card" onclick="openDeptDetail('Đối Ngoại & Tổ chức sự kiện')"><i class="fas fa-handshake dept-icon" style="color: var(--secondary);"></i><h3>Ban Đối Ngoại & TCSK</h3></div>
+                        <div class="dept-card" onclick="openDeptDetail('Chuyên Môn')"><i class="fas fa-book-open dept-icon" style="color: #ef4444;"></i><h3>Ban Chuyên Môn</h3></div>
                     </div>
                 </div>
             </div>
@@ -382,13 +358,8 @@
             <div id="dept-detail-view">
                 <div class="dept-container">
                     <button class="btn-back" onclick="closeDeptDetail()"><i class="fas fa-arrow-left"></i> Quay lại Các Ban</button>
-                    <div class="dept-intro-box">
-                        <h2 id="d-title">Tên Ban</h2>
-                        <p id="d-desc">Mô tả công việc của ban...</p>
-                    </div>
-                    <div class="sec-header" style="margin-bottom: 30px; padding-top: 0;">
-                        <h2 class="sec-title" style="font-size: 22px;">Thành Viên Trực Thuộc</h2>
-                    </div>
+                    <div class="dept-intro-box"><h2 id="d-title">Tên Ban</h2><p id="d-desc">Mô tả công việc của ban...</p></div>
+                    <div class="sec-header" style="margin-bottom: 30px; padding-top: 0;"><h2 class="sec-title" style="font-size: 22px;">Thành Viên Trực Thuộc</h2></div>
                     <div class="board-grid-4" id="deptMembersContainer"></div>
                 </div>
             </div>
@@ -400,37 +371,21 @@
                 <div class="sec-line"></div>
             </div>
             <div class="board-container">
-                <div class="group-container">
-                    <h3 class="group-title">Thành Viên Hiện Tại <span class="group-count" id="c-tv">0</span></h3>
-                    <div class="members-grid-6" id="mem-active-container"></div>
-                </div>
-                <div class="group-container">
-                    <h3 class="group-title">Cộng Tác Viên <span class="group-count" id="c-ctv">0</span></h3>
-                    <div class="members-grid-6" id="mem-ctv-container"></div>
-                </div>
-                <div class="group-container">
-                    <h3 class="group-title">Cựu Thành Viên <span class="group-count" id="c-cuu">0</span></h3>
-                    <div class="members-grid-6" id="mem-alumni-container"></div>
-                </div>
+                <div class="group-container"><h3 class="group-title">Thành Viên Hiện Tại <span class="group-count" id="c-tv">0</span></h3><div class="members-grid-6" id="mem-active-container"></div></div>
+                <div class="group-container"><h3 class="group-title">Cộng Tác Viên <span class="group-count" id="c-ctv">0</span></h3><div class="members-grid-6" id="mem-ctv-container"></div></div>
+                <div class="group-container"><h3 class="group-title">Cựu Thành Viên <span class="group-count" id="c-cuu">0</span></h3><div class="members-grid-6" id="mem-alumni-container"></div></div>
             </div>
         </section>
 
         <section id="tab-hoat-dong" class="page-tab">
-            <div class="sec-header">
-                <h2 class="sec-title">Dấu Ấn Sự Kiện LSCM</h2>
-                <div class="sec-line"></div>
-            </div>
-            <div class="news-grid" id="newsPublicContainer">
-                <p style="text-align: center; grid-column: 1/-1; color: gray;">Đang tải danh sách sự kiện...</p>
-            </div>
+            <div class="sec-header"><h2 class="sec-title">Dấu Ấn Sự Kiện LSCM</h2><div class="sec-line"></div></div>
+            <div class="news-grid" id="newsPublicContainer"><p style="text-align: center; grid-column: 1/-1; color: gray;">Đang tải danh sách sự kiện...</p></div>
         </section>
-
-
     </main>
 
     <footer>
         <div class="footer-text">
-            <p>© 2026 Bản quyền thuộc về Câu lạc bộ Logistics & Quản lý Chuỗi cung ứng HUNRE - LSCM</p>
+            <p>© 2026 Bản quyền thuộc về Câu lạc bộ Logistics & Quản lý chuỗi cung ứng HUNRE - LSCM</p>
             <p style="font-size: 13px; font-weight: 500;">Khoa Kinh tế - Trường Đại học Tài nguyên và Môi trường Hà Nội</p>
         </div>
         <div class="footer-logos">
@@ -492,7 +447,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
     <script>
-        // 1. CẤU HÌNH FIREBASE 
         const firebaseConfig = {
             apiKey: "AIzaSyAtKGpwqCA71JcPWxnQGZ_sFWWquADZKdk",
             authDomain: "lscm-hunre.firebaseapp.com",
@@ -506,174 +460,72 @@
         const db = firebase.firestore();
 
         let globalMembers = [];
-        let globalNews = []; // Biến chứa tất cả tin tức để mở Modal
+        let globalNews = []; 
 
         document.addEventListener("DOMContentLoaded", function() {
             setTimeout(() => { document.getElementById('preloader').style.display = 'none'; }, 500);
             
+            // Tải dữ liệu công khai KHÔNG CẦN ĐĂNG NHẬP
             loadAboutSections();
             loadPublicNews();
             loadMembersFromFirebase();
             loadContactSection();
             loadDeptDescriptions();
+
+            // Kiểm tra xem ai đang vào web (Chuyển nút Đăng nhập)
+            auth.onAuthStateChanged(user => {
+                if (user) {
+                    const loginBtn = document.getElementById('navLoginBtn');
+                    loginBtn.innerHTML = '<i class="fas fa-door-open"></i> Cổng Nội Bộ';
+                    loginBtn.onclick = function() {
+                        const role = localStorage.getItem('userRole');
+                        if(role === 'ADMIN') window.location.href = 'admin.html';
+                        else window.location.href = 'thanh-vien.html';
+                    };
+                }
+            });
         });
 
-
-        function switchTab(tabId, btnElement) {
-            document.querySelectorAll('.page-tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            if(btnElement && btnElement.classList) btnElement.classList.add('active');
-            window.scrollTo(0, 0);
-            if(tabId === 'tab-co-cau') closeDeptDetail();
-        }
-
+        function switchTab(tabId, btnElement) { document.querySelectorAll('.page-tab').forEach(t => t.classList.remove('active')); document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active')); document.getElementById(tabId).classList.add('active'); if(btnElement && btnElement.classList) btnElement.classList.add('active'); window.scrollTo(0, 0); if(tabId === 'tab-co-cau') closeDeptDetail(); }
         function openModal(id) { document.getElementById(id).classList.add('show'); }
         function closeModal(e, modalId) { if (e.target.id === modalId) document.getElementById(modalId).classList.remove('show'); }
 
         // GỬI LIÊN HỆ
         function sendContactMessage(e) {
-            e.preventDefault();
-            const btn = document.getElementById('contactBtn');
-            btn.innerText = "Đang gửi...";
-            db.collection("messages").add({
-                name: document.getElementById('contactName').value,
-                email: document.getElementById('contactEmail').value,
-                content: document.getElementById('contactMsg').value,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            }).then(() => {
-                alert('Cảm ơn bạn! Câu hỏi đã được gửi tới Ban Quản Trị.');
-                e.target.reset();
-                btn.innerText = "Gửi Tin Nhắn";
-            });
+            e.preventDefault(); const btn = document.getElementById('contactBtn'); btn.innerText = "Đang gửi...";
+            db.collection("messages").add({ name: document.getElementById('contactName').value, email: document.getElementById('contactEmail').value, content: document.getElementById('contactMsg').value, timestamp: firebase.firestore.FieldValue.serverTimestamp() })
+            .then(() => { alert('Cảm ơn bạn! Câu hỏi đã được gửi tới Ban Quản Trị.'); e.target.reset(); btn.innerText = "Gửi Tin Nhắn"; });
         }
 
-        function loadContactSection() {
-            db.collection('site_settings').doc('contact_section').get().then(doc => {
-                if (!doc.exists) return;
-                const data = doc.data();
-                if (data.title) document.getElementById('contactTitle').innerText = data.title;
-                if (data.description) document.getElementById('contactDesc').innerText = data.description;
-                const contactList = document.getElementById('contactList');
-                if (!contactList) return;
-                if (data.contacts && data.contacts.length) {
-                    contactList.innerHTML = data.contacts.map(contact => {
-                        const icon = contact.role.toLowerCase().includes('truyền thông') ? 'fa-bullhorn' : 'fa-user-tie';
-                        return `
-                            <div class="dc-item">
-                                <div class="dc-icon"><i class="fas ${icon}"></i></div>
-                                <div class="dc-text">
-                                    <h4>${contact.role}</h4>
-                                    <p>${contact.info}</p>
-                                </div>
-                            </div>
-                        `;
-                    }).join('');
-                }
-            }).catch(err => console.warn('Không thể tải nội dung liên hệ:', err));
-        }
+        function loadContactSection() { db.collection('site_settings').doc('contact_section').get().then(doc => { if (!doc.exists) return; const data = doc.data(); if (data.title) document.getElementById('contactTitle').innerText = data.title; if (data.description) document.getElementById('contactDesc').innerText = data.description; const contactList = document.getElementById('contactList'); if (!contactList) return; if (data.contacts && data.contacts.length) { contactList.innerHTML = data.contacts.map(c => { const icon = c.role.toLowerCase().includes('truyền thông') ? 'fa-bullhorn' : 'fa-user-tie'; return `<div class="dc-item"><div class="dc-icon"><i class="fas ${icon}"></i></div><div class="dc-text"><h4>${c.role}</h4><p>${c.info}</p></div></div>`; }).join(''); } }).catch(err => console.warn('Lỗi:', err)); }
+        function loadDeptDescriptions() { db.collection('site_settings').doc('dept_descriptions').onSnapshot(doc => { if (!doc.exists) return; Object.assign(deptDesc, doc.data()); }); }
+        function loadAboutSections() { const container = document.getElementById('dynamic-about-container'); db.collection("about_sections").orderBy("order", "asc").onSnapshot((snapshot) => { container.innerHTML = ''; if(snapshot.empty) { container.innerHTML = `<p style="text-align:center; padding: 40px; color:gray;">Chưa có thông tin giới thiệu. Admin có thể thêm tại trang quản trị.</p>`; return; } let index = 1; snapshot.forEach((doc) => { const data = doc.data(); const numStr = index < 10 ? '0'+index : index; container.innerHTML += `<div class="info-row"><div class="info-left"><div class="info-tag"><i class="fas fa-sparkles"></i> ${numStr}. ${data.tag}</div><h2 class="info-title">${data.title}</h2></div><div class="info-right">${data.paragraphs.map(p => `<p>${p}</p>`).join('')}</div></div>`; index++; }); }); }
 
-        function loadDeptDescriptions() {
-            db.collection('site_settings').doc('dept_descriptions').onSnapshot(doc => {
-                if (!doc.exists) return;
-                const data = doc.data();
-                Object.assign(deptDesc, data);
-            }, err => console.warn('Không thể tải mô tả các ban:', err));
-        }
-
-        // TẢI "VỀ CHÚNG TÔI" TỪ FIREBASE
-        function loadAboutSections() {
-            const container = document.getElementById('dynamic-about-container');
-            db.collection("about_sections").orderBy("order", "asc").onSnapshot((snapshot) => {
-                container.innerHTML = '';
-                if(snapshot.empty) {
-                    container.innerHTML = `<p style="text-align:center; padding: 40px; color:gray;">Chưa có thông tin giới thiệu. Admin có thể thêm tại trang quản trị.</p>`;
-                    return;
-                }
-                let index = 1;
-                snapshot.forEach((doc) => {
-                    const data = doc.data();
-                    const numStr = index < 10 ? '0'+index : index;
-                    container.innerHTML += `
-                        <div class="info-row">
-                            <div class="info-left">
-                                <div class="info-tag"><i class="fas fa-sparkles"></i> ${numStr}. ${data.tag}</div>
-                                <h2 class="info-title">${data.title}</h2>
-                            </div>
-                            <div class="info-right">
-                                ${data.paragraphs.map(p => `<p>${p}</p>`).join('')}
-                            </div>
-                        </div>
-                    `;
-                    index++;
-                });
-            });
-        }
-
-        // TẢI HOẠT ĐỘNG (NEWS) DẠNG MODAL CẮT CHỮ
+        // NEWS MODAL
         function loadPublicNews() {
             const container = document.getElementById('newsPublicContainer');
             db.collection("news").orderBy("date", "desc").onSnapshot(snapshot => {
-                container.innerHTML = '';
-                globalNews = [];
-                if(snapshot.empty) {
-                    container.innerHTML = '<p style="text-align:center; grid-column:1/-1;">Chưa có sự kiện nào được đăng.</p>';
-                    return;
-                }
+                container.innerHTML = ''; globalNews = [];
+                if(snapshot.empty) { container.innerHTML = '<p style="text-align:center; grid-column:1/-1;">Chưa có sự kiện nào được đăng.</p>'; return; }
                 snapshot.forEach(doc => {
-                    const n = doc.data();
-                    n.id = doc.id;
-                    globalNews.push(n);
-
+                    const n = doc.data(); n.id = doc.id; globalNews.push(n);
                     const dParts = n.date.split('-'); const displayDate = `${dParts[2]}/${dParts[1]}/${dParts[0]}`;
-                    let coverImg = n.image; 
-                    
-                    container.innerHTML += `
-                        <div class="news-card" onclick="openArticle('${n.id}')">
-                            <div class="news-img-box">
-                                <img src="${coverImg}" class="news-img" onerror="this.src='https://via.placeholder.com/500x300'">
-                                <div class="news-date-badge"><i class="far fa-calendar-alt"></i> ${displayDate}</div>
-                            </div>
-                            <div class="news-info">
-                                <h3 class="news-title">${n.title}</h3>
-                                <div class="news-desc-short">${n.desc}</div>
-                                <p style="color: var(--primary); font-size: 13px; font-weight: 800; margin-top: 10px;">Đọc tiếp <i class="fas fa-arrow-right"></i></p>
-                            </div>
-                        </div>
-                    `;
+                    container.innerHTML += `<div class="news-card" onclick="openArticle('${n.id}')"><div class="news-img-box"><img src="${n.image}" class="news-img" onerror="this.src='https://via.placeholder.com/500x300'"><div class="news-date-badge"><i class="far fa-calendar-alt"></i> ${displayDate}</div></div><div class="news-info"><h3 class="news-title">${n.title}</h3><div class="news-desc-short">${n.desc}</div><p style="color: var(--primary); font-size: 13px; font-weight: 800; margin-top: 10px;">Đọc tiếp <i class="fas fa-arrow-right"></i></p></div></div>`;
                 });
             });
         }
-
-        // MỞ MODAL ĐỌC TOÀN BỘ BÀI VIẾT (Tự động chuyển link thành ảnh)
+        
         function openArticle(id) {
             const article = globalNews.find(x => x.id === id);
             if(article) {
                 document.getElementById('a-title').innerText = article.title;
-                
-                // Thuật toán: Tìm các link http có đuôi ảnh (jpg, png, jpeg, gif, webp) trong phần nội dung và biến nó thành thẻ <img>
                 let fullContent = article.desc;
                 const urlRegex = /(https?:\/\/[^\s]+(?:\.jpg|\.jpeg|\.png|\.gif|\.webp))/gi;
-                fullContent = fullContent.replace(urlRegex, function(url) {
-                    return `<img src="${url}" alt="LSCM Image" onerror="this.style.display='none'">`;
-                });
-
-                // Tách các đoạn xuống dòng thành các thẻ <p>
+                fullContent = fullContent.replace(urlRegex, function(url) { return `<img src="${url}" alt="LSCM Image" onerror="this.style.display='none'">`; });
                 const paragraphs = fullContent.split('\n').filter(p => p.trim() !== '');
                 let formattedHtml = '';
-                paragraphs.forEach(p => {
-                    if(p.includes('<img')) {
-                        formattedHtml += p;
-                    } else {
-                        formattedHtml += `<p>${p}</p>`;
-                    }
-                });
-
-                // Luôn hiển thị ảnh tiêu đề chính ở đầu bài viết nếu có
-                if(article.image) {
-                    formattedHtml = `<img src="${article.image}" alt="Cover">` + formattedHtml;
-                }
-
+                paragraphs.forEach(p => { if(p.includes('<img')) { formattedHtml += p; } else { formattedHtml += `<p>${p}</p>`; } });
+                if(!formattedHtml.includes('<img')) { formattedHtml = `<img src="${article.image}" alt="Cover">` + formattedHtml; }
                 document.getElementById('a-body').innerHTML = formattedHtml;
                 openModal('articleModal');
             }
@@ -683,100 +535,34 @@
         function loadMembersFromFirebase() {
             db.collection("members").orderBy("roleLevel", "asc").onSnapshot(snapshot => {
                 globalMembers = [];
-                snapshot.forEach(doc => {
-                    let m = doc.data();
-                    m.id = doc.id;
-                    globalMembers.push(m);
-                });
-                
-                // Sắp xếp tăng dần theo RoleLevel, nếu bằng nhau thì xếp theo Ban
-                globalMembers.sort((a, b) => {
-                    if (a.roleLevel !== b.roleLevel) return a.roleLevel - b.roleLevel;
-                    return a.ban.localeCompare(b.ban);
-                });
-
+                snapshot.forEach(doc => { let m = doc.data(); m.id = doc.id; globalMembers.push(m); });
+                globalMembers.sort((a, b) => { if (a.roleLevel !== b.roleLevel) return a.roleLevel - b.roleLevel; return a.ban.localeCompare(b.ban); });
                 renderSystem();
             });
         }
-
-        function createBoardCard(m) {
-            let color = "var(--primary)";
-            if(m.roleLevel === 1) color = "#ef4444"; else if(m.roleLevel === 3) color = "var(--secondary)";
-            return `<div class="board-card" onclick="openProfile('${m.id}')"><img src="${m.image}" class="bc-img" style="border-color: ${color};" onerror="this.src='https://via.placeholder.com/300'"><div class="bc-info"><span class="bc-role" style="color:${color}; background:${color}15;">${m.roleTitle}</span><h3 class="bc-name">${m.name}</h3></div></div>`;
-        }
-
-        function createMemCard(m) {
-            let roleDisplay = m.status === 'ALUMNI' ? m.roleTitle : m.ban;
-            return `<div class="mem-card" onclick="openProfile('${m.id}')"><img src="${m.image}" class="mem-img" onerror="this.src='https://via.placeholder.com/100'"><h4 class="mem-name">${m.name}</h4><p class="mem-ban">${roleDisplay}</p></div>`;
-        }
+        function createBoardCard(m) { let c = m.roleLevel === 1 ? "#ef4444" : (m.roleLevel === 3 ? "var(--secondary)" : "var(--primary)"); return `<div class="board-card" onclick="openProfile('${m.id}')"><img src="${m.image}" class="bc-img" style="border-color: ${c};" onerror="this.src='https://via.placeholder.com/300'"><div class="bc-info"><span class="bc-role" style="color:${c}; background:${c}15;">${m.roleTitle}</span><h3 class="bc-name">${m.name}</h3></div></div>`; }
+        function createMemCard(m) { let roleDisplay = m.status === 'ALUMNI' ? m.roleTitle : m.ban; return `<div class="mem-card" onclick="openProfile('${m.id}')"><img src="${m.image}" class="mem-img" onerror="this.src='https://via.placeholder.com/100'"><h4 class="mem-name">${m.name}</h4><p class="mem-ban">${roleDisplay}</p></div>`; }
 
         function renderSystem() {
-            // Lọc Cấp 1 đến 5 cho các vị trí Lãnh đạo để hiển thị ở Tab Ban Chủ Nhiệm
-            const boardLevel1to3 = globalMembers.filter(m => m.roleLevel <= 3 && m.status !== 'ALUMNI');
-            const boardLevel4 = globalMembers.filter(m => m.roleLevel === 4 && m.status !== 'ALUMNI');
-            const boardLevel5 = globalMembers.filter(m => m.roleLevel === 5 && m.status !== 'ALUMNI');
+            const b1 = globalMembers.filter(m => m.roleLevel <= 3 && m.status !== 'ALUMNI');
+            const b4 = globalMembers.filter(m => m.roleLevel === 4 && m.status !== 'ALUMNI');
+            const b5 = globalMembers.filter(m => m.roleLevel === 5 && m.status !== 'ALUMNI');
+            document.getElementById('homeBoardContainer').innerHTML = b1.slice(0,4).map(createBoardCard).join('');
+            document.getElementById('boardRow1').innerHTML = b1.map(createBoardCard).join(''); document.getElementById('boardRow2').innerHTML = b4.map(createBoardCard).join(''); document.getElementById('boardRow3').innerHTML = b5.map(createBoardCard).join('');
 
-            // Gán vào giao diện Ban Chủ Nhiệm
-            document.getElementById('homeBoardContainer').innerHTML = boardLevel1to3.slice(0,4).map(createBoardCard).join('');
-            document.getElementById('boardRow1').innerHTML = boardLevel1to3.map(createBoardCard).join('');
-            document.getElementById('boardRow2').innerHTML = boardLevel4.map(createBoardCard).join('');
-            document.getElementById('boardRow3').innerHTML = boardLevel5.map(createBoardCard).join('');
-
-            // HIỂN THỊ TAB THÀNH VIÊN - GOM TẤT CẢ (LÃNH ĐẠO + THÀNH VIÊN) VÀ XẾP NGẪU NHIÊN
-            // Chỉ cần status là 'ACTIVE', không phân biệt roleLevel nữa
-            const activeMems = globalMembers.filter(m => m.status === 'ACTIVE').sort(() => Math.random() - 0.5);
-            const ctvMems = globalMembers.filter(m => m.status === 'CTV').sort(() => Math.random() - 0.5);
-            const alumniMems = globalMembers.filter(m => m.status === 'ALUMNI').sort(() => Math.random() - 0.5);
-
-            // Cập nhật tổng số trên Tiêu đề lớn
-            const totalMembers = activeMems.length + ctvMems.length + alumniMems.length;
-            document.getElementById('c-total-mems').innerText = "(Tổng: " + totalMembers + ")";
-
-            document.getElementById('c-tv').innerText = activeMems.length;
-            document.getElementById('c-ctv').innerText = ctvMems.length;
-            document.getElementById('c-cuu').innerText = alumniMems.length;
-
-            document.getElementById('mem-active-container').innerHTML = activeMems.map(createMemCard).join('');
-            document.getElementById('mem-ctv-container').innerHTML = ctvMems.map(createMemCard).join('');
-            document.getElementById('mem-alumni-container').innerHTML = alumniMems.map(createMemCard).join('');
-        }
-
-        const deptDesc = {
-            'Truyền Thông': "Sáng tạo nội dung, thiết kế hình ảnh, quản trị Fanpage và lan tỏa thông điệp.",
-            'Kỹ Thuật': "Hỗ trợ công nghệ, âm thanh ánh sáng và vận hành nền tảng kỹ thuật số.",
-            'Đối Ngoại & Tổ chức sự kiện': "Đại diện liên hệ doanh nghiệp, xin tài trợ và điều phối sự kiện.",
-            'Chuyên Môn': "Nghiên cứu tài liệu Logistics, tổ chức training kiến thức nội bộ."
-        };
-        
-        function openDeptDetail(banName) {
-            document.getElementById('dept-grid-view').style.display = 'none';
-            document.getElementById('dept-detail-view').style.display = 'block';
-            window.scrollTo(0, 0);
-            document.getElementById('d-title').innerText = "Ban " + banName;
-            document.getElementById('d-desc').innerText = deptDesc[banName] || "Mô tả đang cập nhật...";
+            const act = globalMembers.filter(m => m.status === 'ACTIVE').sort(() => Math.random() - 0.5);
+            const ctv = globalMembers.filter(m => m.status === 'CTV').sort(() => Math.random() - 0.5);
+            const alm = globalMembers.filter(m => m.status === 'ALUMNI').sort(() => Math.random() - 0.5);
             
-            // Tìm các thành viên thuộc Ban này từ globalMembers (không tính Cựu)
-            const deptMembers = globalMembers.filter(m => m.ban.includes(banName) && m.status === 'ACTIVE').sort((a,b) => a.roleLevel - b.roleLevel);
-            document.getElementById('deptMembersContainer').innerHTML = deptMembers.map(createBoardCard).join('');
+            document.getElementById('c-total-mems').innerText = "(Tổng: " + (act.length + ctv.length + alm.length) + ")";
+            document.getElementById('c-tv').innerText = act.length; document.getElementById('c-ctv').innerText = ctv.length; document.getElementById('c-cuu').innerText = alm.length;
+            document.getElementById('mem-active-container').innerHTML = act.map(createMemCard).join(''); document.getElementById('mem-ctv-container').innerHTML = ctv.map(createMemCard).join(''); document.getElementById('mem-alumni-container').innerHTML = alm.map(createMemCard).join('');
         }
 
-        function closeDeptDetail() {
-            document.getElementById('dept-grid-view').style.display = 'block';
-            document.getElementById('dept-detail-view').style.display = 'none';
-        }
-
-        function openProfile(id) {
-            const m = globalMembers.find(x => x.id === id);
-            if(m) {
-                document.getElementById('m-name').innerText = m.name;
-                document.getElementById('m-role').innerText = m.roleTitle;
-                document.getElementById('m-slogan').innerText = m.slogan || "Gắn kết và cống hiến.";
-                document.getElementById('m-bio').innerText = m.bio || "Thành viên CLB LSCM.";
-                document.getElementById('m-img').src = m.image;
-                document.getElementById('m-fb').href = m.fb || "#";
-                openModal('profileModal');
-            }
-        }
+        const deptDesc = { 'Truyền Thông': "Sáng tạo nội dung.", 'Kỹ Thuật': "Hỗ trợ công nghệ.", 'Đối Ngoại & Tổ chức sự kiện': "Đại diện liên hệ doanh nghiệp.", 'Chuyên Môn': "Nghiên cứu tài liệu." };
+        function openDeptDetail(banName) { document.getElementById('dept-grid-view').style.display = 'none'; document.getElementById('dept-detail-view').style.display = 'block'; window.scrollTo(0, 0); document.getElementById('d-title').innerText = "Ban " + banName; document.getElementById('d-desc').innerText = deptDesc[banName] || "Mô tả đang cập nhật..."; document.getElementById('deptMembersContainer').innerHTML = globalMembers.filter(m => m.ban.includes(banName) && m.status === 'ACTIVE').sort((a,b) => a.roleLevel - b.roleLevel).map(createBoardCard).join(''); }
+        function closeDeptDetail() { document.getElementById('dept-grid-view').style.display = 'block'; document.getElementById('dept-detail-view').style.display = 'none'; }
+        function openProfile(id) { const m = globalMembers.find(x => x.id === id); if(m) { document.getElementById('m-name').innerText = m.name; document.getElementById('m-role').innerText = m.roleTitle; document.getElementById('m-slogan').innerText = m.slogan || "Gắn kết và cống hiến."; document.getElementById('m-bio').innerText = m.bio || "Thành viên CLB LSCM."; document.getElementById('m-img').src = m.image; document.getElementById('m-fb').href = m.fb || "#"; openModal('profileModal'); } }
 
         // LOGIN SYSTEM
         let currentLoginRole = 'member';
@@ -799,35 +585,16 @@
 
             const ADMIN_EMAIL = "chunhiem@lscm.vn"; 
 
-            if (currentLoginRole === 'admin' && email !== ADMIN_EMAIL) {
-                return alert("TRUY CẬP TỪ CHỐI: Đây không phải là tài khoản của Ban Chủ Nhiệm!");
-            }
-            if (currentLoginRole === 'member' && email === ADMIN_EMAIL) {
-                return alert("Vui lòng gạt sang tab Ban Chủ Nhiệm để đăng nhập tài khoản này!");
-            }
+            if (currentLoginRole === 'admin' && email !== ADMIN_EMAIL) return alert("TRUY CẬP TỪ CHỐI: Đây không phải là tài khoản của Ban Chủ Nhiệm!");
+            if (currentLoginRole === 'member' && email === ADMIN_EMAIL) return alert("Vui lòng gạt sang tab Ban Chủ Nhiệm để đăng nhập tài khoản này!");
 
-            btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xác thực...';
-            btnSubmit.disabled = true;
+            btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xác thực...'; btnSubmit.disabled = true;
 
-            auth.signInWithEmailAndPassword(email, pass)
-                .then((userCredential) => {
-                    localStorage.setItem('isLoggedIn', 'true');
-                    
-                    if (email === ADMIN_EMAIL) {
-                        localStorage.setItem('userRole', 'ADMIN');
-                        localStorage.setItem('userName', 'Ban Chủ Nhiệm LSCM');
-                        window.location.href = 'admin.html'; 
-                    } else {
-                        localStorage.setItem('userRole', 'MEMBER');
-                        localStorage.setItem('userName', email.split('@')[0]);
-                        window.location.href = 'thanh-vien.html'; 
-                    }
-                })
-                .catch((error) => {
-                    alert("Sai tài khoản hoặc mật khẩu! Vui lòng kiểm tra lại.");
-                    btnSubmit.innerHTML = 'Xác Nhận Đăng Nhập';
-                    btnSubmit.disabled = false;
-                });
+            auth.signInWithEmailAndPassword(email, pass).then((userCredential) => {
+                localStorage.setItem('isLoggedIn', 'true');
+                if (email === ADMIN_EMAIL) { localStorage.setItem('userRole', 'ADMIN'); localStorage.setItem('userName', 'Ban Chủ Nhiệm LSCM'); window.location.href = 'admin.html'; } 
+                else { localStorage.setItem('userRole', 'MEMBER'); localStorage.setItem('userName', email.split('@')[0]); window.location.href = 'thanh-vien.html'; }
+            }).catch((error) => { alert("Sai tài khoản hoặc mật khẩu! Vui lòng kiểm tra lại."); btnSubmit.innerHTML = 'Xác Nhận Đăng Nhập'; btnSubmit.disabled = false; });
         }
     </script>
 </body>

@@ -85,6 +85,14 @@
         
         .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.85); display: none; justify-content: center; align-items: center; z-index: 2000;}
         .modal-overlay.show { display: flex; }
+
+        /* CSS HỘP THƯ LIÊN HỆ */
+        .msg-card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 15px; border: 1px solid var(--border-color); border-left: 4px solid var(--primary); }
+        .msg-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px dashed var(--border-color); padding-bottom: 10px;}
+        .msg-name { font-weight: 800; font-size: 16px; color: var(--text-main); }
+        .msg-email { font-size: 13px; color: var(--text-muted); display: inline-block; margin-top: 5px; background: #f1f5f9; padding: 4px 8px; border-radius: 6px;}
+        .msg-date { font-size: 12px; color: var(--text-muted); font-weight: 600;}
+        .msg-content { font-size: 14px; line-height: 1.6; color: var(--text-main); padding-top: 10px;}
     </style>
 </head>
 <body>
@@ -103,6 +111,8 @@
             <div class="menu-item" onclick="switchTab('tab-members', this)"><i class="fas fa-users-cog"></i> Hồ Sơ Thành Viên</div>
             <div class="menu-item" onclick="switchTab('tab-news', this)"><i class="fas fa-newspaper"></i> Tin Tức & Sự Kiện</div>
             <div class="menu-item" onclick="switchTab('tab-docs', this)"><i class="fas fa-folder-open"></i> Kho Tài Liệu Nội Bộ</div>
+            <div class="menu-label">Hệ thống tương tác</div>
+            <div class="menu-item" onclick="switchTab('tab-messages', this)"><i class="fas fa-envelope"></i> Hộp Thư Liên Hệ</div>
             <div class="menu-label">Hệ thống</div>
             <div class="menu-item" onclick="window.location.href='index.html'"><i class="fas fa-external-link-alt"></i> Xem Trang chủ</div>
         </div>
@@ -137,9 +147,9 @@
                     <div class="form-grid">
                         <div class="input-group full"><label>Tiêu đề mục liên hệ</label><input type="text" id="contactTitleInput" placeholder="Kết Nối Với Chúng Tôi"></div>
                         <div class="input-group full"><label>Nội dung mô tả</label><textarea id="contactDescInput" rows="4" placeholder="Bạn có câu hỏi, ý tưởng..." ></textarea></div>
-                        <div class="input-group full"><label>Tiêu đề liên hệ 1</label><input type="text" id="contactRole1Input" placeholder="Liên hệ Chủ Nhiệm"></div>
+                        <div class="input-group full"><label>Tiêu đề liên hệ 1</label><input type="text" id="contactRole1Input" placeholder="VD: Liên hệ Quản Lý Bộ Môn & Cố Vấn CLB"></div>
                         <div class="input-group full"><label>Thông tin liên hệ 1</label><input type="text" id="contactInfo1Input" placeholder="Nguyễn Văn A - 0123.456.789"></div>
-                        <div class="input-group full"><label>Tiêu đề liên hệ 2</label><input type="text" id="contactRole2Input" placeholder="Liên hệ Trưởng Ban Truyền Thông"></div>
+                        <div class="input-group full"><label>Tiêu đề liên hệ 2</label><input type="text" id="contactRole2Input" placeholder="VD: Liên hệ Trưởng Ban Truyền Thông"></div>
                         <div class="input-group full"><label>Thông tin liên hệ 2</label><input type="text" id="contactInfo2Input" placeholder="Trương D - 0987.654.321"></div>
                         <div class="input-group full" style="display:flex; justify-content:flex-end;">
                             <button class="btn-action" type="button" onclick="saveContactSection()"><i class="fas fa-save"></i> Lưu nội dung liên hệ</button>
@@ -187,7 +197,7 @@
                             <div class="security-box" id="securityBox">
                                 <div class="security-title"><i class="fas fa-shield-alt"></i> Thông tin đăng nhập Firebase</div>
                                 <div class="input-group"><label>Email Đăng Nhập</label><input type="email" id="m_email" placeholder="VD: hv@lscm.vn"></div>
-                                <div class="input-group"><label>Mật Khẩu</label><input type="text" id="m_pass" placeholder="Tối thiểu 6 ký tự" minlength="6"></div>
+                                <div class="input-group"><label>Mật Khẩu Mới (Dùng khi tạo mới hoặc Cấp lại pass)</label><input type="text" id="m_pass" placeholder="Tối thiểu 6 ký tự" minlength="6"></div>
                             </div>
 
                             <div class="input-group full" id="resetPassBox" style="display: none;">
@@ -216,12 +226,12 @@
                             <div class="input-group">
                                 <label>Cấp độ Hiển Thị *</label>
                                 <select id="m_level" required>
-                                    <option value="1">Cấp 1 - Cố Vấn CLB</option>
+                                    <option value="1">Cấp 1 - Quản Lý Bộ Môn & Cố Vấn CLB</option>
                                     <option value="2">Cấp 2 - Chủ Nhiệm CLB</option>
                                     <option value="3">Cấp 3 - Phó Chủ Nhiệm CLB</option>
                                     <option value="4">Cấp 4 - Trưởng Ban</option>
                                     <option value="5">Cấp 5 - Phó Ban</option>
-                                    <option value="6" selected>Cấp 6 - Thành viên / CTV</option>
+                                    <option value="6" selected>Cấp 6 - Thành viên / CTV / Cựu</option>
                                 </select>
                             </div>
                             <div class="input-group">
@@ -292,7 +302,8 @@
                     </div>
                     <form id="docForm" onsubmit="saveDoc(event)" style="display:none; background:#f8fafc; padding:20px; border-radius:12px; margin-bottom: 25px; border:1px solid var(--border-color);">
                         <input type="hidden" id="d_id">
-                        <input type="hidden" id="d_status"> <div class="form-grid">
+                        <input type="hidden" id="d_status">
+                        <div class="form-grid">
                             <div class="input-group full"><label>Tên bài giảng / Tài liệu</label><input type="text" id="d_name" required></div>
                             <div class="input-group full"><label>Link Google Drive</label><input type="url" id="d_link" required></div>
                         </div>
@@ -302,6 +313,17 @@
                         </div>
                     </form>
                     <div id="approvedDocsContainer"></div>
+                </div>
+            </div>
+
+            <div id="tab-messages" class="tab-content">
+                <div class="panel" style="border-top: 4px solid var(--danger);">
+                    <div class="panel-header">
+                        <h2 class="panel-title"><i class="fas fa-envelope-open-text"></i> Hộp Thư Liên Hệ (Từ Trang Chủ)</h2>
+                    </div>
+                    <div id="messagesContainer">
+                        <p style="text-align: center; color: gray;">Đang tải hộp thư...</p>
+                    </div>
                 </div>
             </div>
 
@@ -348,7 +370,7 @@
             document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
             element.classList.add('active');
-            const titleMap = { 'tab-info': 'Quản Trị "Giới Thiệu"', 'tab-contact': 'Quản Trị "Liên Hệ"', 'tab-depts': 'Quản Trị Mô Tả Các Ban', 'tab-members': 'Quản Lý Hồ Sơ & Tài Khoản', 'tab-news': 'Quản Trị Bài Đăng', 'tab-docs': 'Quản Lý Kho Tài Liệu' };
+            const titleMap = { 'tab-info': 'Quản Trị "Giới Thiệu"', 'tab-contact': 'Quản Trị "Liên Hệ"', 'tab-depts': 'Quản Trị Mô Tả Các Ban', 'tab-members': 'Quản Lý Hồ Sơ & Tài Khoản', 'tab-news': 'Quản Trị Bài Đăng', 'tab-docs': 'Quản Lý Kho Tài Liệu', 'tab-messages': 'Hộp Thư Liên Hệ' };
             document.getElementById('pageTitle').innerText = titleMap[tabId] || 'Admin';
         }
 
@@ -486,18 +508,16 @@
         function editNews(id, t, d, i, desc) { openNewsForm(); document.getElementById('n_id').value=id; document.getElementById('n_title').value=t; document.getElementById('n_date').value=d; document.getElementById('n_img').value=i; document.getElementById('n_desc').value=desc; }
         function deleteNews(id) { if(confirm("Xóa sự kiện này?")) db.collection("news").doc(id).delete(); }
 
-        // LOGIC TÀI LIỆU CHO ADMIN (ĐÃ SỬA LỖI SỬA FILE)
         function openDocForm() { 
             document.getElementById('docForm').reset(); 
             document.getElementById('d_id').value=''; 
-            document.getElementById('d_status').value='APPROVED'; // Mặc định Admin up là Approved
+            document.getElementById('d_status').value='APPROVED'; 
             document.getElementById('docForm').style.display='block'; 
         }
 
         function saveDoc(e) {
             e.preventDefault();
             const id = document.getElementById('d_id').value;
-            // Lấy lại status cũ (nếu đang sửa file Pending thì vẫn giữ là Pending)
             const currentStatus = document.getElementById('d_status').value || 'APPROVED'; 
             
             const payload = { 
@@ -507,10 +527,8 @@
             };
             
             if(id) {
-                // Nếu là sửa file, không được đè lại timestamp cũ để file không bị nhảy thứ tự lung tung
                 db.collection("documents").doc(id).update(payload).then(() => { document.getElementById('docForm').style.display='none'; });
             } else {
-                // Nếu là thêm file mới
                 payload.timestamp = firebase.firestore.FieldValue.serverTimestamp();
                 db.collection("documents").add(payload).then(() => { document.getElementById('docForm').style.display='none'; });
             }
@@ -519,15 +537,12 @@
         function fetchDocs() {
             const pendBox = document.getElementById('pendingDocsContainer');
             const apprBox = document.getElementById('approvedDocsContainer');
-            
-            // XÓA ĐIỀU KIỆN WHERE ĐỂ LẤY TOÀN BỘ RỒI LỌC BẰNG JAVASCRIPT (TRÁNH LỖI INDEX FIREBASE)
             db.collection("documents").orderBy("timestamp", "desc").onSnapshot(snapshot => {
                 pendBox.innerHTML = ''; apprBox.innerHTML = ''; let hasPend = false;
                 snapshot.forEach(doc => {
                     const d = doc.data();
                     if(d.status === 'PENDING') {
                         hasPend = true;
-                        // THÊM NÚT SỬA VÀO FILE CHỜ DUYỆT
                         pendBox.innerHTML += `
                             <div class="approval-card">
                                 <div class="approval-info"><h4><i class="fas fa-file"></i> ${d.name}</h4><a href="${d.link}" target="_blank" style="font-size:12px; color:var(--secondary); text-decoration:underline;">Mở xem Link Drive</a></div>
@@ -553,18 +568,11 @@
             });
         }
         function approveDoc(id) { db.collection("documents").doc(id).update({status: 'APPROVED'}); }
-        
         function editDoc(id, n, l, currentStatus) { 
-            openDocForm(); 
-            document.getElementById('d_id').value=id; 
-            document.getElementById('d_name').value=n; 
-            document.getElementById('d_link').value=l; 
-            document.getElementById('d_status').value=currentStatus; // Giữ nguyên trạng thái PENDING hoặc APPROVED
+            openDocForm(); document.getElementById('d_id').value=id; document.getElementById('d_name').value=n; document.getElementById('d_link').value=l; document.getElementById('d_status').value=currentStatus; 
         }
-        
         function deleteDoc(id) { if(confirm("Xóa tài liệu này khỏi kho?")) db.collection("documents").doc(id).delete(); }
 
-        // CÁC HÀM CŨ GIỮ NGUYÊN...
         function loadAboutSectionsForAdmin() {
             const container = document.getElementById('aboutListContainer');
             db.collection("about_sections").orderBy("order", "asc").onSnapshot((snapshot) => {
@@ -607,7 +615,23 @@
             db.collection('site_settings').doc('dept_descriptions').set(data).then(() => { alert('Đã lưu mô tả các ban.'); });
         }
 
-        fetchMembers(); fetchNews(); fetchDocs(); loadAboutSectionsForAdmin(); loadContactSectionForAdmin(); loadDeptDescriptionsForAdmin();
+        // HÀM QUẢN LÝ HỘP THƯ LIÊN HỆ
+        function fetchMessages() {
+            const container = document.getElementById('messagesContainer');
+            db.collection("messages").orderBy("timestamp", "desc").onSnapshot(snapshot => {
+                container.innerHTML = '';
+                if(snapshot.empty) { container.innerHTML = '<p style="text-align:center; color:gray;">Không có thư liên hệ nào.</p>'; return; }
+                snapshot.forEach(doc => {
+                    const msg = doc.data();
+                    const d = msg.timestamp ? msg.timestamp.toDate() : new Date();
+                    const dStr = d.toLocaleDateString('vi-VN') + ' ' + d.toLocaleTimeString('vi-VN');
+                    container.innerHTML += `<div class="msg-card"><div class="msg-header"><div><div class="msg-name">${msg.name}</div><div class="msg-email"><i class="fas fa-envelope"></i> ${msg.email}</div></div><div style="text-align:right;"><div class="msg-date">${dStr}</div><button class="btn-delete" style="margin-top:8px;" onclick="deleteMessage('${doc.id}')"><i class="fas fa-trash"></i> Xóa thư</button></div></div><div class="msg-content">${msg.content}</div></div>`;
+                });
+            });
+        }
+        function deleteMessage(id) { if(confirm("Bạn có chắc chắn muốn xóa vĩnh viễn thư này?")) db.collection("messages").doc(id).delete(); }
+
+        fetchMembers(); fetchNews(); fetchDocs(); loadAboutSectionsForAdmin(); loadContactSectionForAdmin(); loadDeptDescriptionsForAdmin(); fetchMessages();
     </script>
 </body>
 </html>

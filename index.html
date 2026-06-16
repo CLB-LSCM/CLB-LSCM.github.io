@@ -75,34 +75,37 @@
         .info-right { flex: 1.5; min-width: 300px; color: var(--text-muted); font-size: 15px; line-height: 1.8; display: flex; flex-direction: column; gap: 15px; font-weight: 500;}
 
         /* BẢNG CHỦ NHIỆM CHUNG */
-        .board-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; max-width: 1200px; margin: auto; padding: 0 20px; }
-        @media(max-width: 1024px) { .board-grid-4 { grid-template-columns: repeat(2, 1fr); } }
+        .board-grid-4, .board-grid-3, .board-grid-2 { display: grid; gap: 20px; margin: auto; padding: 0 20px 30px; }
+        .board-grid-4 { grid-template-columns: repeat(4, 1fr); max-width: 1200px; }
+        .board-grid-3 { grid-template-columns: repeat(3, 1fr); max-width: 1000px; }
+        .board-grid-2 { grid-template-columns: repeat(2, 1fr); max-width: 800px; }
+        
+        @media(max-width: 1024px) { 
+            .board-grid-4, .board-grid-3 { grid-template-columns: repeat(2, 1fr); } 
+        }
         @media(max-width: 600px) {
             /* Biến bảng danh sách thành luồng cuộn ngang mượt mà */
-            .board-grid-4 {
-                grid-template-columns: unset; /* Bỏ ép buộc 1 cột đứng */
-                grid-auto-flow: column;     /* Ép các thẻ xếp thành 1 hàng ngang duy nhất */
-                grid-auto-columns: 75%;     /* Mỗi thẻ chiếm 75% màn hình để lộ một phần thẻ tiếp theo (kích thích vuốt) */
-                gap: 15px;                  /* Khoảng cách giữa các thẻ */
-                overflow-x: auto;           /* Kích hoạt tính năng cuộn ngang */
-                width: 100%;                /* Đảm bảo chiếm toàn bộ chiều rộng để cuộn */
-                max-width: none;            /* Xóa ràng buộc max-width từ rule phía trên */
-                padding: 10px 20px 20px;    /* Tạo khoảng trống bên dưới tránh bị sát cạnh */
-                scroll-snap-type: x mandatory; /* Hiệu ứng khựng: Vuốt phát nào ăn phát nấy, tự động căn giữa thẻ */
-                -webkit-overflow-scrolling: touch; /* Giúp vuốt siêu mượt trên điện thoại iPhone/iOS */
+            .board-grid-4, .board-grid-3, .board-grid-2 {
+                grid-template-columns: unset; 
+                grid-auto-flow: column;     
+                grid-auto-columns: 75%;     
+                gap: 15px;                  
+                overflow-x: auto;           
+                width: 100%;                
+                max-width: none;            
+                padding: 10px 20px 20px;    
+                scroll-snap-type: x mandatory; 
+                -webkit-overflow-scrolling: touch; 
             }
-
-            /* Bổ sung hiệu ứng dừng cho từng thẻ khi vuốt */
             .board-card {
                 scroll-snap-align: start;
-                min-width: 75%;             /* Đảm bảo mỗi card có kích thước cố định */
+                min-width: 75%;             
             }
-
-            /* Ẩn thanh cuộn xấu xí của trình duyệt di động để nhìn web gọn gàng hơn */
-            .board-grid-4::-webkit-scrollbar {
+            .board-grid-4::-webkit-scrollbar, .board-grid-3::-webkit-scrollbar, .board-grid-2::-webkit-scrollbar {
                 display: none;
             }
         }
+        
         .board-card { background: white; border-radius: 20px; overflow: hidden; border: 1px solid var(--border-color); text-align: center; padding-bottom: 20px; cursor: pointer; transition: var(--transition);}
         .board-card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(0,0,0,0.08); border-color: var(--primary); }
         .bc-img { width: 100%; height: 260px; object-fit: cover; border-bottom: 4px solid var(--primary); }
@@ -304,7 +307,22 @@
                     <div class="contact-left">
                         <h3 id="contactTitle">Kết Nối Với Chúng Tôi</h3>
                         <p id="contactDesc">Bạn có câu hỏi, ý tưởng hay muốn trở thành một phần của đại gia đình LSCM? Hãy liên hệ trực tiếp với bộ phận chuyên trách hoặc để lại lời nhắn.</p>
-                        <div class="direct-contact" id="contactList"></div>
+                        <div class="direct-contact" id="contactList">
+                            <div class="dc-item">
+                                <div class="dc-icon"><i class="fas fa-user-tie"></i></div>
+                                <div class="dc-text">
+                                    <h4>Liên hệ Quản lý Bộ môn & Cố vấn CLB</h4>
+                                    <p>Nguyễn Văn A - 0123.456.789</p>
+                                </div>
+                            </div>
+                            <div class="dc-item">
+                                <div class="dc-icon"><i class="fas fa-bullhorn"></i></div>
+                                <div class="dc-text">
+                                    <h4>Liên hệ Trưởng Ban Truyền Thông</h4>
+                                    <p>Trương D - 0987.654.321</p>
+                                </div>
+                            </div>
+                        </div>
                         <div style="display: flex; gap: 15px;">
                             <a href="https://www.facebook.com/share/1EH4HHa5rk/" target="_blank" class="soc-btn fb" style="flex:1;"><i class="fab fa-facebook-f"></i> Facebook</a>
                             <a href="https://www.tiktok.com/@hunre.logistics.lscm" target="_blank" class="soc-btn tt" style="flex:1;"><i class="fab fa-tiktok"></i> TikTok</a>
@@ -329,8 +347,10 @@
                 <div class="sec-line"></div>
             </div>
             <div class="board-container">
-                <div class="board-row-title">Cố Vấn CLB & Ban Chủ Nhiệm</div>
-                <div class="board-grid-4" id="boardRow1"></div>
+                <div class="board-row-title">Quản Lý Bộ Môn & Cố Vấn CLB</div>
+                <div class="board-grid-2" id="boardRow0"></div>
+                <div class="board-row-title">Ban Chủ Nhiệm</div>
+                <div class="board-grid-3" id="boardRow1"></div>
                 <div class="board-row-title">Các Trưởng Ban</div>
                 <div class="board-grid-4" id="boardRow2"></div>
                 <div class="board-row-title">Các Phó Ban</div>
@@ -347,10 +367,18 @@
                 </div>
                 <div class="dept-container">
                     <div class="dept-grid">
-                        <div class="dept-card" onclick="openDeptDetail('Truyền Thông')"><i class="fas fa-bullhorn dept-icon" style="color: var(--primary);"></i><h3>Ban Truyền Thông</h3></div>
-                        <div class="dept-card" onclick="openDeptDetail('Kỹ Thuật')"><i class="fas fa-laptop-code dept-icon" style="color: #3b82f6;"></i><h3>Ban Kỹ Thuật</h3></div>
-                        <div class="dept-card" onclick="openDeptDetail('Đối Ngoại & Tổ chức sự kiện')"><i class="fas fa-handshake dept-icon" style="color: var(--secondary);"></i><h3>Ban Đối Ngoại & TCSK</h3></div>
-                        <div class="dept-card" onclick="openDeptDetail('Chuyên Môn')"><i class="fas fa-book-open dept-icon" style="color: #ef4444;"></i><h3>Ban Chuyên Môn</h3></div>
+                        <div class="dept-card" onclick="openDeptDetail('Truyền Thông')">
+                            <i class="fas fa-bullhorn dept-icon" style="color: var(--primary);"></i><h3>Ban Truyền Thông</h3>
+                        </div>
+                        <div class="dept-card" onclick="openDeptDetail('Kỹ Thuật')">
+                            <i class="fas fa-laptop-code dept-icon" style="color: #3b82f6;"></i><h3>Ban Kỹ Thuật</h3>
+                        </div>
+                        <div class="dept-card" onclick="openDeptDetail('Đối Ngoại & Tổ chức sự kiện')">
+                            <i class="fas fa-handshake dept-icon" style="color: var(--secondary);"></i><h3>Ban Đối Ngoại & Tổ chức sự kiện</h3>
+                        </div>
+                        <div class="dept-card" onclick="openDeptDetail('Chuyên Môn')">
+                            <i class="fas fa-book-open dept-icon" style="color: #ef4444;"></i><h3>Ban Chuyên Môn</h3>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -358,8 +386,13 @@
             <div id="dept-detail-view">
                 <div class="dept-container">
                     <button class="btn-back" onclick="closeDeptDetail()"><i class="fas fa-arrow-left"></i> Quay lại Các Ban</button>
-                    <div class="dept-intro-box"><h2 id="d-title">Tên Ban</h2><p id="d-desc">Mô tả công việc của ban...</p></div>
-                    <div class="sec-header" style="margin-bottom: 30px; padding-top: 0;"><h2 class="sec-title" style="font-size: 22px;">Thành Viên Trực Thuộc</h2></div>
+                    <div class="dept-intro-box">
+                        <h2 id="d-title">Tên Ban</h2>
+                        <p id="d-desc">Mô tả công việc của ban...</p>
+                    </div>
+                    <div class="sec-header" style="margin-bottom: 30px; padding-top: 0;">
+                        <h2 class="sec-title" style="font-size: 22px;">Thành Viên Trực Thuộc</h2>
+                    </div>
                     <div class="board-grid-4" id="deptMembersContainer"></div>
                 </div>
             </div>
@@ -515,17 +548,31 @@
             });
         }
         
+        // MỞ MODAL ĐỌC TOÀN BỘ BÀI VIẾT (ÉP BUỘC HIỂN THỊ ẢNH BÌA Ở ĐẦU)
         function openArticle(id) {
             const article = globalNews.find(x => x.id === id);
             if(article) {
                 document.getElementById('a-title').innerText = article.title;
+                
                 let fullContent = article.desc;
                 const urlRegex = /(https?:\/\/[^\s]+(?:\.jpg|\.jpeg|\.png|\.gif|\.webp))/gi;
-                fullContent = fullContent.replace(urlRegex, function(url) { return `<img src="${url}" alt="LSCM Image" onerror="this.style.display='none'">`; });
+                fullContent = fullContent.replace(urlRegex, function(url) {
+                    return `<img src="${url}" alt="LSCM Image" onerror="this.style.display='none'">`;
+                });
+
                 const paragraphs = fullContent.split('\n').filter(p => p.trim() !== '');
                 let formattedHtml = '';
-                paragraphs.forEach(p => { if(p.includes('<img')) { formattedHtml += p; } else { formattedHtml += `<p>${p}</p>`; } });
-                if(!formattedHtml.includes('<img')) { formattedHtml = `<img src="${article.image}" alt="Cover">` + formattedHtml; }
+                paragraphs.forEach(p => {
+                    if(p.includes('<img')) {
+                        formattedHtml += p;
+                    } else {
+                        formattedHtml += `<p>${p}</p>`;
+                    }
+                });
+
+                // Dòng này ĐẢM BẢO LUÔN LUÔN chèn ảnh bìa lên vị trí đầu tiên của bài viết
+                formattedHtml = `<img src="${article.image}" alt="Cover" style="width:100%; border-radius:12px; margin-bottom:20px; border: 1px solid var(--border-color);">` + formattedHtml;
+
                 document.getElementById('a-body').innerHTML = formattedHtml;
                 openModal('articleModal');
             }
@@ -544,19 +591,41 @@
         function createMemCard(m) { let roleDisplay = m.status === 'ALUMNI' ? m.roleTitle : m.ban; return `<div class="mem-card" onclick="openProfile('${m.id}')"><img src="${m.image}" class="mem-img" onerror="this.src='https://via.placeholder.com/100'"><h4 class="mem-name">${m.name}</h4><p class="mem-ban">${roleDisplay}</p></div>`; }
 
         function renderSystem() {
-            const b1 = globalMembers.filter(m => m.roleLevel <= 3 && m.status !== 'ALUMNI');
-            const b4 = globalMembers.filter(m => m.roleLevel === 4 && m.status !== 'ALUMNI');
-            const b5 = globalMembers.filter(m => m.roleLevel === 5 && m.status !== 'ALUMNI');
-            document.getElementById('homeBoardContainer').innerHTML = b1.slice(0,4).map(createBoardCard).join('');
-            document.getElementById('boardRow1').innerHTML = b1.map(createBoardCard).join(''); document.getElementById('boardRow2').innerHTML = b4.map(createBoardCard).join(''); document.getElementById('boardRow3').innerHTML = b5.map(createBoardCard).join('');
+            const boardLevel1 = globalMembers.filter(m => m.roleLevel === 1 && m.status !== 'ALUMNI');
+            const boardLevel2to3 = globalMembers.filter(m => (m.roleLevel === 2 || m.roleLevel === 3) && m.status !== 'ALUMNI');
+            const boardLevel4 = globalMembers.filter(m => m.roleLevel === 4 && m.status !== 'ALUMNI');
+            const boardLevel5 = globalMembers.filter(m => m.roleLevel === 5 && m.status !== 'ALUMNI');
 
-            const act = globalMembers.filter(m => m.status === 'ACTIVE').sort(() => Math.random() - 0.5);
-            const ctv = globalMembers.filter(m => m.status === 'CTV').sort(() => Math.random() - 0.5);
-            const alm = globalMembers.filter(m => m.status === 'ALUMNI').sort(() => Math.random() - 0.5);
+            document.getElementById('homeBoardContainer').innerHTML = [...boardLevel1, ...boardLevel2to3].slice(0,4).map(createBoardCard).join('');
             
-            document.getElementById('c-total-mems').innerText = "(Tổng: " + (act.length + ctv.length + alm.length) + ")";
-            document.getElementById('c-tv').innerText = act.length; document.getElementById('c-ctv').innerText = ctv.length; document.getElementById('c-cuu').innerText = alm.length;
-            document.getElementById('mem-active-container').innerHTML = act.map(createMemCard).join(''); document.getElementById('mem-ctv-container').innerHTML = ctv.map(createMemCard).join(''); document.getElementById('mem-alumni-container').innerHTML = alm.map(createMemCard).join('');
+            document.getElementById('boardRow0').innerHTML = boardLevel1.map(createBoardCard).join('');
+            
+            // Xếp Chủ nhiệm vào giữa nếu có 3 người
+            let bcn = [...boardLevel2to3];
+            let cnIndex = bcn.findIndex(m => m.roleLevel === 2);
+            if(cnIndex !== -1 && bcn.length >= 3) {
+                let cn = bcn.splice(cnIndex, 1)[0];
+                bcn.splice(Math.floor(bcn.length / 2), 0, cn);
+            }
+            document.getElementById('boardRow1').innerHTML = bcn.map(createBoardCard).join('');
+            document.getElementById('boardRow2').innerHTML = boardLevel4.map(createBoardCard).join('');
+            document.getElementById('boardRow3').innerHTML = boardLevel5.map(createBoardCard).join('');
+
+            // Cố vấn (Level 1) không hiện ở danh sách thành viên nữa
+            const activeMems = globalMembers.filter(m => m.status === 'ACTIVE' && m.roleLevel > 1).sort(() => Math.random() - 0.5);
+            const ctvMems = globalMembers.filter(m => m.status === 'CTV').sort(() => Math.random() - 0.5);
+            const alumniMems = globalMembers.filter(m => m.status === 'ALUMNI').sort(() => Math.random() - 0.5);
+
+            const totalMembers = activeMems.length + ctvMems.length + alumniMems.length;
+            document.getElementById('c-total-mems').innerText = "(Tổng: " + totalMembers + ")";
+
+            document.getElementById('c-tv').innerText = activeMems.length;
+            document.getElementById('c-ctv').innerText = ctvMems.length;
+            document.getElementById('c-cuu').innerText = alumniMems.length;
+
+            document.getElementById('mem-active-container').innerHTML = activeMems.map(createMemCard).join('');
+            document.getElementById('mem-ctv-container').innerHTML = ctvMems.map(createMemCard).join('');
+            document.getElementById('mem-alumni-container').innerHTML = alumniMems.map(createMemCard).join('');
         }
 
         const deptDesc = { 'Truyền Thông': "Sáng tạo nội dung.", 'Kỹ Thuật': "Hỗ trợ công nghệ.", 'Đối Ngoại & Tổ chức sự kiện': "Đại diện liên hệ doanh nghiệp.", 'Chuyên Môn': "Nghiên cứu tài liệu." };

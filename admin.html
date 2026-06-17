@@ -222,7 +222,7 @@
                                     <option value="Chuyên Môn">Ban Chuyên Môn</option>
                                 </select>
                             </div>
-                            <div class="input-group"><label>Chức Vụ Gốc *</label><input type="text" id="m_roleTitle" placeholder="VD: Trưởng Ban Truyền Thông" required></div>
+                            <div class="input-group"><label>Chức Vụ Gốc *</label><input type="text" id="m_roleTitle" placeholder="VD: Trưởng Ban Truyền Thông" value="Thành viên" required></div>
                             <div class="input-group">
                                 <label>Cấp độ Hiển Thị *</label>
                                 <select id="m_level" required>
@@ -236,7 +236,7 @@
                             </div>
                             <div class="input-group">
                                 <label>Trạng Thái *</label>
-                                <select id="m_status" required>
+                                <select id="m_status" required onchange="handleStatusChange()">
                                     <option value="ACTIVE">Thành viên Đương nhiệm</option>
                                     <option value="CTV">Cộng tác viên (CTV)</option>
                                     <option value="ALUMNI">Cựu Thành Viên</option>
@@ -253,7 +253,7 @@
 
                 <div class="panel">
                     <div class="panel-header">
-                        <h2 class="panel-title"><i class="fas fa-address-book"></i> Danh Sách Thành Viên (Chính thức & Cựu)</h2>
+                        <h2 class="panel-title"><i class="fas fa-address-book"></i> Danh Sách Thành Viên (Chính thức, CTV & Cựu)</h2>
                         <button class="btn-action" onclick="openAddMember()"><i class="fas fa-plus"></i> Thêm Mới</button>
                     </div>
                     <div style="overflow-x: auto;">
@@ -378,7 +378,20 @@
 
         function toggleAddMember(show) { 
             document.getElementById('addMemberPanel').style.display = show ? 'block' : 'none'; 
-            if(!show) document.getElementById('memberForm').reset();
+            if(!show) {
+                document.getElementById('memberForm').reset();
+                document.getElementById('m_roleTitle').value = 'Thành viên';
+            }
+        }
+
+        function handleStatusChange() {
+            const status = document.getElementById('m_status').value;
+            const roleInput = document.getElementById('m_roleTitle');
+            if (status === 'CTV') {
+                roleInput.value = 'CTV';
+            } else if (roleInput.value === 'CTV' && status !== 'CTV') {
+                roleInput.value = 'Thành viên';
+            }
         }
 
         function openAddMember() {
@@ -389,6 +402,7 @@
             document.getElementById('resetPassBox').style.display = 'none';
             document.getElementById('m_email').required = true;
             document.getElementById('m_pass').required = true;
+            document.getElementById('m_roleTitle').value = 'Thành viên';
             document.getElementById('formMemberTitle').innerHTML = '<i class="fas fa-user-plus"></i> Cấp Tài Khoản & Thêm Hồ Sơ';
             toggleAddMember(true);
         }
@@ -437,7 +451,7 @@
             const id = document.getElementById('m_id').value;
             const payload = {
                 name: document.getElementById('m_name').value, gen: document.getElementById('m_gen').value, gradDate: document.getElementById('m_gradDate').value,
-                ban: document.getElementById('m_ban').value, roleTitle: document.getElementById('m_roleTitle').value, status: document.getElementById('m_status').value,
+                ban: document.getElementById('m_ban').value, roleTitle: document.getElementById('m_roleTitle').value || 'Thành viên', status: document.getElementById('m_status').value,
                 roleLevel: parseInt(document.getElementById('m_level').value), image: document.getElementById('m_img').value, slogan: document.getElementById('m_slogan').value,
                 bio: document.getElementById('m_bio').value, fb: document.getElementById('m_fb').value, updatedAt: firebase.firestore.FieldValue.serverTimestamp()
             };
@@ -470,16 +484,20 @@
                     if(m.status === 'CTV') {
                         hasCTV = true;
                         ctvBox.innerHTML += `<div class="approval-card"><div class="approval-info"><h4>${m.name} - ${m.gen}</h4><p>Ban: ${m.ban} | Vị trí: ${m.roleTitle}</p></div><div class="approval-actions"><button class="btn-success" onclick="approveCTV('${doc.id}')"><i class="fas fa-check"></i> Duyệt Chính thức</button><button class="btn-delete" onclick="deleteMember('${doc.id}')"><i class="fas fa-times"></i> Loại</button></div></div>`;
-                    } else {
-                        let badgeHtml = m.status === 'ACTIVE' ? '<span class="badge badge-active">Chính Thức</span>' : '<span class="badge badge-alumni">Cựu</span>';
-                        tbody.innerHTML += `<tr><td><div style="display:flex; align-items:center; gap:12px;"><img src="${m.image}" style="width:35px; height:35px; border-radius:5px; object-fit:cover;"><div><strong style="display:block;">${m.name}</strong><span style="font-size:11px; color:var(--text-muted);">${m.email||'N/A'}</span></div></div></td><td>${m.roleTitle}</td><td>${m.ban}<br><span style="font-size:11px;">${m.gen}</span></td><td><span style="background:#f1f5f9; padding:3px 8px; border-radius:4px; font-size:12px; font-weight:700;">${m.gradDate||'N/A'}</span></td><td>${badgeHtml}</td><td style="text-align: right;"><button class="btn-edit" onclick="editMember('${doc.id}')">Sửa</button> <button class="btn-delete" onclick="deleteMember('${doc.id}')">Xóa</button></td></tr>`;
                     }
+                    
+                    let badgeHtml = '';
+                    if (m.status === 'ACTIVE') badgeHtml = '<span class="badge badge-active">Chính Thức</span>';
+                    else if (m.status === 'CTV') badgeHtml = '<span class="badge badge-ctv">CTV</span>';
+                    else badgeHtml = '<span class="badge badge-alumni">Cựu</span>';
+                    
+                    tbody.innerHTML += `<tr><td><div style="display:flex; align-items:center; gap:12px;"><img src="${m.image}" style="width:35px; height:35px; border-radius:5px; object-fit:cover;"><div><strong style="display:block;">${m.name}</strong><span style="font-size:11px; color:var(--text-muted);">${m.email||'N/A'}</span></div></div></td><td>${m.roleTitle}</td><td>${m.ban}<br><span style="font-size:11px;">${m.gen}</span></td><td><span style="background:#f1f5f9; padding:3px 8px; border-radius:4px; font-size:12px; font-weight:700;">${m.gradDate||'N/A'}</span></td><td>${badgeHtml}</td><td style="text-align: right;"><button class="btn-edit" onclick="editMember('${doc.id}')">Sửa</button> <button class="btn-delete" onclick="deleteMember('${doc.id}')">Xóa</button></td></tr>`;
                 });
                 if(!hasCTV) ctvBox.innerHTML = '<p style="color: #b45309; font-size: 13px;">Không có CTV chờ duyệt.</p>';
             });
         }
 
-        function approveCTV(id) { if(confirm("Duyệt Cộng Tác Viên này thành Thành Viên Chính Thức?")) db.collection("members").doc(id).update({ status: 'ACTIVE' }).then(fetchMembers); }
+        function approveCTV(id) { if(confirm("Duyệt Cộng Tác Viên này thành Thành Viên Chính Thức?")) db.collection("members").doc(id).update({ status: 'ACTIVE', roleTitle: 'Thành viên' }).then(fetchMembers); }
         
         function deleteMember(id) {
             if(confirm("Xác nhận xóa vĩnh viễn hồ sơ này khỏi danh sách hiển thị?\n\n(Lưu ý: Bạn cần vào Firebase -> Authentication xóa email để thu hồi quyền đăng nhập hoàn toàn).")) {
@@ -625,7 +643,27 @@
                     const msg = doc.data();
                     const d = msg.timestamp ? msg.timestamp.toDate() : new Date();
                     const dStr = d.toLocaleDateString('vi-VN') + ' ' + d.toLocaleTimeString('vi-VN');
-                    container.innerHTML += `<div class="msg-card"><div class="msg-header"><div><div class="msg-name">${msg.name}</div><div class="msg-email"><i class="fas fa-envelope"></i> ${msg.email}</div></div><div style="text-align:right;"><div class="msg-date">${dStr}</div><button class="btn-delete" style="margin-top:8px;" onclick="deleteMessage('${doc.id}')"><i class="fas fa-trash"></i> Xóa thư</button></div></div><div class="msg-content">${msg.content}</div></div>`;
+                    
+                    // Tạo sẵn Link Mailto tự động trích xuất Email, Tiêu đề và Nội dung tin nhắn cũ
+                    const mailtoLink = `mailto:${msg.email}?subject=Phản hồi từ Ban Chủ Nhiệm LSCM&body=Chào ${msg.name},%0D%0A%0D%0AChúng tôi đã nhận được tin nhắn của bạn với nội dung:%0D%0A"${msg.content}"%0D%0A%0D%0APhản hồi của chúng tôi:%0D%0A`;
+                    
+                    container.innerHTML += `
+                    <div class="msg-card">
+                        <div class="msg-header">
+                            <div style="flex:1;">
+                                <div class="msg-name">${msg.name}</div>
+                                <div class="msg-email"><i class="fas fa-envelope"></i> ${msg.email}</div>
+                            </div>
+                            <div style="text-align:right;">
+                                <div class="msg-date" style="margin-bottom:8px;">${dStr}</div>
+                                <div style="display:flex; gap:8px; justify-content:flex-end;">
+                                    <a href='${mailtoLink}' target="_blank" class="btn-success" style="text-decoration:none; display:inline-flex; align-items:center; gap:5px;"><i class="fas fa-reply"></i> Gửi Mail Trả lời</a>
+                                    <button class="btn-delete" onclick="deleteMessage('${doc.id}')"><i class="fas fa-trash"></i> Xóa thư</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="msg-content">${msg.content}</div>
+                    </div>`;
                 });
             });
         }

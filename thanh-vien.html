@@ -207,10 +207,6 @@
         .member-form-box input, .member-form-box textarea { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 10px; margin-bottom: 15px; background: var(--page-bg); font-family: inherit; font-size: 14px;}
         .member-form-box input:focus, .member-form-box textarea:focus { border-color: var(--primary); outline: none; }
         .member-form-box button { width: 100%; background: var(--primary); color: white; border: none; padding: 12px; border-radius: 10px; font-weight: 800; font-size: 14px; cursor: pointer; transition: 0.3s; margin-top: 10px;}
-        
-        /* BỘ ĐẾM VIEW TRUY CẬP */
-        .view-counter-box { text-align: center; margin-top: 40px; padding: 20px; border-top: 1px dashed var(--border-color); }
-        .view-counter-number { font-size: 24px; font-weight: 900; color: var(--secondary); display: inline-flex; align-items: center; gap: 10px; background: rgba(245, 158, 11, 0.1); padding: 5px 20px; border-radius: 30px; letter-spacing: 2px;}
 
         /* FOOTER */
         footer { background: white; border-top: 1px solid var(--border-color); padding: 30px 5%; margin-top: 50px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;}
@@ -279,7 +275,7 @@
             </div>
 
             <div class="sec-header">
-                <h2 class="sec-title">Ban Chủ Nhiệm</h2>
+                <h2 class="sec-title">Quản Lý Bộ Môn & Cố Vấn CLB</h2>
                 <div class="sec-line"></div>
             </div>
             <div class="board-grid-4" id="homeBoardContainer">
@@ -422,11 +418,6 @@
                 <p style="text-align:center; grid-column:1/-1; color: gray;">Đang đồng bộ dữ liệu thư viện...</p>
             </div>
         </section>
-
-        <div class="view-counter-box">
-            <p style="font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase;">Tổng Lượt Truy Cập</p>
-            <div class="view-counter-number"><i class="fas fa-chart-line"></i> <span id="pageViews">50,000</span></div>
-        </div>
     </main>
 
     <footer>
@@ -536,7 +527,6 @@
 
         document.addEventListener("DOMContentLoaded", function() {
             setTimeout(() => { document.getElementById('preloader').style.display = 'none'; }, 500);
-            updatePageViews(); 
             
             // Kiểm tra Auth: Chỉ chạy khi chắc chắn đã đăng nhập
             auth.onAuthStateChanged(user => {
@@ -556,19 +546,6 @@
                 }
             });
         });
-
-        // HÀM CẬP NHẬT LƯỢT TRUY CẬP (BASE: 50.000)
-        function updatePageViews() {
-            const BASE_VIEWS = 50000;
-            let currentViews = localStorage.getItem('lscm_page_views');
-            if(!currentViews) {
-                currentViews = BASE_VIEWS + 1;
-            } else {
-                currentViews = parseInt(currentViews) + 1;
-            }
-            localStorage.setItem('lscm_page_views', currentViews);
-            document.getElementById('pageViews').innerText = currentViews.toLocaleString('en-US'); 
-        }
 
         function handleLogout() {
             if(confirm("Bạn muốn đăng xuất khỏi hệ thống?")) {
@@ -889,7 +866,7 @@
             const boardLevel5 = globalMembers.filter(m => m.roleLevel === 5 && m.status !== 'ALUMNI');
 
             // Hiển thị ở Tab 1 (Home) & Tab 2 (Ban Chủ Nhiệm)
-            document.getElementById('homeBoardContainer').innerHTML = [...boardLevel1, ...boardLevel2to3].slice(0,4).map(createBoardCard).join('');
+            document.getElementById('homeBoardContainer').innerHTML = [...boardLevel1].slice(0,4).map(createBoardCard).join('');
             
             document.getElementById('boardRow0').innerHTML = boardLevel1.map(createBoardCard).join('');
             
@@ -936,7 +913,7 @@
             document.getElementById('d-title').innerText = "Ban " + banName;
             document.getElementById('d-desc').innerText = deptDesc[banName] || "Mô tả đang cập nhật...";
             
-            const deptMembers = globalMembers.filter(m => m.ban.includes(banName) && m.status === 'ACTIVE').sort((a,b) => a.roleLevel - b.roleLevel);
+            const deptMembers = globalMembers.filter(m => m.ban.includes(banName) && (m.status === 'ACTIVE' || m.status === 'CTV')).sort((a,b) => a.roleLevel - b.roleLevel);
             document.getElementById('deptMembersContainer').innerHTML = deptMembers.map(createBoardCard).join('');
         }
 

@@ -295,7 +295,7 @@
             </div>
 
             <div class="sec-header">
-                <h2 class="sec-title">Ban Chủ Nhiệm</h2>
+                <h2 class="sec-title">Quản Lý Bộ Môn & Cố Vấn CLB</h2>
                 <div class="sec-line"></div>
             </div>
             <div class="board-grid-4" id="homeBoardContainer">
@@ -532,7 +532,7 @@
 
         function loadContactSection() { db.collection('site_settings').doc('contact_section').get().then(doc => { if (!doc.exists) return; const data = doc.data(); if (data.title) document.getElementById('contactTitle').innerText = data.title; if (data.description) document.getElementById('contactDesc').innerText = data.description; const contactList = document.getElementById('contactList'); if (!contactList) return; if (data.contacts && data.contacts.length) { contactList.innerHTML = data.contacts.map(c => { const icon = c.role.toLowerCase().includes('truyền thông') ? 'fa-bullhorn' : 'fa-user-tie'; return `<div class="dc-item"><div class="dc-icon"><i class="fas ${icon}"></i></div><div class="dc-text"><h4>${c.role}</h4><p>${c.info}</p></div></div>`; }).join(''); } }).catch(err => console.warn('Lỗi:', err)); }
         function loadDeptDescriptions() { db.collection('site_settings').doc('dept_descriptions').onSnapshot(doc => { if (!doc.exists) return; Object.assign(deptDesc, doc.data()); }); }
-        function loadAboutSections() { const container = document.getElementById('dynamic-about-container'); db.collection("about_sections").orderBy("order", "asc").onSnapshot((snapshot) => { container.innerHTML = ''; if(snapshot.empty) { container.innerHTML = `<p style="text-align:center; padding: 40px; color:gray;">Chưa có thông tin giới thiệu. Admin có thể thêm tại trang quản trị.</p>`; return; } let index = 1; snapshot.forEach((doc) => { const data = doc.data(); const numStr = index < 10 ? '0'+index : index; container.innerHTML += `<div class="info-row"><div class="info-left"><div class="info-tag"><i class="fas fa-sparkles"></i> ${numStr}. ${data.tag}</div><h2 class="info-title">${data.title}</h2></div><div class="info-right">${data.paragraphs.map(p => `<p>${p}</p>`).join('')}</div></div>`; index++; }); }); }
+        function loadAboutSections() { const container = document.getElementById('dynamic-about-container'); db.collection("about_sections").orderBy("order", "asc").onSnapshot((snapshot) => { container.innerHTML = ''; if(snapshot.empty) { container.innerHTML = `<p style="text-align:center; padding: 40px; color:gray;">Chưa có thông biến giới thiệu. Admin có thể thêm tại trang quản trị.</p>`; return; } let index = 1; snapshot.forEach((doc) => { const data = doc.data(); const numStr = index < 10 ? '0'+index : index; container.innerHTML += `<div class="info-row"><div class="info-left"><div class="info-tag"><i class="fas fa-sparkles"></i> ${numStr}. ${data.tag}</div><h2 class="info-title">${data.title}</h2></div><div class="info-right">${data.paragraphs.map(p => `<p>${p}</p>`).join('')}</div></div>`; index++; }); }); }
 
         // NEWS MODAL
         function loadPublicNews() {
@@ -596,7 +596,7 @@
             const boardLevel4 = globalMembers.filter(m => m.roleLevel === 4 && m.status !== 'ALUMNI');
             const boardLevel5 = globalMembers.filter(m => m.roleLevel === 5 && m.status !== 'ALUMNI');
 
-            document.getElementById('homeBoardContainer').innerHTML = [...boardLevel1, ...boardLevel2to3].slice(0,4).map(createBoardCard).join('');
+            document.getElementById('homeBoardContainer').innerHTML = [...boardLevel1].slice(0,4).map(createBoardCard).join('');
             
             document.getElementById('boardRow0').innerHTML = boardLevel1.map(createBoardCard).join('');
             
@@ -629,7 +629,7 @@
         }
 
         const deptDesc = { 'Truyền Thông': "Sáng tạo nội dung.", 'Kỹ Thuật': "Hỗ trợ công nghệ.", 'Đối Ngoại & Tổ chức sự kiện': "Đại diện liên hệ doanh nghiệp.", 'Chuyên Môn': "Nghiên cứu tài liệu." };
-        function openDeptDetail(banName) { document.getElementById('dept-grid-view').style.display = 'none'; document.getElementById('dept-detail-view').style.display = 'block'; window.scrollTo(0, 0); document.getElementById('d-title').innerText = "Ban " + banName; document.getElementById('d-desc').innerText = deptDesc[banName] || "Mô tả đang cập nhật..."; document.getElementById('deptMembersContainer').innerHTML = globalMembers.filter(m => m.ban.includes(banName) && m.status === 'ACTIVE').sort((a,b) => a.roleLevel - b.roleLevel).map(createBoardCard).join(''); }
+        function openDeptDetail(banName) { document.getElementById('dept-grid-view').style.display = 'none'; document.getElementById('dept-detail-view').style.display = 'block'; window.scrollTo(0, 0); document.getElementById('d-title').innerText = "Ban " + banName; document.getElementById('d-desc').innerText = deptDesc[banName] || "Mô tả đang cập nhật..."; document.getElementById('deptMembersContainer').innerHTML = globalMembers.filter(m => m.ban.includes(banName) && (m.status === 'ACTIVE' || m.status === 'CTV')).sort((a,b) => a.roleLevel - b.roleLevel).map(createBoardCard).join(''); }
         function closeDeptDetail() { document.getElementById('dept-grid-view').style.display = 'block'; document.getElementById('dept-detail-view').style.display = 'none'; }
         function openProfile(id) { const m = globalMembers.find(x => x.id === id); if(m) { document.getElementById('m-name').innerText = m.name; document.getElementById('m-role').innerText = m.roleTitle; document.getElementById('m-slogan').innerText = m.slogan || "Gắn kết và cống hiến."; document.getElementById('m-bio').innerText = m.bio || "Thành viên CLB LSCM."; document.getElementById('m-img').src = m.image; document.getElementById('m-fb').href = m.fb || "#"; openModal('profileModal'); } }
 

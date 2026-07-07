@@ -3,263 +3,1199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LSCM HUNRE - Câu Lạc Bộ Logistics</title>
+    <title>LSCM HUNRE — Logistics & Supply Chain Management Club</title>
+    <meta name="description" content="Câu lạc bộ Logistics & Quản lý Chuỗi Cung Ứng — Trường Đại học Tài nguyên và Môi trường Hà Nội. Kết nối • Hợp tác • Phát triển.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
+    <!-- AOS.js -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+
     <style>
-        /* === BIẾN MÀU SẮC LSCM === */
+        /* ============================================
+           1. CSS VARIABLES — "Deep Space Logistics"
+           ============================================ */
         :root {
-            --primary: #059669; --primary-dark: #047857; --secondary: #F59E0B; 
-            --dark-bg: #0B1120; --page-bg: #F8FAFC; --text-main: #1E293B;
-            --text-muted: #64748B; --border-color: #E2E8F0; --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --bg-primary: #050B18;
+            --bg-secondary: #081222;
+            --bg-card: rgba(255,255,255,0.025);
+            --bg-card-hover: rgba(255,255,255,0.05);
+
+            --accent-green: #1B8A4A;
+            --accent-green-glow: rgba(27,138,74,0.3);
+            --accent-orange: #F58220;
+            --accent-orange-glow: rgba(245,130,32,0.25);
+            --accent-yellow: #FFC107;
+            --accent-sunset: #FF6B35;
+
+            --text-primary: #E8ECF4;
+            --text-secondary: #7E8CA0;
+            --text-muted: #4A5568;
+
+            --glass-bg: rgba(255,255,255,0.03);
+            --glass-bg-strong: rgba(255,255,255,0.055);
+            --glass-border: rgba(255,255,255,0.06);
+            --glass-border-hover: rgba(255,255,255,0.12);
+
+            --gradient-sunset: linear-gradient(135deg, #F58220 0%, #FF6B35 50%, #FFC107 100%);
+            --gradient-green: linear-gradient(135deg, #1B8A4A 0%, #0D6B35 100%);
+            --gradient-hero: linear-gradient(180deg,
+                #050B18 0%, #071020 15%, #081828 30%,
+                #0A1E30 45%, #0C2235 55%,
+                #0E2038 65%, #101830 78%,
+                #0C1222 90%, #080E1A 100%);
+            --gradient-glass: linear-gradient(135deg,
+                rgba(27,138,74,0.06) 0%,
+                rgba(255,255,255,0.02) 50%,
+                rgba(245,130,32,0.04) 100%);
+
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+
+            --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --transition-fast: all 0.2s ease;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--page-bg); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
+        /* ============================================
+           2. RESET & BASE
+           ============================================ */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(180deg, #050B18 0%, #081222 50%, #0A1628 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            position: relative;
+        }
+        /* === GLOBAL AURA LAYER === */
+        body::before {
+            content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+            background:
+                radial-gradient(ellipse 70% 50% at 50% 40%, rgba(27,138,74,0.07) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 40% at 50% 45%, rgba(245,130,32,0.05) 0%, transparent 55%);
+            animation: auraBreath 10s ease-in-out infinite alternate;
+        }
+        @keyframes auraBreath {
+            0% { opacity: 0.8; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.03); }
+        }
         a { text-decoration: none; color: inherit; }
-        img { max-width: 100%; border-radius: 8px; }
+        img { max-width: 100%; border-radius: var(--radius-sm); }
+        ::selection { background: var(--accent-green); color: white; }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--accent-green); border-radius: 3px; }
 
-        /* PRELOADER */
-        #preloader { position: fixed; inset: 0; background: var(--dark-bg); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.5s; }
-        .pl-logo { width: 100px; border-radius: 20px; animation: bounceLogo 0.8s infinite alternate ease-in-out; margin-bottom: 20px; }
-        .pl-text { color: white; font-size: 18px; font-weight: 800; letter-spacing: 2px; }
-        @keyframes bounceLogo { 0% { transform: translateY(0) scale(1); } 100% { transform: translateY(-20px) scale(1.05); } }
+        /* ============================================
+           3. PRELOADER — Radar Lock
+           ============================================ */
+        #preloader {
+            position: fixed; inset: 0; z-index: 99999;
+            background: radial-gradient(ellipse at center, #0C1A2E 0%, #050B18 70%);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        #preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .pl-logo {
+            width: 90px; border-radius: 20px;
+            animation: plPulse 2.5s ease-in-out infinite;
+            margin-bottom: 24px;
+            box-shadow: 0 0 40px var(--accent-green-glow), 0 0 80px rgba(27,138,74,0.12);
+        }
+        .pl-text {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--text-primary);
+            font-size: 20px; font-weight: 700;
+            letter-spacing: 8px; text-transform: uppercase;
+            text-shadow: 0 0 15px var(--accent-green-glow);
+        }
+        .pl-bar {
+            width: 120px; height: 2px; background: rgba(255,255,255,0.06);
+            border-radius: 2px; margin-top: 20px; overflow: hidden;
+        }
+        .pl-bar::after {
+            content: ''; display: block; width: 40%; height: 100%;
+            background: var(--gradient-sunset);
+            border-radius: 2px;
+            animation: plBarMove 1.2s ease-in-out infinite;
+        }
+        @keyframes plPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 35px var(--accent-green-glow), 0 0 70px rgba(27,138,74,0.08); }
+            50% { transform: scale(1.06); box-shadow: 0 0 50px var(--accent-orange-glow), 0 0 90px rgba(245,130,32,0.1); }
+        }
+        @keyframes plBarMove {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(350%); }
+        }
 
-        /* NAVBAR */
-        header { position: fixed; top: 0; width: 100%; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); box-shadow: 0 1px 3px rgba(0,0,0,0.05); z-index: 1000; border-bottom: 1px solid var(--border-color); }
-        .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 12px 5%; max-width: 1400px; margin: auto; }
-        .logo-area { display: flex; align-items: center; gap: 12px; cursor: pointer;}
-        .logo-area img { width: 45px; border-radius: 8px; }
-        .logo-text .title { font-weight: 900; font-size: 18px; color: var(--primary); line-height: 1.1; }
-        .logo-text .sub { font-size: 10px; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; }
-        
-        .nav-links { display: flex; align-items: center; gap: 10px; }
-        .nav-link { font-size: 14px; font-weight: 700; color: var(--text-main); transition: var(--transition); padding: 8px 15px; border-radius: 8px; cursor: pointer; border: none; background: transparent; }
-        .nav-link:hover, .nav-link.active { color: var(--primary); background: #ecfdf5; }
-        
-        /* Nút Đăng nhập trên thanh Menu */
-        .btn-login { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; margin-left: 10px; transition: var(--transition);}
-        .btn-login:hover { background: var(--primary-dark); box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2); }
+        /* ============================================
+           4. LOGISTICS CANVAS — Global Network
+           ============================================ */
+        #particleCanvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; pointer-events: none; opacity: 0.85;
+        }
 
-        /* TAB SYSTEM */
-        main { padding-top: 80px; min-height: 100vh; }
-        .page-tab { display: none; animation: fadeIn 0.4s; }
+        /* ============================================
+           5. NAVBAR — Holographic Floating Glass
+           ============================================ */
+        header {
+            position: fixed; top: 12px; left: 50%; transform: translateX(-50%);
+            width: calc(100% - 40px); max-width: 1420px;
+            z-index: 1000;
+            background: rgba(8,18,34,0.6);
+            backdrop-filter: blur(24px) saturate(1.3);
+            -webkit-backdrop-filter: blur(24px) saturate(1.3);
+            border: 1px solid rgba(27,138,74,0.08);
+            border-radius: var(--radius-lg);
+            transition: var(--transition);
+            box-shadow:
+                0 4px 30px rgba(0,0,0,0.25),
+                inset 0 1px 0 rgba(255,255,255,0.03);
+        }
+        header.scrolled {
+            top: 8px;
+            background: rgba(8,18,34,0.88);
+            box-shadow:
+                0 8px 40px rgba(0,0,0,0.4),
+                0 0 1px rgba(27,138,74,0.25),
+                inset 0 1px 0 rgba(255,255,255,0.04);
+            border-color: rgba(27,138,74,0.12);
+        }
+        .nav-container {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 5%; max-width: 1400px; margin: auto;
+        }
+        .logo-area { display: flex; align-items: center; gap: 12px; cursor: pointer; flex-shrink: 0; }
+        .logo-area img {
+            width: 42px; border-radius: 10px;
+            box-shadow: 0 0 15px var(--accent-green-glow);
+            transition: var(--transition);
+        }
+        .logo-area:hover img { box-shadow: 0 0 25px var(--accent-orange-glow); transform: scale(1.05); }
+        .logo-text .title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700; font-size: 18px;
+            background: var(--gradient-sunset);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; line-height: 1.1;
+        }
+        .logo-text .sub {
+            font-size: 9px; font-weight: 700; color: var(--text-secondary);
+            letter-spacing: 2px; text-transform: uppercase;
+        }
+
+        .nav-links { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+        .nav-link {
+            font-size: 13px; font-weight: 600; color: var(--text-secondary);
+            padding: 8px 14px; border-radius: var(--radius-sm);
+            cursor: pointer; border: none; background: transparent;
+            transition: var(--transition); position: relative; white-space: nowrap;
+            font-family: 'Inter', sans-serif;
+        }
+        .nav-link:hover { color: var(--text-primary); background: var(--glass-bg-strong); }
+        .nav-link.active {
+            color: var(--accent-orange);
+            background: rgba(245,130,32,0.1);
+        }
+        .nav-link.active::after {
+            content: ''; position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%);
+            width: 20px; height: 2px; border-radius: 1px;
+            background: var(--accent-orange);
+            box-shadow: 0 0 8px var(--accent-orange-glow);
+        }
+
+        .btn-login {
+            background: var(--gradient-sunset); color: var(--bg-primary);
+            border: none; padding: 9px 20px; border-radius: var(--radius-sm);
+            font-weight: 700; font-size: 13px; cursor: pointer;
+            display: flex; align-items: center; gap: 8px;
+            margin-left: 8px; transition: var(--transition);
+            box-shadow: 0 4px 15px var(--accent-orange-glow);
+            white-space: nowrap;
+        }
+        .btn-login:hover { transform: translateY(-2px); box-shadow: 0 6px 25px var(--accent-orange-glow); }
+
+        @media (max-width: 1100px) {
+            .nav-container {
+                overflow-x: auto; justify-content: flex-start; gap: 20px;
+                -webkit-overflow-scrolling: touch;
+            }
+            .nav-container::-webkit-scrollbar { display: none; }
+        }
+
+        /* ============================================
+           6. TAB SYSTEM
+           ============================================ */
+        main { padding-top: 70px; min-height: 100vh; position: relative; z-index: 1; }
+        .page-tab { display: none; animation: tabFadeIn 0.5s ease-out; }
         .page-tab.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .sec-header { text-align: center; margin-bottom: 40px; padding-top: 40px; }
-        /* Tùy chỉnh sec-title để có thể chứa badge bên cạnh (cho số lượng thành viên) */
-        .sec-title { font-size: 28px; font-weight: 900; color: var(--text-main); margin-bottom: 10px; text-transform: uppercase; display: flex; justify-content: center; align-items: center; gap: 10px;}
-        .sec-line { width: 60px; height: 5px; background: var(--primary); margin: auto; border-radius: 3px; }
+        @keyframes tabFadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-        /* TAB 1: GIỚI THIỆU (HERO) */
-        .hero-wrapper { max-width: 1300px; margin: 20px auto 40px; padding: 0 20px; }
-        .hero { background: linear-gradient(135deg, #022c22 0%, #0B1120 100%); border-radius: 30px; padding: 80px 5%; position: relative; text-align: center; color: white; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-        
-        .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(5, 150, 105, 0.2); border: 1px solid rgba(5, 150, 105, 0.5); color: #34d399; padding: 8px 20px; border-radius: 30px; font-size: 13px; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 25px; cursor: pointer; transition: 0.3s;}
-        .hero-badge:hover { background: rgba(5, 150, 105, 0.4); color: white;}
-        
-        .hero-title { font-size: 42px; font-weight: 900; line-height: 1.3; margin-bottom: 15px; max-width: 900px; margin-left: auto; margin-right: auto;}
-        .hero-title span { color: var(--secondary); display: block; font-size: 50px; margin-top: 5px; }
-        .hero-slogan-box { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); display: inline-block; padding: 15px 40px; border-radius: 20px; margin-top: 20px; backdrop-filter: blur(5px);}
-        .hero-slogan { font-size: 18px; font-weight: 900; color: var(--secondary); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 5px; }
-        .hero-sub { font-size: 13px; color: #cbd5e1; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; }
+        /* Section Headers */
+        .sec-header { text-align: center; margin-bottom: 50px; padding-top: 50px; }
+        .sec-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 32px; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 2px; margin-bottom: 12px;
+            display: flex; justify-content: center; align-items: center; gap: 12px;
+            color: var(--text-primary);
+        }
+        .sec-line {
+            width: 60px; height: 3px; margin: auto; border-radius: 3px;
+            background: var(--gradient-sunset);
+            box-shadow: 0 0 15px var(--accent-orange-glow);
+        }
 
-        /* VỀ CHÚNG TÔI (DỮ LIỆU ĐỘNG TỪ ADMIN) */
+        /* ============================================
+           7. HERO SECTION — "Strategic Command"
+           ============================================ */
+        .hero-wrapper { position: relative; overflow: hidden; }
+        .hero {
+            min-height: 100vh; position: relative;
+            display: flex; align-items: center; justify-content: center;
+            background: var(--gradient-hero);
+            overflow: hidden;
+        }
+        /* Centered Aura Halo — Green + Orange emanating from logo */
+        .hero::after {
+            content: ''; position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse 55% 45% at 50% 42%, rgba(27,138,74,0.1) 0%, transparent 70%),
+                radial-gradient(ellipse 45% 35% at 50% 45%, rgba(245,130,32,0.07) 0%, transparent 60%),
+                radial-gradient(ellipse 30% 25% at 50% 42%, rgba(255,193,7,0.04) 0%, transparent 50%);
+            pointer-events: none; z-index: 3;
+            animation: heroAuraBreath 8s ease-in-out infinite alternate;
+        }
+        @keyframes heroAuraBreath {
+            0% { opacity: 0.7; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.05); }
+        }
+
+        /* Parallax Layers */
+        .parallax-layer {
+            position: absolute; inset: 0; pointer-events: none;
+            transition: transform 0.1s linear;
+        }
+        .parallax-layer.layer-1 { z-index: 1; }
+        .parallax-layer.layer-2 { z-index: 2; }
+
+        /* World Grid SVG */
+        .world-grid {
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 900px; height: 500px; opacity: 0.1;
+            animation: worldGridPulse 8s ease-in-out infinite alternate;
+        }
+        .world-grid circle { fill: var(--accent-green); }
+        .world-grid line { opacity: 0.35; }
+        @keyframes worldGridPulse {
+            0% { opacity: 0.06; filter: drop-shadow(0 0 2px rgba(27,138,74,0.3)); }
+            100% { opacity: 0.12; filter: drop-shadow(0 0 5px rgba(27,138,74,0.4)); }
+        }
+
+        /* Ambient Glows — Strategic Nebulae */
+        .ambient-glow {
+            position: absolute; border-radius: 50%;
+            filter: blur(100px); pointer-events: none;
+        }
+        .glow-1 {
+            width: 700px; height: 700px;
+            background: radial-gradient(circle, rgba(27,138,74,0.1) 0%, rgba(27,138,74,0.03) 50%, transparent 70%);
+            top: 10%; right: -10%;
+            animation: nebulaFloat1 18s ease-in-out infinite alternate;
+        }
+        .glow-2 {
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(245,130,32,0.08) 0%, rgba(245,130,32,0.02) 50%, transparent 70%);
+            bottom: 0%; left: -10%;
+            animation: nebulaFloat2 22s ease-in-out infinite alternate;
+        }
+        .glow-3 {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(255,193,7,0.06) 0%, transparent 60%);
+            top: 5%; left: 20%;
+            animation: nebulaFloat3 15s ease-in-out infinite alternate;
+        }
+        @keyframes nebulaFloat1 {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(-25px, 15px) scale(1.06); }
+        }
+        @keyframes nebulaFloat2 {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(20px, -12px) scale(1.04); }
+        }
+        @keyframes nebulaFloat3 {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(-12px, 20px) scale(1.08); }
+        }
+
+        /* Hero Content */
+        .hero-content {
+            position: relative; z-index: 10;
+            text-align: center; padding: 0 20px;
+            max-width: 900px;
+        }
+        .hero-logo {
+            width: 110px; border-radius: 24px; margin-bottom: 30px;
+            box-shadow:
+                0 0 40px var(--accent-green-glow),
+                0 0 80px rgba(27,138,74,0.12),
+                0 0 120px rgba(245,130,32,0.06);
+            animation: heroLogoFloat 6s ease-in-out infinite;
+        }
+        @keyframes heroLogoFloat {
+            0%, 100% { transform: translateY(0px); box-shadow: 0 0 40px var(--accent-green-glow), 0 0 80px rgba(27,138,74,0.1); }
+            50% { transform: translateY(-14px); box-shadow: 0 0 55px var(--accent-orange-glow), 0 0 100px rgba(245,130,32,0.1); }
+        }
+
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(27,138,74,0.1);
+            border: 1px solid rgba(27,138,74,0.25);
+            color: var(--accent-green); padding: 10px 28px;
+            border-radius: 30px; font-size: 13px; font-weight: 700;
+            letter-spacing: 2px; text-transform: uppercase;
+            margin-bottom: 28px; cursor: pointer;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+        .hero-badge:hover {
+            background: rgba(245,130,32,0.25);
+            box-shadow: 0 0 20px var(--accent-orange-glow);
+        }
+
+        .hero-eyebrow {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14px; font-weight: 600;
+            color: var(--accent-green); letter-spacing: 4px;
+            text-transform: uppercase; margin-bottom: 16px;
+        }
+
+        .hero-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(32px, 6vw, 60px);
+            font-weight: 700; line-height: 1.15;
+            margin-bottom: 8px; color: var(--text-primary);
+        }
+        .hero-title-accent {
+            display: block;
+            font-size: clamp(42px, 8vw, 80px);
+            background: var(--gradient-sunset);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-top: 4px;
+        }
+
+        .hero-divider {
+            width: 80px; height: 3px; margin: 24px auto;
+            background: var(--gradient-sunset);
+            border-radius: 3px;
+            box-shadow: 0 0 20px var(--accent-orange-glow);
+        }
+
+        .hero-slogan-box {
+            display: inline-block; padding: 16px 40px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            backdrop-filter: blur(10px);
+        }
+        .hero-slogan {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px; font-weight: 700;
+            color: var(--accent-orange);
+            letter-spacing: 4px; text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        .hero-sub {
+            font-size: 12px; color: var(--text-secondary);
+            letter-spacing: 3px; text-transform: uppercase; font-weight: 600;
+        }
+
+        .hero-stats {
+            display: flex; justify-content: center; gap: 40px;
+            margin-top: 50px; flex-wrap: wrap;
+        }
+        .hero-stat {
+            text-align: center;
+        }
+        .hero-stat-num {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 36px; font-weight: 700;
+            background: var(--gradient-sunset);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-stat-label {
+            font-size: 11px; color: var(--text-secondary);
+            letter-spacing: 2px; text-transform: uppercase; font-weight: 600;
+            margin-top: 4px;
+        }
+
+        .scroll-indicator {
+            position: absolute; bottom: 40px; left: 50%;
+            transform: translateX(-50%); z-index: 10;
+            display: flex; flex-direction: column; align-items: center; gap: 8px;
+            color: var(--text-muted); font-size: 11px;
+            letter-spacing: 2px; text-transform: uppercase;
+            animation: scrollBounce 2s ease-in-out infinite;
+        }
+        .scroll-indicator i { font-size: 16px; color: var(--accent-orange); }
+        @keyframes scrollBounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(8px); }
+        }
+
+        /* ============================================
+           8. ABOUT / INFO SECTIONS — "Intel Briefing"
+           ============================================ */
         #dynamic-about-container { max-width: 1200px; margin: auto; padding: 0 20px; }
-        .info-row { display: flex; gap: 40px; padding: 40px; background: white; border-radius: 24px; margin-bottom: 30px; border: 1px solid var(--border-color); flex-wrap: wrap;}
-        .info-left { flex: 1; min-width: 250px;}
-        .info-tag { color: var(--primary); font-weight: 800; font-size: 13px; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;}
-        .info-title { font-size: 26px; font-weight: 900; line-height: 1.3; }
-        .info-right { flex: 1.5; min-width: 300px; color: var(--text-muted); font-size: 15px; line-height: 1.8; display: flex; flex-direction: column; gap: 15px; font-weight: 500;}
+        .info-row {
+            display: flex; gap: 40px; padding: 40px;
+            background: var(--gradient-glass);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            margin-bottom: 30px; flex-wrap: wrap;
+            backdrop-filter: blur(16px) saturate(1.2);
+            -webkit-backdrop-filter: blur(16px) saturate(1.2);
+            transition: var(--transition);
+            position: relative; overflow: hidden;
+        }
+        .info-row::before {
+            content: ''; position: absolute; top: 0; left: 0;
+            width: 3px; height: 100%;
+            background: linear-gradient(180deg, var(--accent-green), var(--accent-orange));
+            border-radius: 0 2px 2px 0;
+            box-shadow: 0 0 10px var(--accent-green-glow);
+        }
+        .info-row:hover {
+            border-color: rgba(27,138,74,0.18);
+            background: var(--bg-card-hover);
+            transform: translateY(-4px);
+            box-shadow:
+                0 12px 40px rgba(0,0,0,0.3),
+                0 0 1px rgba(27,138,74,0.25),
+                inset 0 1px 0 rgba(255,255,255,0.04);
+        }
+        .info-left { flex: 1; min-width: 250px; }
+        .info-tag {
+            color: var(--accent-orange); font-weight: 700;
+            font-size: 12px; text-transform: uppercase;
+            margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+            letter-spacing: 1px;
+        }
+        .info-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 24px; font-weight: 700; line-height: 1.3;
+            color: var(--text-primary);
+        }
+        .info-right {
+            flex: 1.5; min-width: 300px; color: var(--text-secondary);
+            font-size: 15px; line-height: 1.8;
+            display: flex; flex-direction: column; gap: 12px; font-weight: 500;
+        }
 
-        /* BẢNG CHỦ NHIỆM CHUNG */
-        .board-grid-4, .board-grid-3, .board-grid-2 { display: grid; gap: 20px; margin: auto; padding: 0 20px 30px; }
+        /* ============================================
+           9. BOARD CARDS — "The Network"
+           ============================================ */
+        .board-grid-4, .board-grid-3, .board-grid-2 {
+            display: grid; gap: 20px; margin: auto; padding: 0 20px 30px;
+        }
         .board-grid-4 { grid-template-columns: repeat(4, 1fr); max-width: 1200px; }
         .board-grid-3 { grid-template-columns: repeat(3, 1fr); max-width: 1000px; }
         .board-grid-2 { grid-template-columns: repeat(2, 1fr); max-width: 800px; }
-        
-        @media(max-width: 1024px) { 
-            .board-grid-4, .board-grid-3 { grid-template-columns: repeat(2, 1fr); } 
+
+        @media(max-width: 1024px) {
+            .board-grid-4, .board-grid-3 { grid-template-columns: repeat(2, 1fr); }
         }
         @media(max-width: 600px) {
-            /* Biến bảng danh sách thành luồng cuộn ngang mượt mà */
             .board-grid-4, .board-grid-3, .board-grid-2 {
-                grid-template-columns: unset; 
-                grid-auto-flow: column;     
-                grid-auto-columns: 75%;     
-                gap: 15px;                  
-                overflow-x: auto;           
-                width: 100%;                
-                max-width: none;            
-                padding: 10px 20px 20px;    
-                scroll-snap-type: x mandatory; 
-                -webkit-overflow-scrolling: touch; 
+                grid-template-columns: unset;
+                grid-auto-flow: column; grid-auto-columns: 78%;
+                gap: 15px; overflow-x: auto; width: 100%;
+                max-width: none; padding: 10px 20px 20px;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
             }
-            .board-card {
-                scroll-snap-align: start;
-                min-width: 75%;             
-            }
-            .board-grid-4::-webkit-scrollbar, .board-grid-3::-webkit-scrollbar, .board-grid-2::-webkit-scrollbar {
-                display: none;
-            }
+            .board-card { scroll-snap-align: start; min-width: 78%; }
+            .board-grid-4::-webkit-scrollbar,
+            .board-grid-3::-webkit-scrollbar,
+            .board-grid-2::-webkit-scrollbar { display: none; }
         }
-        
-        .board-card { background: white; border-radius: 20px; overflow: hidden; border: 1px solid var(--border-color); text-align: center; padding-bottom: 20px; cursor: pointer; transition: var(--transition);}
-        .board-card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(0,0,0,0.08); border-color: var(--primary); }
-        .bc-img { width: 100%; height: 260px; object-fit: cover; border-bottom: 4px solid var(--primary); }
-        .bc-info { padding: 20px 15px 0; }
-        .bc-role { display: inline-block; background: #ecfdf5; color: var(--primary); padding: 6px 15px; border-radius: 20px; font-size: 12px; font-weight: 800; margin-bottom: 10px; }
-        .bc-name { font-size: 18px; font-weight: 900; color: var(--text-main); margin-bottom: 5px; }
 
-        /* LIÊN HỆ TRANG CHỦ */
-        .contact-section { max-width: 1200px; margin: 60px auto; padding: 0 20px; }
-        .contact-box { background: white; border-radius: 24px; padding: 50px; border: 1px solid var(--border-color); display: flex; gap: 50px; flex-wrap: wrap;}
-        .contact-left { flex: 1; min-width: 300px; }
-        .contact-right { flex: 1.2; min-width: 300px; }
-        .contact-left h3 { font-size: 26px; font-weight: 900; margin-bottom: 15px; color: var(--primary-dark); }
-        .contact-left p { color: var(--text-muted); margin-bottom: 20px; font-weight: 500; font-size: 15px; line-height: 1.7;}
-        
-        .direct-contact { background: var(--page-bg); border-radius: 12px; padding: 20px; margin-bottom: 25px; border: 1px dashed var(--border-color);}
+        .board-card {
+            background: var(--gradient-holo);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg); overflow: hidden;
+            text-align: center; padding-bottom: 24px;
+            cursor: pointer; transition: var(--transition);
+            backdrop-filter: blur(10px) saturate(1.2);
+            -webkit-backdrop-filter: blur(10px) saturate(1.2);
+            position: relative;
+            animation: cardFloat 7s ease-in-out infinite;
+        }
+        .board-card:nth-child(2) { animation-delay: -1.5s; }
+        .board-card:nth-child(3) { animation-delay: -3s; }
+        .board-card:nth-child(4) { animation-delay: -4.5s; }
+        .board-card::before {
+            content: ''; position: absolute; inset: -1px;
+            border-radius: var(--radius-lg);
+            background: linear-gradient(135deg, var(--accent-mystic), rgba(79,209,197,0.5) 40%, transparent 60%, var(--accent-orange));
+            z-index: -1; opacity: 0; transition: var(--transition);
+        }
+        .board-card:hover {
+            transform: translateY(-10px);
+            box-shadow:
+                0 20px 50px rgba(0,0,0,0.3),
+                0 0 30px rgba(123,94,167,0.12);
+            border-color: transparent;
+            animation-play-state: paused;
+        }
+        .board-card:hover::before { opacity: 1; }
+
+        .bc-img {
+            width: 100%; height: 260px; object-fit: cover;
+            border-bottom: 3px solid var(--accent-mystic);
+            border-radius: 0; transition: var(--transition);
+        }
+        .board-card:hover .bc-img { border-color: var(--accent-cyan); }
+        .bc-info { padding: 20px 15px 0; }
+        .bc-role {
+            display: inline-block;
+            background: rgba(123,94,167,0.15); color: var(--accent-orange);
+            padding: 5px 14px; border-radius: 20px;
+            font-size: 11px; font-weight: 700; margin-bottom: 10px;
+            letter-spacing: 0.5px; text-transform: uppercase;
+        }
+        .bc-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 17px; font-weight: 700;
+            color: var(--text-primary); margin-bottom: 5px;
+        }
+
+        /* ============================================
+           10. DEPARTMENT CARDS — "Command Center"
+           ============================================ */
+        .dept-container { max-width: 1200px; margin: auto; padding: 0 20px; }
+        .dept-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; }
+        .dept-card {
+            background: var(--gradient-holo);
+            border: 1px solid var(--glass-border);
+            padding: 50px 30px; border-radius: var(--radius-lg);
+            text-align: center; cursor: pointer;
+            transition: var(--transition);
+            backdrop-filter: blur(14px) saturate(1.3);
+            -webkit-backdrop-filter: blur(14px) saturate(1.3);
+            position: relative; overflow: hidden;
+            animation: cardFloat 8s ease-in-out infinite;
+        }
+        .dept-card:nth-child(2) { animation-delay: -2s; }
+        .dept-card:nth-child(3) { animation-delay: -4s; }
+        .dept-card:nth-child(4) { animation-delay: -6s; }
+        .dept-card::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+            height: 3px; background: var(--gradient-mystic);
+            transform: scaleX(0); transition: var(--transition);
+            box-shadow: 0 0 15px var(--accent-mystic-glow);
+        }
+        .dept-card:hover {
+            transform: translateY(-12px);
+            background: var(--bg-card-hover);
+            border-color: rgba(123,94,167,0.2);
+            box-shadow:
+                0 20px 50px rgba(0,0,0,0.3),
+                0 0 25px rgba(123,94,167,0.1);
+            animation-play-state: paused;
+        }
+        .dept-card:hover::after { transform: scaleX(1); }
+        .dept-icon {
+            font-size: 48px; margin-bottom: 20px; display: inline-block;
+            filter: drop-shadow(0 0 8px currentColor);
+            transition: var(--transition);
+        }
+        .dept-card:hover .dept-icon { transform: scale(1.1); filter: drop-shadow(0 0 14px currentColor); }
+        .dept-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px; font-weight: 700; color: var(--text-primary);
+        }
+
+        #dept-detail-view { display: none; animation: tabFadeIn 0.4s; }
+        .btn-back {
+            background: var(--glass-bg-strong);
+            border: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+            padding: 10px 20px; border-radius: var(--radius-sm);
+            font-weight: 700; font-size: 14px; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 8px;
+            margin-bottom: 30px; transition: var(--transition);
+        }
+        .btn-back:hover { color: var(--accent-orange); border-color: var(--accent-orange); background: rgba(245,130,32,0.1); }
+        .dept-intro-box {
+            background: var(--gradient-green);
+            color: white; padding: 50px;
+            border-radius: var(--radius-lg);
+            text-align: center; margin-bottom: 40px;
+            position: relative; overflow: hidden;
+        }
+        .dept-intro-box::before {
+            content: ''; position: absolute; inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+        }
+        .dept-intro-box h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 30px; font-weight: 700; margin-bottom: 12px; position: relative;
+        }
+        .dept-intro-box p { position: relative; opacity: 0.9; }
+
+        /* ============================================
+           11. MEMBER CARDS
+           ============================================ */
+        .group-container { margin-bottom: 60px; }
+        .group-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px; font-weight: 700; color: var(--text-primary);
+            margin-bottom: 25px; padding-left: 15px;
+            border-left: 4px solid var(--accent-orange);
+            display: flex; align-items: center; gap: 10px;
+        }
+        .group-count {
+            background: rgba(245,130,32,0.12); color: var(--accent-orange);
+            padding: 2px 12px; border-radius: 12px;
+            font-size: 13px; font-weight: 700;
+        }
+        .members-grid-6 {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+            gap: 16px; max-width: 1200px; margin: auto; padding: 0 20px;
+        }
+        .mem-card {
+            background: var(--gradient-holo);
+            border: 1px solid var(--glass-border);
+            padding: 24px 12px; border-radius: var(--radius-md);
+            text-align: center; cursor: pointer;
+            transition: var(--transition);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        .mem-card:hover {
+            border-color: rgba(123,94,167,0.25);
+            background: var(--bg-card-hover);
+            transform: translateY(-6px);
+            box-shadow:
+                0 12px 30px rgba(0,0,0,0.2),
+                0 0 20px rgba(123,94,167,0.08);
+        }
+        .mem-img {
+            width: 80px; height: 80px; border-radius: 50%;
+            object-fit: cover; margin-bottom: 12px;
+            border: 3px solid rgba(123,94,167,0.25);
+            transition: var(--transition);
+            box-shadow: 0 0 12px rgba(123,94,167,0.1);
+        }
+        .mem-card:hover .mem-img {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 20px var(--accent-cyan-glow);
+        }
+        .mem-name { font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+        .mem-ban { font-size: 11px; color: var(--accent-cyan); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* ============================================
+           12. NEWS / EVENTS — "Timeline Chronicle"
+           ============================================ */
+        .news-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px; max-width: 1200px; margin: auto; padding: 0 20px;
+        }
+        .news-card {
+            background: var(--gradient-holo);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden; cursor: pointer;
+            transition: var(--transition);
+            backdrop-filter: blur(10px) saturate(1.2);
+            -webkit-backdrop-filter: blur(10px) saturate(1.2);
+        }
+        .news-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(123,94,167,0.2);
+            box-shadow:
+                0 20px 50px rgba(0,0,0,0.3),
+                0 0 25px rgba(123,94,167,0.08);
+        }
+        .news-img-box { position: relative; width: 100%; height: 220px; overflow: hidden; }
+        .news-img {
+            width: 100%; height: 100%; object-fit: cover;
+            border-radius: 0; transition: transform 0.6s ease;
+        }
+        .news-card:hover .news-img { transform: scale(1.08); }
+        .news-img-box::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+            height: 80px;
+            background: linear-gradient(transparent, var(--bg-primary));
+        }
+        .news-date-badge {
+            position: absolute; top: 15px; left: 15px; z-index: 2;
+            background: rgba(10,12,26,0.8);
+            backdrop-filter: blur(12px);
+            color: var(--accent-orange); padding: 6px 14px;
+            border-radius: var(--radius-sm); font-size: 12px; font-weight: 700;
+            border: 1px solid rgba(123,94,167,0.15);
+            display: flex; align-items: center; gap: 6px;
+            box-shadow: 0 0 10px rgba(123,94,167,0.1);
+        }
+        .news-info { padding: 24px; }
+        .news-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px; font-weight: 700; margin-bottom: 10px;
+            line-height: 1.4; color: var(--text-primary);
+        }
+        .news-desc-short {
+            font-size: 14px; color: var(--text-secondary); line-height: 1.7;
+            display: -webkit-box; -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical; overflow: hidden;
+        }
+
+        /* ============================================
+           13. CONTACT SECTION — "Signal Tower"
+           ============================================ */
+        .contact-section { max-width: 1200px; margin: 80px auto; padding: 0 20px; }
+        .contact-box {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            padding: 50px; display: flex; gap: 50px; flex-wrap: wrap;
+            backdrop-filter: blur(10px);
+            position: relative; overflow: hidden;
+        }
+        .contact-box::before {
+            content: ''; position: absolute; top: -50%; right: -20%;
+            width: 400px; height: 400px; border-radius: 50%;
+            background: radial-gradient(circle, var(--accent-orange-glow) 0%, transparent 70%);
+            filter: blur(60px); pointer-events: none;
+        }
+        .contact-left { flex: 1; min-width: 300px; position: relative; }
+        .contact-right { flex: 1.2; min-width: 300px; position: relative; }
+
+        .contact-left h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 26px; font-weight: 700; margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+        .contact-left p {
+            color: var(--text-secondary); margin-bottom: 20px;
+            font-weight: 500; font-size: 15px; line-height: 1.7;
+        }
+        .direct-contact {
+            background: rgba(255,255,255,0.03);
+            border-radius: var(--radius-md); padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid var(--glass-border);
+        }
         .dc-item { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
         .dc-item:last-child { margin-bottom: 0; }
-        .dc-icon { width: 40px; height: 40px; background: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--primary); font-size: 18px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);}
-        .dc-text h4 { font-size: 14px; font-weight: 800; color: var(--text-main); margin-bottom: 2px;}
-        .dc-text p { font-size: 13px; color: var(--text-muted); font-weight: 600;}
+        .dc-icon {
+            width: 42px; height: 42px;
+            background: rgba(245,130,32,0.1);
+            border: 1px solid rgba(245,130,32,0.2);
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            color: var(--accent-orange); font-size: 16px;
+            flex-shrink: 0;
+        }
+        .dc-text h4 { font-size: 13px; font-weight: 700; color: var(--text-primary); margin-bottom: 2px; }
+        .dc-text p { font-size: 12px; color: var(--text-secondary); font-weight: 600; }
 
-        .soc-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 25px; border-radius: 12px; font-weight: 700; font-size: 14px; transition: 0.3s; width: 100%;}
-        .soc-btn.fb { background: #1877F2; color: white; }
-        .soc-btn.tt { background: #000000; color: white; }
-        .soc-btn:hover { opacity: 0.9; transform: translateY(-2px); }
-        
-        .contact-form { background: var(--page-bg); padding: 30px; border-radius: 16px; border: 1px solid var(--border-color); }
-        .contact-form h3 { font-size: 18px; font-weight: 800; margin-bottom: 20px; color: var(--text-main); display: flex; align-items: center; gap: 8px;}
-        .contact-form input, .contact-form textarea { width: 100%; padding: 15px; border: 1px solid var(--border-color); border-radius: 12px; font-size: 14px; margin-bottom: 15px; font-family: inherit; background: white;}
-        .contact-form input:focus, .contact-form textarea:focus { border-color: var(--primary); outline: none; }
-        .contact-form button { width: 100%; background: var(--primary); color: white; padding: 15px; border: none; border-radius: 12px; font-weight: 800; font-size: 15px; cursor: pointer; transition: 0.3s;}
-        .contact-form button:hover { background: var(--primary-dark); }
+        .soc-btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            gap: 10px; padding: 12px 24px; border-radius: var(--radius-sm);
+            font-weight: 700; font-size: 14px; transition: var(--transition);
+            width: 100%; border: 1px solid var(--glass-border);
+        }
+        .soc-btn.fb { background: rgba(24,119,242,0.15); color: #5b9bf5; border-color: rgba(24,119,242,0.3); }
+        .soc-btn.tt { background: rgba(255,255,255,0.05); color: var(--text-primary); }
+        .soc-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+        .soc-btn.fb:hover { background: rgba(24,119,242,0.3); }
+        .soc-btn.tt:hover { background: rgba(255,255,255,0.1); }
 
-        /* TAB 2: BAN CHỦ NHIỆM */
+        .contact-form {
+            background: rgba(255,255,255,0.03);
+            padding: 30px; border-radius: var(--radius-lg);
+            border: 1px solid var(--glass-border);
+        }
+        .contact-form h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px; font-weight: 700; margin-bottom: 20px;
+            color: var(--text-primary);
+            display: flex; align-items: center; gap: 8px;
+        }
+        .contact-form input, .contact-form textarea {
+            width: 100%; padding: 14px 16px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            font-size: 14px; margin-bottom: 14px;
+            font-family: inherit; color: var(--text-primary);
+            transition: var(--transition);
+        }
+        .contact-form input::placeholder, .contact-form textarea::placeholder {
+            color: var(--text-muted);
+        }
+        .contact-form input:focus, .contact-form textarea:focus {
+            border-color: var(--accent-orange);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(245,130,32,0.1);
+            background: rgba(255,255,255,0.06);
+        }
+        .contact-form button {
+            width: 100%; padding: 14px;
+            background: var(--gradient-sunset);
+            color: var(--bg-primary); border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 800; font-size: 15px;
+            cursor: pointer; transition: var(--transition);
+            box-shadow: 0 4px 15px var(--accent-orange-glow);
+        }
+        .contact-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px var(--accent-orange-glow);
+        }
+
+        /* ============================================
+           14. BOARD ROW TITLES
+           ============================================ */
         .board-container { max-width: 1200px; margin: auto; padding: 0 20px; }
-        .board-row-title { text-align: center; font-size: 20px; font-weight: 900; color: var(--text-main); margin: 60px 0 30px; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 15px;}
-        .board-row-title::before, .board-row-title::after { content: ''; height: 2px; width: 50px; background: var(--border-color); }
+        .board-row-title {
+            text-align: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px; font-weight: 700;
+            color: var(--text-secondary);
+            margin: 50px 0 25px; text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex; align-items: center; justify-content: center; gap: 15px;
+        }
+        .board-row-title::before, .board-row-title::after {
+            content: ''; height: 1px; width: 60px;
+            background: linear-gradient(90deg, transparent, var(--glass-border-hover), transparent);
+        }
 
-        /* TAB 3: CƠ CẤU BAN */
-        .dept-container { max-width: 1200px; margin: auto; padding: 0 20px; }
-        .dept-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
-        .dept-card { background: white; padding: 40px 30px; border-radius: 20px; text-align: center; border: 1px solid var(--border-color); cursor: pointer; transition: var(--transition); }
-        .dept-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); border-color: var(--primary); }
-        .dept-icon { font-size: 50px; margin-bottom: 20px; display: inline-block; }
-        .dept-card h3 { font-size: 22px; font-weight: 900; color: var(--text-main); margin-bottom: 15px; }
-
-        #dept-detail-view { display: none; animation: fadeIn 0.4s; }
-        .btn-back { background: white; border: 1px solid var(--border-color); padding: 10px 20px; border-radius: 10px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 30px; transition: 0.3s;}
-        .btn-back:hover { background: var(--page-bg); color: var(--primary); border-color: var(--primary);}
-        .dept-intro-box { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; padding: 50px; border-radius: 24px; text-align: center; margin-bottom: 40px;}
-        .dept-intro-box h2 { font-size: 32px; font-weight: 900; margin-bottom: 15px; }
-
-        /* TAB 4: THÀNH VIÊN (CUỘN DỌC) */
-        .group-container { margin-bottom: 60px; }
-        .group-title { font-size: 20px; font-weight: 800; color: var(--text-main); margin-bottom: 25px; padding-left: 15px; border-left: 5px solid var(--primary); display: flex; align-items: center; gap: 10px;}
-        .group-count { background: #ecfdf5; color: var(--primary-dark); padding: 2px 10px; border-radius: 12px; font-size: 14px; }
-        .members-grid-6 { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; max-width: 1200px; margin: auto; padding: 0 20px;}
-        .mem-card { background: var(--white); padding: 25px 15px; border-radius: 16px; text-align: center; border: 1px solid var(--border-color); cursor: pointer; transition: var(--transition); }
-        .mem-card:hover { border-color: var(--primary); box-shadow: 0 10px 25px rgba(5, 150, 105, 0.1); transform: translateY(-5px); }
-        .mem-img { width: 85px; height: 85px; border-radius: 50%; object-fit: cover; border: 3px solid #ecfdf5; margin-bottom: 12px; }
-        .mem-name { font-size: 15px; font-weight: 800; color: var(--text-main); margin-bottom: 5px; }
-        .mem-ban { font-size: 11px; color: var(--primary); font-weight: 700; text-transform: uppercase; }
-
-        /* TAB 5: HOẠT ĐỘNG (DẠNG LƯỚI RÚT GỌN) */
-        .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: auto; padding: 0 20px;}
-        .news-card { background: white; border-radius: 20px; overflow: hidden; border: 1px solid var(--border-color); transition: var(--transition); cursor: pointer;}
-        .news-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.08);}
-        .news-img-box { position: relative; width: 100%; height: 220px; }
-        .news-img { width: 100%; height: 100%; object-fit: cover; }
-        .news-date-badge { position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.95); color: var(--primary-dark); padding: 6px 12px; border-radius: 10px; font-size: 12px; font-weight: 800; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 6px;}
-        .news-info { padding: 25px; }
-        .news-title { font-size: 20px; font-weight: 800; margin-bottom: 10px; line-height: 1.3;}
-        .news-desc-short { font-size: 14px; color: var(--text-muted); line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-
-        /* MODAL BÀI BÁO CHI TIẾT (XEM TOÀN BỘ SỰ KIỆN) */
-        .article-modal { background: white; width: 100%; max-width: 800px; border-radius: 24px; position: relative; transform: translateY(30px); transition: transform 0.3s; overflow: hidden; max-height: 90vh; display: flex; flex-direction: column;}
-        .modal-overlay.show .article-modal { transform: translateY(0); }
-        .article-header { padding: 25px 30px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; background: white;}
-        .article-header h2 { font-size: 22px; font-weight: 900; color: var(--primary); }
-        .article-body { padding: 30px; overflow-y: auto; line-height: 1.8; color: var(--text-main); font-size: 15px; }
-        .article-body img { width: 100%; border-radius: 12px; margin: 20px 0; border: 1px solid var(--border-color); }
-        .article-body p { margin-bottom: 15px; }
-
-        /* MODAL HỒ SƠ */
-        .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 2000; opacity: 0; transition: opacity 0.3s ease; }
-        .modal-overlay.show { display: flex; opacity: 1; }
-        .pro-modal { background: white; width: 100%; max-width: 450px; border-radius: 24px; position: relative; transform: translateY(30px); transition: transform 0.3s; overflow: hidden;}
-        .modal-overlay.show .pro-modal { transform: translateY(0); }
-        .btn-close { position: absolute; top: 15px; right: 15px; font-size: 20px; color: white; cursor: pointer; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2); transition: 0.3s; z-index: 10;}
-        .btn-close.dark { color: var(--text-muted); background: #f1f5f9; position: static; }
-        .btn-close.dark:hover { background: #e2e8f0; color: var(--text-main); }
-        .btn-close:hover { background: rgba(0,0,0,0.5); }
-        .pro-header { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); padding: 50px 20px 30px; text-align: center; }
-        .pro-img { width: 130px; height: 130px; border-radius: 50%; border: 5px solid white; object-fit: cover; margin-top: -85px; position: relative; z-index: 2; background: white; box-shadow: 0 5px 15px rgba(0,0,0,0.1);}
-        .pro-body { padding: 30px; text-align: center; }
-        .pro-name { font-size: 26px; font-weight: 900; margin-bottom: 5px; }
-        .pro-role { display: inline-block; background: #ecfdf5; color: var(--primary); padding: 5px 15px; border-radius: 15px; font-weight: 800; font-size: 12px; margin-bottom: 20px; }
-        .pro-slogan { font-size: 16px; color: var(--secondary); font-style: italic; font-weight: 700; margin-bottom: 20px; }
-        .pro-bio { font-size: 14px; color: var(--text-muted); line-height: 1.7; text-align: justify; margin-bottom: 30px;}
-        .pro-fb { display: inline-flex; align-items: center; gap: 10px; background: #1877F2; color: white; padding: 12px 30px; border-radius: 25px; font-weight: 700; font-size: 14px; transition: 0.3s; }
-
-        /* MODAL ĐĂNG NHẬP */
-        .login-box { background: white; width: 100%; max-width: 400px; border-radius: 24px; padding: 40px 30px; position: relative; text-align: center;}
-        .login-box .btn-close { background: #f1f5f9; color: var(--text-muted); }
-        .login-box .btn-close:hover { background: #e2e8f0; color: var(--text-main); }
-        .login-box input { width: 100%; padding: 12px 15px; border: 1px solid var(--border-color); border-radius: 10px; margin-bottom: 15px; background: var(--page-bg); font-family: inherit; font-size: 14px; font-weight: 500;}
-        .login-box input:focus { border-color: var(--primary); outline: none; background: white;}
-        .btn-submit { width: 100%; background: var(--primary); color: white; border: none; padding: 12px; border-radius: 10px; font-weight: 800; font-size: 15px; cursor: pointer; transition: 0.3s; margin-top: 10px;}
-        .btn-submit:hover { background: var(--primary-dark); }
-        
-
-        /* FOOTER MỚI VỚI 3 LOGO */
-        footer { background: white; border-top: 1px solid var(--border-color); padding: 30px 5%; margin-top: 50px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;}
-        .footer-text p { color: var(--text-muted); font-size: 14px; font-weight: 600; margin-bottom: 5px; }
+        /* ============================================
+           15. FOOTER — "Port of Call"
+           ============================================ */
+        footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--glass-border);
+            padding: 30px 5%; margin-top: 60px;
+            display: flex; justify-content: space-between;
+            align-items: center; flex-wrap: wrap; gap: 20px;
+            position: relative;
+        }
+        footer::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-orange), var(--accent-green), transparent);
+        }
+        .footer-text p {
+            color: var(--text-muted); font-size: 13px; font-weight: 600; margin-bottom: 4px;
+        }
         .footer-logos { display: flex; align-items: center; gap: 15px; }
-        .footer-logos img { width: 55px; height: 55px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border-color); padding: 2px; background: white; transition: 0.3s;}
-        .footer-logos img:hover { border-color: var(--primary); transform: scale(1.1); }
-        @media(max-width: 768px) { footer { flex-direction: column; text-align: center; } .footer-logos { justify-content: center; } }
+        .footer-logos img {
+            width: 50px; height: 50px; border-radius: 50%;
+            object-fit: cover; padding: 2px;
+            border: 2px solid var(--glass-border);
+            background: var(--bg-secondary);
+            transition: var(--transition);
+        }
+        .footer-logos img:hover {
+            border-color: var(--accent-orange);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px var(--accent-orange-glow);
+        }
+        @media(max-width: 768px) {
+            footer { flex-direction: column; text-align: center; }
+            .footer-logos { justify-content: center; }
+        }
 
-        /* THÊM ĐOẠN NÀY ĐỂ THANH MENU VUỐT NGANG ĐƯỢC TRÊN ĐIỆN THOẠI */
-        @media (max-width: 1024px) {
-            .nav-container {
-                overflow-x: auto;            /* Bật tính năng cuộn ngang */
-                justify-content: flex-start; /* Căn trái để bắt đầu cuộn từ Logo */
-                gap: 30px;                   /* Khoảng cách giữa Logo và các nút */
-                -webkit-overflow-scrolling: touch; /* Hỗ trợ vuốt siêu mượt trên iOS */
-            }
-            
-            /* Ẩn thanh cuộn xám xấu xí của trình duyệt để nhìn đẹp như App */
-            .nav-container::-webkit-scrollbar {
-                display: none; 
-            }
+        /* ============================================
+           16. MODALS — Dark Glass Theme
+           ============================================ */
+        .modal-overlay {
+            position: fixed; inset: 0;
+            background: rgba(8,12,24,0.9);
+            backdrop-filter: blur(8px);
+            display: none; justify-content: center; align-items: center;
+            z-index: 2000; opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.show { display: flex; opacity: 1; }
 
-            .logo-area, .nav-links {
-                flex-shrink: 0; /* Khóa cứng kích thước, chống việc chữ bị bóp méo hay rớt dòng */
-            }
+        /* Profile Modal */
+        .pro-modal {
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            width: 100%; max-width: 440px;
+            border-radius: var(--radius-xl);
+            position: relative; overflow: hidden;
+            transform: translateY(30px) scale(0.95);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .modal-overlay.show .pro-modal { transform: translateY(0) scale(1); }
+        .pro-header {
+            background: var(--gradient-green);
+            padding: 50px 20px 30px; text-align: center;
+            position: relative; overflow: hidden;
+        }
+        .pro-header::before {
+            content: ''; position: absolute; inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.06'%3E%3Cpath d='M20 20c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z'/%3E%3C/g%3E%3C/svg%3E") repeat;
+        }
+        .pro-img {
+            width: 120px; height: 120px; border-radius: 50%;
+            border: 4px solid var(--bg-secondary);
+            object-fit: cover; margin-top: -75px;
+            position: relative; z-index: 2;
+            background: var(--bg-secondary);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+        .pro-body { padding: 30px; text-align: center; }
+        .pro-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 24px; font-weight: 700; margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+        .pro-role {
+            display: inline-block;
+            background: rgba(245,130,32,0.12); color: var(--accent-orange);
+            padding: 5px 16px; border-radius: 15px;
+            font-weight: 700; font-size: 11px; margin-bottom: 16px;
+            letter-spacing: 0.5px; text-transform: uppercase;
+        }
+        .pro-slogan {
+            font-size: 15px; color: var(--accent-yellow);
+            font-style: italic; font-weight: 600; margin-bottom: 16px;
+        }
+        .pro-bio {
+            font-size: 14px; color: var(--text-secondary);
+            line-height: 1.7; text-align: justify; margin-bottom: 24px;
+        }
+        .pro-fb {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: rgba(24,119,242,0.15); color: #5b9bf5;
+            border: 1px solid rgba(24,119,242,0.3);
+            padding: 12px 30px; border-radius: 25px;
+            font-weight: 700; font-size: 14px; transition: var(--transition);
+        }
+        .pro-fb:hover { background: rgba(24,119,242,0.3); transform: translateY(-2px); }
+
+        /* Close Button */
+        .btn-close {
+            position: absolute; top: 15px; right: 15px;
+            font-size: 18px; color: rgba(255,255,255,0.7);
+            cursor: pointer; width: 36px; height: 36px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.15);
+            transition: var(--transition); z-index: 10;
+        }
+        .btn-close:hover { background: rgba(255,255,255,0.2); color: white; }
+        .btn-close.dark {
+            color: var(--text-secondary);
+            background: var(--glass-bg-strong);
+            border: 1px solid var(--glass-border);
+            position: static;
+        }
+        .btn-close.dark:hover { color: var(--text-primary); background: rgba(255,255,255,0.1); }
+
+        /* Article Modal */
+        .article-modal {
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            width: 100%; max-width: 800px;
+            border-radius: var(--radius-xl);
+            position: relative; overflow: hidden;
+            max-height: 90vh;
+            display: flex; flex-direction: column;
+            transform: translateY(30px); transition: transform 0.4s ease;
+        }
+        .modal-overlay.show .article-modal { transform: translateY(0); }
+        .article-header {
+            padding: 20px 28px;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .article-header h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px; font-weight: 700; color: var(--accent-orange);
+        }
+        .article-body {
+            padding: 28px; overflow-y: auto;
+            line-height: 1.8; color: var(--text-secondary); font-size: 15px;
+        }
+        .article-body img {
+            width: 100%; border-radius: var(--radius-md);
+            margin: 16px 0;
+            border: 1px solid var(--glass-border);
+        }
+        .article-body p { margin-bottom: 14px; }
+
+        /* Login Modal */
+        .login-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            width: 100%; max-width: 400px;
+            border-radius: var(--radius-xl);
+            padding: 40px 30px; position: relative;
+            text-align: center;
+        }
+        .login-box .btn-close {
+            background: var(--glass-bg-strong);
+            border: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+        }
+        .login-box .btn-close:hover { background: rgba(255,255,255,0.1); color: var(--text-primary); }
+        .login-box input {
+            width: 100%; padding: 13px 16px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            margin-bottom: 14px;
+            font-family: inherit; font-size: 14px; font-weight: 500;
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+        .login-box input::placeholder { color: var(--text-muted); }
+        .login-box input:focus {
+            border-color: var(--accent-orange);
+            outline: none; background: rgba(255,255,255,0.06);
+            box-shadow: 0 0 0 3px rgba(245,130,32,0.1);
+        }
+        .btn-submit {
+            width: 100%;
+            background: var(--gradient-sunset);
+            color: var(--bg-primary); border: none;
+            padding: 13px; border-radius: var(--radius-sm);
+            font-weight: 800; font-size: 15px;
+            cursor: pointer; transition: var(--transition);
+            margin-top: 8px;
+            box-shadow: 0 4px 15px var(--accent-orange-glow);
+        }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 25px var(--accent-orange-glow); }
+
+        .role-toggle {
+            display: flex;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            padding: 3px; margin-bottom: 20px;
+        }
+        .role-toggle button {
+            flex: 1; padding: 10px; border: none;
+            border-radius: 6px; font-weight: 700; font-size: 12px;
+            cursor: pointer; transition: var(--transition);
+            font-family: inherit;
+        }
+        .role-toggle .role-active {
+            background: var(--gradient-sunset) !important;
+            color: var(--bg-primary) !important;
+        }
+        .role-toggle .role-inactive {
+            background: transparent !important;
+            color: var(--text-muted) !important;
+        }
+
+        /* ============================================
+           17. RESPONSIVE
+           ============================================ */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 28px; }
+            .hero-title-accent { font-size: 36px; }
+            .hero-stats { gap: 24px; }
+            .hero-stat-num { font-size: 28px; }
+            .sec-title { font-size: 24px; letter-spacing: 1px; }
+            .info-row { padding: 28px; gap: 24px; }
+            .info-title { font-size: 20px; }
+            .contact-box { padding: 30px; gap: 30px; }
+            .contact-left, .contact-right { min-width: 100%; }
+            .news-grid { grid-template-columns: 1fr; }
+            .hero-slogan { font-size: 14px; letter-spacing: 2px; }
+            .hero-slogan-box { padding: 12px 24px; }
+            .world-grid { width: 500px; height: 280px; }
+        }
+        @media (max-width: 480px) {
+            .hero-logo { width: 70px; }
+            .hero-eyebrow { font-size: 11px; letter-spacing: 2px; }
+            .hero-stat-num { font-size: 24px; }
+        }
+
+        /* ============================================
+           18. UTILITY & ANIMATION CLASSES
+           ============================================ */
+        .gradient-text {
+            background: var(--gradient-sunset);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .glow-green { box-shadow: 0 0 30px var(--accent-green-glow); }
+        .glow-orange { box-shadow: 0 0 30px var(--accent-orange-glow); }
+
+        /* Animated horizontal line — Radar sweep */
+        .animated-line {
+            width: 100%; height: 1px; margin: 60px 0;
+            background: linear-gradient(90deg, transparent, var(--accent-green), var(--accent-orange), var(--accent-yellow), transparent);
+            opacity: 0.2;
+            animation: linePulse 5s ease-in-out infinite alternate;
+        }
+        @keyframes linePulse {
+            0% { opacity: 0.12; }
+            100% { opacity: 0.3; }
+        }
+
+        /* Loading text */
+        .loading-text {
+            text-align: center; padding: 50px;
+            color: var(--text-muted); font-weight: 500;
         }
     </style>
 </head>
 <body>
 
+    <!-- ============================================
+         PRELOADER
+         ============================================ -->
     <div id="preloader">
-        <img src="images/logo.jpg?v=2" alt="Logo LSCM" class="pl-logo" onerror="this.src='https://via.placeholder.com/100'">
+        <img src="images/logo.jpg?v=2" alt="Logo LSCM" class="pl-logo" onerror="this.src='https://via.placeholder.com/90'">
         <div class="pl-text">LSCM</div>
+        <div class="pl-bar"></div>
     </div>
 
-    <header>
+    <!-- ============================================
+         PARTICLE CANVAS (Supply Chain Network)
+         ============================================ -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- ============================================
+         NAVBAR — Floating Glass
+         ============================================ -->
+    <header id="mainHeader">
         <div class="nav-container">
             <div class="logo-area" onclick="switchTab('tab-gioi-thieu', this)">
-                <img src="images/logo.jpg?v=2" alt="Logo" onerror="this.src='https://via.placeholder.com/45'">
+                <img src="images/logo.jpg?v=2" alt="Logo" onerror="this.src='https://via.placeholder.com/42'">
                 <div class="logo-text">
                     <span class="title">LSCM</span>
-                    <span class="sub">LOGISTICS & SCM CLUB</span>
+                    <span class="sub">Logistics & SCM Club</span>
                 </div>
             </div>
             <nav class="nav-links">
@@ -268,44 +1204,133 @@
                 <button class="nav-link" onclick="switchTab('tab-co-cau', this)">Cơ Cấu Các Ban</button>
                 <button class="nav-link" onclick="switchTab('tab-thanh-vien', this)">Thành Viên CLB</button>
                 <button class="nav-link" onclick="switchTab('tab-hoat-dong', this)">Hoạt Động</button>
-                <button class="nav-link" onclick="switchTab('tab-gioi-thieu', this); setTimeout(()=>document.getElementById('contact-area').scrollIntoView(), 100);">Liên Hệ</button>
-                
+                <button class="nav-link" onclick="switchTab('tab-gioi-thieu', this); setTimeout(()=>document.getElementById('contact-area').scrollIntoView({behavior:'smooth'}), 100);">Liên Hệ</button>
                 <button class="btn-login" id="navLoginBtn" onclick="openModal('loginModal')"><i class="fas fa-sign-in-alt"></i> Đăng Nhập</button>
             </nav>
         </div>
     </header>
 
+    <!-- ============================================
+         MAIN CONTENT
+         ============================================ -->
     <main>
+        <!-- ===== TAB 1: GIỚI THIỆU ===== -->
         <section id="tab-gioi-thieu" class="page-tab active">
+
+            <!-- HERO — "The World Connected" -->
             <div class="hero-wrapper">
-                <div class="hero">
-                    <div style="position: relative; z-index: 10;">
-                        <div class="hero-badge" onclick="openModal('loginModal')"><i class="fas fa-lock" style="color: #F59E0B;"></i> Xin chào! Đăng nhập ngay</div>
-                        <h1 class="hero-title">Câu lạc bộ Logistics & Quản lý chuỗi cung ứng HUNRE <span>LSCM</span></h1>
-                        <div class="hero-slogan-box">
-                            <p class="hero-slogan">KẾT NỐI - HỢP TÁC - PHÁT TRIỂN</p>
-                            <p class="hero-sub">Connect • Cooperate • Develop</p>
+                <div class="hero" id="heroSection">
+                    <!-- Parallax Layer 1: World Grid -->
+                    <div class="parallax-layer layer-1" id="parallaxLayer1">
+                        <svg class="world-grid" viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Simplified world map dots -->
+                            <!-- North America -->
+                            <circle cx="180" cy="140" r="2.5"/><circle cx="200" cy="135" r="2"/><circle cx="220" cy="130" r="2.5"/>
+                            <circle cx="160" cy="160" r="2"/><circle cx="180" cy="155" r="2.5"/><circle cx="200" cy="150" r="2"/>
+                            <circle cx="220" cy="150" r="2"/><circle cx="240" cy="145" r="2.5"/><circle cx="190" cy="170" r="2"/>
+                            <circle cx="210" cy="165" r="2.5"/><circle cx="230" cy="165" r="2"/><circle cx="170" cy="175" r="2"/>
+                            <!-- Europe -->
+                            <circle cx="430" cy="120" r="2.5"/><circle cx="450" cy="115" r="2"/><circle cx="470" cy="120" r="2.5"/>
+                            <circle cx="440" cy="140" r="2"/><circle cx="460" cy="135" r="2.5"/><circle cx="480" cy="130" r="2"/>
+                            <circle cx="420" cy="150" r="2"/><circle cx="450" cy="150" r="2.5"/><circle cx="470" cy="145" r="2"/>
+                            <!-- Asia -->
+                            <circle cx="600" cy="130" r="2.5"/><circle cx="620" cy="125" r="2"/><circle cx="640" cy="130" r="2.5"/>
+                            <circle cx="660" cy="140" r="2"/><circle cx="680" cy="150" r="2.5"/><circle cx="700" cy="155" r="2"/>
+                            <circle cx="620" cy="160" r="2"/><circle cx="640" cy="165" r="2.5"/><circle cx="660" cy="170" r="2"/>
+                            <circle cx="680" cy="175" r="2.5"/><circle cx="700" cy="170" r="2"/><circle cx="720" cy="165" r="2"/>
+                            <circle cx="630" cy="190" r="2.5"/><circle cx="650" cy="195" r="2"/><circle cx="670" cy="200" r="2.5"/>
+                            <!-- Africa -->
+                            <circle cx="460" cy="220" r="2.5"/><circle cx="480" cy="230" r="2"/><circle cx="470" cy="250" r="2.5"/>
+                            <circle cx="490" cy="245" r="2"/><circle cx="500" cy="260" r="2"/><circle cx="480" cy="270" r="2.5"/>
+                            <!-- South America -->
+                            <circle cx="280" cy="260" r="2.5"/><circle cx="290" cy="280" r="2"/><circle cx="300" cy="300" r="2.5"/>
+                            <circle cx="285" cy="320" r="2"/><circle cx="290" cy="340" r="2"/><circle cx="280" cy="355" r="2.5"/>
+                            <!-- Australia -->
+                            <circle cx="720" cy="310" r="2.5"/><circle cx="740" cy="305" r="2"/><circle cx="760" cy="310" r="2.5"/>
+                            <circle cx="730" cy="325" r="2"/><circle cx="750" cy="330" r="2"/>
+                            <!-- Shipping Routes (lines) -->
+                            <line x1="240" y1="165" x2="420" y2="150" stroke="#F58220" stroke-width="0.5" stroke-dasharray="4,6" opacity="0.3"/>
+                            <line x1="480" y1="135" x2="600" y2="130" stroke="#1B8A4A" stroke-width="0.5" stroke-dasharray="4,6" opacity="0.3"/>
+                            <line x1="700" y1="170" x2="720" y2="310" stroke="#FFC107" stroke-width="0.5" stroke-dasharray="4,6" opacity="0.3"/>
+                            <line x1="280" y1="260" x2="460" y2="220" stroke="#F58220" stroke-width="0.5" stroke-dasharray="4,6" opacity="0.3"/>
+                            <line x1="660" y1="200" x2="720" y2="310" stroke="#1B8A4A" stroke-width="0.5" stroke-dasharray="4,6" opacity="0.2"/>
+                        </svg>
+                    </div>
+
+                    <!-- Parallax Layer 2: Ambient Glows -->
+                    <div class="parallax-layer layer-2" id="parallaxLayer2">
+                        <div class="ambient-glow glow-1"></div>
+                        <div class="ambient-glow glow-2"></div>
+                        <div class="ambient-glow glow-3"></div>
+                    </div>
+
+                    <!-- Hero Content -->
+                    <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
+                        <img src="images/logo.jpg?v=2" alt="LSCM Logo" class="hero-logo" onerror="this.src='https://via.placeholder.com/100'">
+                        <div class="hero-badge" onclick="openModal('loginModal')">
+                            <i class="fas fa-globe" style="color: var(--accent-yellow);"></i> KẾT NỐI — HỢP TÁC — PHÁT TRIỂN
                         </div>
+                        <h2 class="hero-eyebrow" style="color: var(--accent-orange); font-size: 18px; letter-spacing: 6px; font-weight: 700;">LSCM | EST. 2021</h2>
+                        <h1 class="hero-title">
+                            Câu Lạc Bộ Logistics &
+                            <span class="hero-title-accent">Quản lý Chuỗi Cung Ứng</span>
+                        </h1>
+                        <div class="hero-divider"></div>
+                        <div class="hero-slogan-box">
+                            <p class="hero-slogan">Connect • Cooperate • Develop</p>
+                            <p class="hero-sub">Xây dựng mạng lưới logistics thế hệ mới</p>
+                        </div>
+
+                        <div class="hero-stats">
+                            <div class="hero-stat" data-aos="fade-up" data-aos-delay="200">
+                                <div class="hero-stat-num" id="statMembers">0</div>
+                                <div class="hero-stat-label">Thành Viên</div>
+                            </div>
+                            <div class="hero-stat" data-aos="fade-up" data-aos-delay="400">
+                                <div class="hero-stat-num" id="statEvents">0</div>
+                                <div class="hero-stat-label">Sự Kiện</div>
+                            </div>
+                            <div class="hero-stat" data-aos="fade-up" data-aos-delay="600">
+                                <div class="hero-stat-num" id="statYear">2024</div>
+                                <div class="hero-stat-label">Thành Lập</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Scroll Indicator -->
+                    <div class="scroll-indicator">
+                        <span>Khám phá</span>
+                        <i class="fas fa-chevron-down"></i>
                     </div>
                 </div>
             </div>
 
+            <!-- ABOUT SECTIONS (dynamic from Firebase) -->
+            <div class="animated-line"></div>
+            <div class="sec-header" data-aos="fade-up">
+                <h2 class="sec-title">Về Chúng Tôi</h2>
+                <div class="sec-line"></div>
+            </div>
             <div id="dynamic-about-container">
-                <p style="text-align: center; padding: 50px; color: gray;">Đang kết nối hệ thống...</p>
+                <p class="loading-text">Đang kết nối hệ thống...</p>
             </div>
 
-            <div class="sec-header">
+            <!-- BOARD PREVIEW ON HOME -->
+            <div class="animated-line"></div>
+            <div class="sec-header" data-aos="fade-up">
                 <h2 class="sec-title">Quản Lý Bộ Môn & Cố Vấn CLB</h2>
                 <div class="sec-line"></div>
             </div>
             <div class="board-grid-4" id="homeBoardContainer">
-                <p style="text-align: center; grid-column: 1/-1; color: gray;">Đang tải danh sách...</p>
+                <p class="loading-text" style="grid-column: 1/-1;">Đang tải danh sách...</p>
             </div>
 
-            <div class="contact-section" id="contact-area">
+            <!-- CONTACT SECTION -->
+            <div class="animated-line"></div>
+            <div class="contact-section" id="contact-area" data-aos="fade-up">
                 <div class="contact-box">
                     <div class="contact-left">
-                        <h3 id="contactTitle">Kết Nối Với Chúng Tôi</h3>
+                        <h3 id="contactTitle"><i class="fas fa-satellite-dish" style="color: var(--accent-orange); margin-right: 8px;"></i>Kết Nối Với Chúng Tôi</h3>
                         <p id="contactDesc">Bạn có câu hỏi, ý tưởng hay muốn trở thành một phần của đại gia đình LSCM? Hãy liên hệ trực tiếp với bộ phận chuyên trách hoặc để lại lời nhắn.</p>
                         <div class="direct-contact" id="contactList">
                             <div class="dc-item">
@@ -323,14 +1348,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div style="display: flex; gap: 15px;">
+                        <div style="display: flex; gap: 12px;">
                             <a href="https://www.facebook.com/share/1EH4HHa5rk/" target="_blank" class="soc-btn fb" style="flex:1;"><i class="fab fa-facebook-f"></i> Facebook</a>
                             <a href="https://www.tiktok.com/@hunre.logistics.lscm" target="_blank" class="soc-btn tt" style="flex:1;"><i class="fab fa-tiktok"></i> TikTok</a>
                         </div>
                     </div>
                     <div class="contact-right">
                         <form class="contact-form" onsubmit="sendContactMessage(event)">
-                            <h3><i class="fas fa-paper-plane" style="color: var(--primary);"></i> Gửi câu hỏi cho chúng tôi</h3>
+                            <h3><i class="fas fa-paper-plane" style="color: var(--accent-orange);"></i> Gửi câu hỏi cho chúng tôi</h3>
                             <input type="text" id="contactName" placeholder="Họ và tên của bạn..." required>
                             <input type="email" id="contactEmail" placeholder="Địa chỉ Email..." required>
                             <textarea id="contactMsg" rows="5" placeholder="Nhập câu hỏi hoặc lời nhắn của bạn..." required></textarea>
@@ -341,8 +1366,9 @@
             </div>
         </section>
 
+        <!-- ===== TAB 2: BAN CHỦ NHIỆM ===== -->
         <section id="tab-chu-nhiem" class="page-tab">
-            <div class="sec-header">
+            <div class="sec-header" data-aos="fade-up">
                 <h2 class="sec-title">Cơ Cấu Ban Chủ Nhiệm</h2>
                 <div class="sec-line"></div>
             </div>
@@ -358,26 +1384,33 @@
             </div>
         </section>
 
+        <!-- ===== TAB 3: CƠ CẤU CÁC BAN ===== -->
         <section id="tab-co-cau" class="page-tab">
             <div id="dept-grid-view">
-                <div class="sec-header">
+                <div class="sec-header" data-aos="fade-up">
                     <h2 class="sec-title">Cơ Cấu Các Ban</h2>
-                    <p style="color: var(--text-muted); font-weight: 600; margin-top: 10px;"><i class="fas fa-hand-pointer" style="color: var(--secondary);"></i> Ấn vào để xem danh sách chi tiết</p>
+                    <p style="color: var(--text-muted); font-weight: 600; margin-top: 10px;">
+                        <i class="fas fa-hand-pointer" style="color: var(--accent-yellow);"></i> Ấn vào để xem danh sách chi tiết
+                    </p>
                     <div class="sec-line" style="margin-top: 15px;"></div>
                 </div>
                 <div class="dept-container">
                     <div class="dept-grid">
-                        <div class="dept-card" onclick="openDeptDetail('Truyền Thông')">
-                            <i class="fas fa-bullhorn dept-icon" style="color: var(--primary);"></i><h3>Ban Truyền Thông</h3>
+                        <div class="dept-card" onclick="openDeptDetail('Truyền Thông')" data-aos="fade-up" data-aos-delay="0">
+                            <i class="fas fa-bullhorn dept-icon" style="color: var(--accent-orange);"></i>
+                            <h3>Ban Truyền Thông</h3>
                         </div>
-                        <div class="dept-card" onclick="openDeptDetail('Kỹ Thuật')">
-                            <i class="fas fa-laptop-code dept-icon" style="color: #3b82f6;"></i><h3>Ban Kỹ Thuật</h3>
+                        <div class="dept-card" onclick="openDeptDetail('Kỹ Thuật')" data-aos="fade-up" data-aos-delay="100">
+                            <i class="fas fa-laptop-code dept-icon" style="color: #5b9bf5;"></i>
+                            <h3>Ban Kỹ Thuật</h3>
                         </div>
-                        <div class="dept-card" onclick="openDeptDetail('Đối Ngoại & Tổ chức sự kiện')">
-                            <i class="fas fa-handshake dept-icon" style="color: var(--secondary);"></i><h3>Ban Đối Ngoại & Tổ chức sự kiện</h3>
+                        <div class="dept-card" onclick="openDeptDetail('Đối Ngoại & Tổ chức sự kiện')" data-aos="fade-up" data-aos-delay="200">
+                            <i class="fas fa-handshake dept-icon" style="color: var(--accent-yellow);"></i>
+                            <h3>Ban Đối Ngoại & Tổ chức sự kiện</h3>
                         </div>
-                        <div class="dept-card" onclick="openDeptDetail('Chuyên Môn')">
-                            <i class="fas fa-book-open dept-icon" style="color: #ef4444;"></i><h3>Ban Chuyên Môn</h3>
+                        <div class="dept-card" onclick="openDeptDetail('Chuyên Môn')" data-aos="fade-up" data-aos-delay="300">
+                            <i class="fas fa-book-open dept-icon" style="color: #ef5350;"></i>
+                            <h3>Ban Chuyên Môn</h3>
                         </div>
                     </div>
                 </div>
@@ -398,42 +1431,65 @@
             </div>
         </section>
 
+        <!-- ===== TAB 4: THÀNH VIÊN ===== -->
         <section id="tab-thanh-vien" class="page-tab">
-            <div class="sec-header">
+            <div class="sec-header" data-aos="fade-up">
                 <h2 class="sec-title">Thành Viên CLB <span class="group-count" id="c-total-mems" style="font-size:16px;">0</span></h2>
                 <div class="sec-line"></div>
             </div>
             <div class="board-container">
-                <div class="group-container"><h3 class="group-title">Thành Viên Hiện Tại <span class="group-count" id="c-tv">0</span></h3><div class="members-grid-6" id="mem-active-container"></div></div>
-                <div class="group-container"><h3 class="group-title">Cộng Tác Viên <span class="group-count" id="c-ctv">0</span></h3><div class="members-grid-6" id="mem-ctv-container"></div></div>
-                <div class="group-container"><h3 class="group-title">Cựu Thành Viên <span class="group-count" id="c-cuu">0</span></h3><div class="members-grid-6" id="mem-alumni-container"></div></div>
+                <div class="group-container">
+                    <h3 class="group-title">Thành Viên Hiện Tại <span class="group-count" id="c-tv">0</span></h3>
+                    <div class="members-grid-6" id="mem-active-container"></div>
+                </div>
+                <div class="group-container">
+                    <h3 class="group-title">Cộng Tác Viên <span class="group-count" id="c-ctv">0</span></h3>
+                    <div class="members-grid-6" id="mem-ctv-container"></div>
+                </div>
+                <div class="group-container">
+                    <h3 class="group-title">Cựu Thành Viên <span class="group-count" id="c-cuu">0</span></h3>
+                    <div class="members-grid-6" id="mem-alumni-container"></div>
+                </div>
             </div>
         </section>
 
+        <!-- ===== TAB 5: HOẠT ĐỘNG ===== -->
         <section id="tab-hoat-dong" class="page-tab">
-            <div class="sec-header"><h2 class="sec-title">Dấu Ấn Sự Kiện LSCM</h2><div class="sec-line"></div></div>
-            <div class="news-grid" id="newsPublicContainer"><p style="text-align: center; grid-column: 1/-1; color: gray;">Đang tải danh sách sự kiện...</p></div>
+            <div class="sec-header" data-aos="fade-up">
+                <h2 class="sec-title">Dấu Ấn Sự Kiện LSCM</h2>
+                <div class="sec-line"></div>
+            </div>
+            <div class="news-grid" id="newsPublicContainer">
+                <p class="loading-text" style="grid-column: 1/-1;">Đang tải danh sách sự kiện...</p>
+            </div>
         </section>
     </main>
 
+    <!-- ============================================
+         FOOTER — "Port of Call"
+         ============================================ -->
     <footer>
         <div class="footer-text">
-            <p>© 2026 Bản quyền thuộc về Câu lạc bộ Logistics & Quản lý chuỗi cung ứng HUNRE - LSCM</p>
-            <p style="font-size: 13px; font-weight: 500;">Khoa Kinh tế - Trường Đại học Tài nguyên và Môi trường Hà Nội</p>
+            <p>© 2026 Bản quyền thuộc về Câu lạc bộ Logistics & Quản lý chuỗi cung ứng HUNRE — LSCM</p>
+            <p style="font-size: 12px; font-weight: 500; margin-top: 2px;">Khoa Kinh tế — Trường Đại học Tài nguyên và Môi trường Hà Nội</p>
         </div>
         <div class="footer-logos">
-            <img src="images/logoTRUONG.jpg?v=2" alt="HUNRE Logo" title="Trường Đại học Tài nguyên và Môi trường Hà Nội" onerror="this.src='https://via.placeholder.com/55'">
-            <img src="./LogoKKT%20copy.jpg?v=2" alt="Khoa Kinh Tế Logo" title="Khoa Kinh tế - HUNRE" onerror="this.src='https://via.placeholder.com/55'">
-            <img src="images/logo.jpg?v=2" alt="LSCM Logo" title="CLB LSCM" onerror="this.src='https://via.placeholder.com/55'">
+            <img src="images/logoTRUONG.jpg?v=2" alt="HUNRE Logo" title="Trường Đại học Tài nguyên và Môi trường Hà Nội" onerror="this.src='https://via.placeholder.com/50'">
+            <img src="./LogoKKT%20copy.jpg?v=2" alt="Khoa Kinh Tế Logo" title="Khoa Kinh tế — HUNRE" onerror="this.src='https://via.placeholder.com/50'">
+            <img src="images/logo.jpg?v=2" alt="LSCM Logo" title="CLB LSCM" onerror="this.src='https://via.placeholder.com/50'">
         </div>
     </footer>
 
+    <!-- ============================================
+         MODALS
+         ============================================ -->
+    <!-- Profile Modal -->
     <div class="modal-overlay" id="profileModal" onclick="closeModal(event, 'profileModal')">
         <div class="pro-modal">
             <span class="btn-close" onclick="document.getElementById('profileModal').classList.remove('show')"><i class="fas fa-times"></i></span>
             <div class="pro-header"></div>
             <div style="text-align: center;">
-                <img id="m-img" src="" class="pro-img" onerror="this.src='https://via.placeholder.com/150'">
+                <img id="m-img" src="" class="pro-img" onerror="this.src='https://via.placeholder.com/120'">
             </div>
             <div class="pro-body">
                 <h2 class="pro-name" id="m-name">Tên</h2>
@@ -445,41 +1501,51 @@
         </div>
     </div>
 
+    <!-- Article Modal -->
     <div class="modal-overlay" id="articleModal" onclick="closeModal(event, 'articleModal')">
         <div class="article-modal">
             <div class="article-header">
                 <h2 id="a-title">Tiêu đề bài viết</h2>
                 <span class="btn-close dark" onclick="document.getElementById('articleModal').classList.remove('show')"><i class="fas fa-times"></i></span>
             </div>
-            <div class="article-body" id="a-body">
-                </div>
+            <div class="article-body" id="a-body"></div>
         </div>
     </div>
 
+    <!-- Login Modal -->
     <div class="modal-overlay" id="loginModal" onclick="closeModal(event, 'loginModal')">
         <div class="login-box">
             <span class="btn-close" onclick="document.getElementById('loginModal').classList.remove('show')"><i class="fas fa-times"></i></span>
-            <img src="images/logo.jpg" alt="Logo LSCM" style="width: 100px; height: auto; margin-bottom: 15px; display: block; margin-left: auto; margin-right: auto; border-radius: 12px;">
-            <h2 style="font-size: 20px; font-weight: 900; color: var(--text-main); margin-bottom: 5px;">ĐĂNG NHẬP NỘI BỘ</h2>
+            <img src="images/logo.jpg" alt="Logo LSCM" style="width: 80px; height: auto; margin-bottom: 15px; display: block; margin-left: auto; margin-right: auto; border-radius: 16px; box-shadow: 0 0 30px var(--accent-green-glow);">
+            <h2 style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px;">ĐĂNG NHẬP NỘI BỘ</h2>
             <p style="font-size: 12px; color: var(--text-muted); font-weight: 600; margin-bottom: 20px;">Dành cho Thành viên & Ban Chủ Nhiệm LSCM</p>
 
-            <div style="display: flex; background: var(--page-bg); border-radius: 8px; padding: 4px; margin-bottom: 20px;">
-                <button id="btnRoleMem" class="role-btn active" style="flex:1; padding:10px; border:none; border-radius:6px; font-weight:700; font-size:12px; cursor:pointer; background:var(--primary); color:white;" onclick="selectLoginRole('member')">Thành Viên</button>
-                <button id="btnRoleAdm" class="role-btn" style="flex:1; padding:10px; border:none; border-radius:6px; font-weight:700; font-size:12px; cursor:pointer; background:transparent; color:var(--text-muted);" onclick="selectLoginRole('admin')">Ban Chủ Nhiệm</button>
+            <div class="role-toggle">
+                <button id="btnRoleMem" class="role-active" onclick="selectLoginRole('member')">Thành Viên</button>
+                <button id="btnRoleAdm" class="role-inactive" onclick="selectLoginRole('admin')">Ban Chủ Nhiệm</button>
             </div>
 
             <input type="email" id="loginUser" placeholder="Email đăng nhập...">
             <input type="password" id="loginPass" placeholder="Mật mã bảo mật...">
-            
+
             <button class="btn-submit" onclick="executeLogin()">Xác Nhận Đăng Nhập</button>
         </div>
     </div>
 
+    <!-- ============================================
+         SCRIPTS
+         ============================================ -->
+    <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <!-- AOS.js -->
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
     <script>
+        // ============================================
+        // 1. FIREBASE INITIALIZATION (100% ORIGINAL)
+        // ============================================
         const firebaseConfig = {
             apiKey: "AIzaSyAtKGpwqCA71JcPWxnQGZ_sFWWquADZKdk",
             authDomain: "lscm-hunre.firebaseapp.com",
@@ -493,19 +1559,42 @@
         const db = firebase.firestore();
 
         let globalMembers = [];
-        let globalNews = []; 
+        let globalNews = [];
 
+        // ============================================
+        // 2. INIT ON DOM READY
+        // ============================================
         document.addEventListener("DOMContentLoaded", function() {
-            setTimeout(() => { document.getElementById('preloader').style.display = 'none'; }, 500);
-            
-            // Tải dữ liệu công khai KHÔNG CẦN ĐĂNG NHẬP
+            // Hide preloader
+            setTimeout(() => {
+                document.getElementById('preloader').classList.add('hidden');
+            }, 800);
+
+            // Init AOS
+            AOS.init({
+                duration: 800,
+                easing: 'ease-out-cubic',
+                once: true,
+                offset: 80
+            });
+
+            // Init Particles
+            initParticles();
+
+            // Init Parallax
+            initParallax();
+
+            // Init Navbar scroll effect
+            initNavbarScroll();
+
+            // Load Firebase data (PUBLIC — NO LOGIN REQUIRED)
             loadAboutSections();
             loadPublicNews();
             loadMembersFromFirebase();
             loadContactSection();
             loadDeptDescriptions();
 
-            // Kiểm tra xem ai đang vào web (Chuyển nút Đăng nhập)
+            // Check auth state
             auth.onAuthStateChanged(user => {
                 if (user) {
                     const loginBtn = document.getElementById('navLoginBtn');
@@ -519,76 +1608,557 @@
             });
         });
 
-        function switchTab(tabId, btnElement) { document.querySelectorAll('.page-tab').forEach(t => t.classList.remove('active')); document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active')); document.getElementById(tabId).classList.add('active'); if(btnElement && btnElement.classList) btnElement.classList.add('active'); window.scrollTo(0, 0); if(tabId === 'tab-co-cau') closeDeptDetail(); }
+        // ============================================
+        // 3. GLOBAL LOGISTICS NETWORK — Sci-Fi Radar Canvas
+        // ============================================
+        function initParticles() {
+            const canvas = document.getElementById('particleCanvas');
+            const ctx = canvas.getContext('2d');
+            let time = 0;
+            let mouseX = 0, mouseY = 0;
+            let targetMouseX = 0, targetMouseY = 0;
+
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            // Mouse tracking for parallax
+            document.addEventListener('mousemove', (e) => {
+                targetMouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+                targetMouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+            });
+
+            // === HUB DEFINITIONS (Logistics nodes — ports/airports) ===
+            const HUB_COUNT = 10;
+            const COLORS = {
+                green: { r: 27, g: 138, b: 74 },
+                orange: { r: 245, g: 130, b: 32 },
+                yellow: { r: 255, g: 193, b: 7 },
+                white: { r: 200, g: 210, b: 230 }
+            };
+
+            class Hub {
+                constructor(i) {
+                    this.baseX = 0.08 + Math.random() * 0.84;
+                    this.baseY = 0.08 + Math.random() * 0.84;
+                    this.x = this.baseX * canvas.width;
+                    this.y = this.baseY * canvas.height;
+                    this.radius = 3 + Math.random() * 3;
+                    this.radarRadius = 0;
+                    this.radarSpeed = 0.3 + Math.random() * 0.5;
+                    this.radarMax = 40 + Math.random() * 30;
+                    this.phase = Math.random() * Math.PI * 2;
+                    const cKeys = ['green', 'orange', 'yellow'];
+                    const ck = cKeys[i % 3];
+                    this.color = COLORS[ck];
+                    this.pulsePhase = Math.random() * Math.PI * 2;
+                    this.depth = 0.5 + Math.random() * 0.5; // for parallax
+                }
+                update(t) {
+                    this.x = this.baseX * canvas.width;
+                    this.y = this.baseY * canvas.height;
+                    // Parallax offset
+                    const px = -mouseX * 15 * this.depth;
+                    const py = -mouseY * 15 * this.depth;
+                    this.x += px;
+                    this.y += py;
+                    // Radar wave
+                    this.radarRadius += this.radarSpeed;
+                    if (this.radarRadius > this.radarMax) this.radarRadius = 0;
+                }
+                draw(t) {
+                    const pulse = 0.6 + 0.4 * Math.sin(t * 0.02 + this.pulsePhase);
+                    const {r, g, b} = this.color;
+
+                    // Radar ring
+                    if (this.radarRadius > 0) {
+                        const radarAlpha = (1 - this.radarRadius / this.radarMax) * 0.25;
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, this.radarRadius, 0, Math.PI * 2);
+                        ctx.strokeStyle = 'rgba(' + r + ',' + g + ',' + b + ',' + radarAlpha + ')';
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+
+                    // Outer glow
+                    const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius * 6);
+                    grad.addColorStop(0, 'rgba(' + r + ',' + g + ',' + b + ',' + (0.2 * pulse) + ')');
+                    grad.addColorStop(0.5, 'rgba(' + r + ',' + g + ',' + b + ',' + (0.05 * pulse) + ')');
+                    grad.addColorStop(1, 'rgba(' + r + ',' + g + ',' + b + ',0)');
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius * 6, 0, Math.PI * 2);
+                    ctx.fillStyle = grad;
+                    ctx.fill();
+
+                    // Core dot
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius * pulse, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(' + Math.min(255, r + 60) + ',' + Math.min(255, g + 60) + ',' + Math.min(255, b + 60) + ',' + (0.7 * pulse) + ')';
+                    ctx.fill();
+
+                    // Inner bright core
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius * 0.4 * pulse, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(255,255,255,' + (0.6 * pulse) + ')';
+                    ctx.fill();
+                }
+            }
+
+            // === ROUTE TYPES ===
+            const ROUTE_AIR = 0;   // Bezier curves (airline)
+            const ROUTE_SEA = 1;   // Wavy sine lines (shipping)
+            const ROUTE_LAND = 2;  // Dashed lines (trucking)
+
+            class Route {
+                constructor(hubA, hubB, type) {
+                    this.hubA = hubA;
+                    this.hubB = hubB;
+                    this.type = type;
+                    this.vehicles = [];
+                    this.spawnTimer = Math.random() * 200;
+                    this.spawnInterval = 120 + Math.random() * 180;
+                }
+                draw(t) {
+                    const ax = this.hubA.x, ay = this.hubA.y;
+                    const bx = this.hubB.x, by = this.hubB.y;
+                    const dx = bx - ax, dy = by - ay;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist > canvas.width * 0.65) return; // Too far, don't draw
+
+                    const fade = Math.max(0, 1 - dist / (canvas.width * 0.6));
+                    const {r, g, b} = this.hubA.color;
+
+                    ctx.save();
+                    if (this.type === ROUTE_AIR) {
+                        // Bezier curve (flight path)
+                        const cpx = (ax + bx) / 2 + dy * 0.3;
+                        const cpy = (ay + by) / 2 - Math.abs(dx) * 0.15;
+                        ctx.beginPath();
+                        ctx.moveTo(ax, ay);
+                        ctx.quadraticCurveTo(cpx, cpy, bx, by);
+                        ctx.strokeStyle = 'rgba(' + r + ',' + g + ',' + b + ',' + (fade * 0.1) + ')';
+                        ctx.lineWidth = 0.8;
+                        ctx.stroke();
+                    } else if (this.type === ROUTE_SEA) {
+                        // Wavy sine line (shipping lane)
+                        ctx.beginPath();
+                        const steps = 40;
+                        for (let i = 0; i <= steps; i++) {
+                            const p = i / steps;
+                            const lx = ax + dx * p;
+                            const ly = ay + dy * p;
+                            const perpX = -dy / dist;
+                            const perpY = dx / dist;
+                            const wave = Math.sin(p * Math.PI * 4 + t * 0.015) * 5;
+                            const px = lx + perpX * wave;
+                            const py = ly + perpY * wave;
+                            if (i === 0) ctx.moveTo(px, py);
+                            else ctx.lineTo(px, py);
+                        }
+                        ctx.strokeStyle = 'rgba(' + r + ',' + g + ',' + b + ',' + (fade * 0.08) + ')';
+                        ctx.lineWidth = 0.8;
+                        ctx.stroke();
+                    } else {
+                        // Dashed line (land route)
+                        ctx.beginPath();
+                        ctx.setLineDash([6, 8]);
+                        ctx.moveTo(ax, ay);
+                        ctx.lineTo(bx, by);
+                        ctx.strokeStyle = 'rgba(' + r + ',' + g + ',' + b + ',' + (fade * 0.08) + ')';
+                        ctx.lineWidth = 0.7;
+                        ctx.stroke();
+                        ctx.setLineDash([]);
+                    }
+                    ctx.restore();
+                }
+                spawnVehicle(t) {
+                    this.spawnTimer++;
+                    const ax = this.hubA.x, ay = this.hubA.y;
+                    const bx = this.hubB.x, by = this.hubB.y;
+                    const dist = Math.sqrt((bx-ax)**2 + (by-ay)**2);
+                    if (dist > canvas.width * 0.6) return;
+                    if (this.spawnTimer >= this.spawnInterval) {
+                        this.spawnTimer = 0;
+                        const dir = Math.random() > 0.5;
+                        this.vehicles.push(new Vehicle(
+                            dir ? this.hubA : this.hubB,
+                            dir ? this.hubB : this.hubA,
+                            this.type
+                        ));
+                    }
+                }
+            }
+
+            // === VEHICLE (light trail with icon) ===
+            class Vehicle {
+                constructor(from, to, routeType) {
+                    this.fromX = from.x; this.fromY = from.y;
+                    this.toX = to.x; this.toY = to.y;
+                    this.routeType = routeType;
+                    this.progress = 0;
+                    this.speed = 0.003 + Math.random() * 0.004;
+                    this.alive = true;
+                    this.tailLength = 0.08 + Math.random() * 0.06;
+                    const colors = [COLORS.green, COLORS.orange, COLORS.yellow];
+                    this.color = colors[routeType % 3];
+                    // Icon for vehicle type
+                    this.icon = routeType === ROUTE_AIR ? '✈' : routeType === ROUTE_SEA ? '🚢' : '🚛';
+                }
+                getPosition(p) {
+                    p = Math.max(0, Math.min(1, p));
+                    const ax = this.fromX, ay = this.fromY;
+                    const bx = this.toX, by = this.toY;
+                    if (this.routeType === ROUTE_AIR) {
+                        const dx = bx - ax, dy = by - ay;
+                        const cpx = (ax + bx) / 2 + dy * 0.3;
+                        const cpy = (ay + by) / 2 - Math.abs(dx) * 0.15;
+                        const t = p;
+                        const mt = 1 - t;
+                        return {
+                            x: mt * mt * ax + 2 * mt * t * cpx + t * t * bx,
+                            y: mt * mt * ay + 2 * mt * t * cpy + t * t * by
+                        };
+                    } else if (this.routeType === ROUTE_SEA) {
+                        const dx = bx - ax, dy = by - ay;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        const lx = ax + dx * p;
+                        const ly = ay + dy * p;
+                        const perpX = -dy / (dist || 1);
+                        const perpY = dx / (dist || 1);
+                        const wave = Math.sin(p * Math.PI * 4 + time * 0.015) * 5;
+                        return { x: lx + perpX * wave, y: ly + perpY * wave };
+                    } else {
+                        return {
+                            x: ax + (bx - ax) * p,
+                            y: ay + (by - ay) * p
+                        };
+                    }
+                }
+                update() {
+                    this.progress += this.speed;
+                    if (this.progress > 1 + this.tailLength) this.alive = false;
+                }
+                draw() {
+                    const {r, g, b} = this.color;
+                    const head = this.getPosition(Math.min(this.progress, 1));
+                    const tail = this.getPosition(Math.max(this.progress - this.tailLength, 0));
+
+                    // Trail gradient
+                    const grad = ctx.createLinearGradient(tail.x, tail.y, head.x, head.y);
+                    grad.addColorStop(0, 'rgba(' + r + ',' + g + ',' + b + ',0)');
+                    grad.addColorStop(0.7, 'rgba(' + r + ',' + g + ',' + b + ',0.35)');
+                    grad.addColorStop(1, 'rgba(' + Math.min(255,r+80) + ',' + Math.min(255,g+80) + ',' + Math.min(255,b+80) + ',0.7)');
+
+                    ctx.beginPath();
+                    ctx.moveTo(tail.x, tail.y);
+                    ctx.lineTo(head.x, head.y);
+                    ctx.strokeStyle = grad;
+                    ctx.lineWidth = 2;
+                    ctx.lineCap = 'round';
+                    ctx.stroke();
+
+                    // Head glow
+                    const hGlow = ctx.createRadialGradient(head.x, head.y, 0, head.x, head.y, 8);
+                    hGlow.addColorStop(0, 'rgba(255,255,255,0.5)');
+                    hGlow.addColorStop(0.4, 'rgba(' + r + ',' + g + ',' + b + ',0.3)');
+                    hGlow.addColorStop(1, 'rgba(' + r + ',' + g + ',' + b + ',0)');
+                    ctx.beginPath();
+                    ctx.arc(head.x, head.y, 8, 0, Math.PI * 2);
+                    ctx.fillStyle = hGlow;
+                    ctx.fill();
+
+                    // Vehicle icon (tiny)
+                    if (this.progress > 0.05 && this.progress < 0.95) {
+                        ctx.font = '10px sans-serif';
+                        ctx.fillText(this.icon, head.x + 5, head.y - 5);
+                    }
+                }
+            }
+
+            // === AMBIENT PARTICLES (background dust) ===
+            const DUST_COUNT = 30;
+            class Dust {
+                constructor() { this.reset(); }
+                reset() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.vx = (Math.random() - 0.5) * 0.15;
+                    this.vy = (Math.random() - 0.5) * 0.15;
+                    this.radius = 0.5 + Math.random() * 1;
+                    this.alpha = 0.1 + Math.random() * 0.2;
+                    this.depth = 0.3 + Math.random() * 0.7;
+                }
+                update() {
+                    this.x += this.vx - mouseX * 3 * this.depth;
+                    this.y += this.vy - mouseY * 3 * this.depth;
+                    if (this.x < -10) this.x = canvas.width + 10;
+                    if (this.x > canvas.width + 10) this.x = -10;
+                    if (this.y < -10) this.y = canvas.height + 10;
+                    if (this.y > canvas.height + 10) this.y = -10;
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(200,210,230,' + this.alpha + ')';
+                    ctx.fill();
+                }
+            }
+
+            // === INITIALIZE ===
+            const hubs = [];
+            const routes = [];
+            const dusts = [];
+
+            for (let i = 0; i < HUB_COUNT; i++) hubs.push(new Hub(i));
+            for (let i = 0; i < DUST_COUNT; i++) dusts.push(new Dust());
+
+            // Create routes between nearby hubs (varied types)
+            for (let i = 0; i < hubs.length; i++) {
+                for (let j = i + 1; j < hubs.length; j++) {
+                    const dx = hubs[i].baseX - hubs[j].baseX;
+                    const dy = hubs[i].baseY - hubs[j].baseY;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 0.4) {
+                        const type = (i + j) % 3; // Distribute route types
+                        routes.push(new Route(hubs[i], hubs[j], type));
+                    }
+                }
+            }
+
+            // === MAIN ANIMATION LOOP ===
+            function animate() {
+                time++;
+                // Smooth mouse interpolation
+                mouseX += (targetMouseX - mouseX) * 0.05;
+                mouseY += (targetMouseY - mouseY) * 0.05;
+
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // 1. Draw routes (connections between hubs)
+                routes.forEach(r => { r.draw(time); });
+
+                // 2. Spawn & update vehicles
+                routes.forEach(r => {
+                    r.spawnVehicle(time);
+                    r.vehicles = r.vehicles.filter(v => v.alive);
+                    r.vehicles.forEach(v => { v.update(); v.draw(); });
+                });
+
+                // 3. Update & draw hubs
+                hubs.forEach(h => { h.update(time); h.draw(time); });
+
+                // 4. Draw ambient dust
+                dusts.forEach(d => { d.update(); d.draw(); });
+
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        // ============================================
+        // 4. PARALLAX EFFECT
+        // ============================================
+        function initParallax() {
+            const layer1 = document.getElementById('parallaxLayer1');
+            const layer2 = document.getElementById('parallaxLayer2');
+            const hero = document.getElementById('heroSection');
+
+            window.addEventListener('scroll', () => {
+                const scrollY = window.scrollY;
+                const heroH = hero ? hero.offsetHeight : 800;
+                if (scrollY <= heroH) {
+                    const pct = scrollY / heroH;
+                    if (layer1) layer1.style.transform = `translateY(${scrollY * 0.3}px)`;
+                    if (layer2) layer2.style.transform = `translateY(${scrollY * 0.15}px) scale(${1 + pct * 0.05})`;
+                }
+            });
+        }
+
+        // ============================================
+        // 5. NAVBAR SCROLL EFFECT
+        // ============================================
+        function initNavbarScroll() {
+            const header = document.getElementById('mainHeader');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+        }
+
+        // ============================================
+        // 6. COUNTER ANIMATION
+        // ============================================
+        function animateCounter(elementId, target, duration = 1500) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            const start = parseInt(el.innerText) || 0;
+            const increment = (target - start) / (duration / 16);
+            let current = start;
+            const timer = setInterval(() => {
+                current += increment;
+                if ((increment > 0 && current >= target) || (increment < 0 && current <= target)) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                el.innerText = Math.round(current);
+            }, 16);
+        }
+
+        // ============================================
+        // 7. TAB & MODAL SYSTEM (ORIGINAL LOGIC)
+        // ============================================
+        function switchTab(tabId, btnElement) {
+            document.querySelectorAll('.page-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            if(btnElement && btnElement.classList) btnElement.classList.add('active');
+            window.scrollTo(0, 0);
+            if(tabId === 'tab-co-cau') closeDeptDetail();
+            // Re-init AOS for new tab
+            setTimeout(() => AOS.refresh(), 100);
+        }
         function openModal(id) { document.getElementById(id).classList.add('show'); }
         function closeModal(e, modalId) { if (e.target.id === modalId) document.getElementById(modalId).classList.remove('show'); }
 
-        // GỬI LIÊN HỆ
+        // ============================================
+        // 8. CONTACT (ORIGINAL LOGIC)
+        // ============================================
         function sendContactMessage(e) {
-            e.preventDefault(); const btn = document.getElementById('contactBtn'); btn.innerText = "Đang gửi...";
-            db.collection("messages").add({ name: document.getElementById('contactName').value, email: document.getElementById('contactEmail').value, content: document.getElementById('contactMsg').value, timestamp: firebase.firestore.FieldValue.serverTimestamp() })
-            .then(() => { alert('Cảm ơn bạn! Câu hỏi đã được gửi tới Ban Quản Trị.'); e.target.reset(); btn.innerText = "Gửi Tin Nhắn"; });
+            e.preventDefault();
+            const btn = document.getElementById('contactBtn');
+            btn.innerText = "Đang gửi...";
+            db.collection("messages").add({
+                name: document.getElementById('contactName').value,
+                email: document.getElementById('contactEmail').value,
+                content: document.getElementById('contactMsg').value,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                alert('Cảm ơn bạn! Câu hỏi đã được gửi tới Ban Quản Trị.');
+                e.target.reset();
+                btn.innerText = "Gửi Tin Nhắn";
+            });
         }
 
-        function loadContactSection() { db.collection('site_settings').doc('contact_section').get().then(doc => { if (!doc.exists) return; const data = doc.data(); if (data.title) document.getElementById('contactTitle').innerText = data.title; if (data.description) document.getElementById('contactDesc').innerText = data.description; const contactList = document.getElementById('contactList'); if (!contactList) return; if (data.contacts && data.contacts.length) { contactList.innerHTML = data.contacts.map(c => { const icon = c.role.toLowerCase().includes('truyền thông') ? 'fa-bullhorn' : 'fa-user-tie'; return `<div class="dc-item"><div class="dc-icon"><i class="fas ${icon}"></i></div><div class="dc-text"><h4>${c.role}</h4><p>${c.info}</p></div></div>`; }).join(''); } }).catch(err => console.warn('Lỗi:', err)); }
-        function loadDeptDescriptions() { db.collection('site_settings').doc('dept_descriptions').onSnapshot(doc => { if (!doc.exists) return; Object.assign(deptDesc, doc.data()); }); }
-        function loadAboutSections() { const container = document.getElementById('dynamic-about-container'); db.collection("about_sections").orderBy("order", "asc").onSnapshot((snapshot) => { container.innerHTML = ''; if(snapshot.empty) { container.innerHTML = `<p style="text-align:center; padding: 40px; color:gray;">Chưa có thông biến giới thiệu. Admin có thể thêm tại trang quản trị.</p>`; return; } let index = 1; snapshot.forEach((doc) => { const data = doc.data(); const numStr = index < 10 ? '0'+index : index; container.innerHTML += `<div class="info-row"><div class="info-left"><div class="info-tag"><i class="fas fa-sparkles"></i> ${numStr}. ${data.tag}</div><h2 class="info-title">${data.title}</h2></div><div class="info-right">${data.paragraphs.map(p => `<p>${p}</p>`).join('')}</div></div>`; index++; }); }); }
+        function loadContactSection() {
+            db.collection('site_settings').doc('contact_section').get().then(doc => {
+                if (!doc.exists) return;
+                const data = doc.data();
+                if (data.title) document.getElementById('contactTitle').innerHTML = '<i class="fas fa-satellite-dish" style="color: var(--accent-orange); margin-right: 8px;"></i>' + data.title;
+                if (data.description) document.getElementById('contactDesc').innerText = data.description;
+                const contactList = document.getElementById('contactList');
+                if (!contactList) return;
+                if (data.contacts && data.contacts.length) {
+                    contactList.innerHTML = data.contacts.map(c => {
+                        const icon = c.role.toLowerCase().includes('truyền thông') ? 'fa-bullhorn' : 'fa-user-tie';
+                        return `<div class="dc-item"><div class="dc-icon"><i class="fas ${icon}"></i></div><div class="dc-text"><h4>${c.role}</h4><p>${c.info}</p></div></div>`;
+                    }).join('');
+                }
+            }).catch(err => console.warn('Lỗi:', err));
+        }
 
-        // NEWS MODAL
+        function loadDeptDescriptions() {
+            db.collection('site_settings').doc('dept_descriptions').onSnapshot(doc => {
+                if (!doc.exists) return;
+                Object.assign(deptDesc, doc.data());
+            });
+        }
+
+        function loadAboutSections() {
+            const container = document.getElementById('dynamic-about-container');
+            db.collection("about_sections").orderBy("order", "asc").onSnapshot((snapshot) => {
+                container.innerHTML = '';
+                if(snapshot.empty) {
+                    container.innerHTML = `<p class="loading-text">Chưa có thông tin giới thiệu. Admin có thể thêm tại trang quản trị.</p>`;
+                    return;
+                }
+                let index = 1;
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const numStr = index < 10 ? '0' + index : index;
+                    const delay = (index - 1) * 100;
+                    container.innerHTML += `<div class="info-row" data-aos="fade-up" data-aos-delay="${delay}"><div class="info-left"><div class="info-tag"><i class="fas fa-route"></i> ${numStr}. ${data.tag}</div><h2 class="info-title">${data.title}</h2></div><div class="info-right">${data.paragraphs.map(p => `<p>${p}</p>`).join('')}</div></div>`;
+                    index++;
+                });
+                AOS.refresh();
+            });
+        }
+
+        // ============================================
+        // 9. NEWS / ARTICLES (ORIGINAL LOGIC)
+        // ============================================
         function loadPublicNews() {
             const container = document.getElementById('newsPublicContainer');
             db.collection("news").orderBy("date", "desc").onSnapshot(snapshot => {
                 container.innerHTML = ''; globalNews = [];
-                if(snapshot.empty) { container.innerHTML = '<p style="text-align:center; grid-column:1/-1;">Chưa có sự kiện nào được đăng.</p>'; return; }
+                if(snapshot.empty) {
+                    container.innerHTML = '<p class="loading-text" style="grid-column:1/-1;">Chưa có sự kiện nào được đăng.</p>';
+                    return;
+                }
+                let idx = 0;
                 snapshot.forEach(doc => {
                     const n = doc.data(); n.id = doc.id; globalNews.push(n);
-                    const dParts = n.date.split('-'); const displayDate = `${dParts[2]}/${dParts[1]}/${dParts[0]}`;
-                    container.innerHTML += `<div class="news-card" onclick="openArticle('${n.id}')"><div class="news-img-box"><img src="${n.image}" class="news-img" onerror="this.src='https://via.placeholder.com/500x300'"><div class="news-date-badge"><i class="far fa-calendar-alt"></i> ${displayDate}</div></div><div class="news-info"><h3 class="news-title">${n.title}</h3><div class="news-desc-short">${n.desc}</div><p style="color: var(--primary); font-size: 13px; font-weight: 800; margin-top: 10px;">Đọc tiếp <i class="fas fa-arrow-right"></i></p></div></div>`;
+                    const dParts = n.date.split('-');
+                    const displayDate = `${dParts[2]}/${dParts[1]}/${dParts[0]}`;
+                    container.innerHTML += `<div class="news-card" onclick="openArticle('${n.id}')" data-aos="fade-up" data-aos-delay="${idx * 100}"><div class="news-img-box"><img src="${n.image}" class="news-img" onerror="this.src='https://via.placeholder.com/500x300'"><div class="news-date-badge"><i class="far fa-calendar-alt"></i> ${displayDate}</div></div><div class="news-info"><h3 class="news-title">${n.title}</h3><div class="news-desc-short">${n.desc}</div><p style="color: var(--accent-orange); font-size: 13px; font-weight: 700; margin-top: 12px;">Đọc tiếp <i class="fas fa-arrow-right"></i></p></div></div>`;
+                    idx++;
                 });
+                // Update stat
+                animateCounter('statEvents', globalNews.length);
+                AOS.refresh();
             });
         }
-        
-        // MỞ MODAL ĐỌC TOÀN BỘ BÀI VIẾT (ÉP BUỘC HIỂN THỊ ẢNH BÌA Ở ĐẦU)
+
         function openArticle(id) {
             const article = globalNews.find(x => x.id === id);
             if(article) {
                 document.getElementById('a-title').innerText = article.title;
-                
                 let fullContent = article.desc;
                 const urlRegex = /(https?:\/\/[^\s]+(?:\.jpg|\.jpeg|\.png|\.gif|\.webp))/gi;
                 fullContent = fullContent.replace(urlRegex, function(url) {
                     return `<img src="${url}" alt="LSCM Image" onerror="this.style.display='none'">`;
                 });
-
                 const paragraphs = fullContent.split('\n').filter(p => p.trim() !== '');
                 let formattedHtml = '';
                 paragraphs.forEach(p => {
-                    if(p.includes('<img')) {
-                        formattedHtml += p;
-                    } else {
-                        formattedHtml += `<p>${p}</p>`;
-                    }
+                    if(p.includes('<img')) formattedHtml += p;
+                    else formattedHtml += `<p>${p}</p>`;
                 });
-
-                // Dòng này ĐẢM BẢO LUÔN LUÔN chèn ảnh bìa lên vị trí đầu tiên của bài viết
-                formattedHtml = `<img src="${article.image}" alt="Cover" style="width:100%; border-radius:12px; margin-bottom:20px; border: 1px solid var(--border-color);">` + formattedHtml;
-
+                formattedHtml = `<img src="${article.image}" alt="Cover" style="width:100%; border-radius:var(--radius-md); margin-bottom:20px; border: 1px solid var(--glass-border);">` + formattedHtml;
                 document.getElementById('a-body').innerHTML = formattedHtml;
                 openModal('articleModal');
             }
         }
 
-        // TẢI & RENDER THÀNH VIÊN TỪ FIREBASE ĐỘNG 100%
+        // ============================================
+        // 10. MEMBERS & BOARD (ORIGINAL LOGIC)
+        // ============================================
         function loadMembersFromFirebase() {
             db.collection("members").orderBy("roleLevel", "asc").onSnapshot(snapshot => {
                 globalMembers = [];
                 snapshot.forEach(doc => { let m = doc.data(); m.id = doc.id; globalMembers.push(m); });
-                globalMembers.sort((a, b) => { if (a.roleLevel !== b.roleLevel) return a.roleLevel - b.roleLevel; return a.ban.localeCompare(b.ban); });
+                globalMembers.sort((a, b) => {
+                    if (a.roleLevel !== b.roleLevel) return a.roleLevel - b.roleLevel;
+                    return a.ban.localeCompare(b.ban);
+                });
                 renderSystem();
             });
         }
-        function createBoardCard(m) { let c = m.roleLevel === 1 ? "#ef4444" : (m.roleLevel === 3 ? "var(--secondary)" : "var(--primary)"); return `<div class="board-card" onclick="openProfile('${m.id}')"><img src="${m.image}" class="bc-img" style="border-color: ${c};" onerror="this.src='https://via.placeholder.com/300'"><div class="bc-info"><span class="bc-role" style="color:${c}; background:${c}15;">${m.roleTitle}</span><h3 class="bc-name">${m.name}</h3></div></div>`; }
-        function createMemCard(m) { let roleDisplay = m.status === 'ALUMNI' ? m.roleTitle : m.ban; return `<div class="mem-card" onclick="openProfile('${m.id}')"><img src="${m.image}" class="mem-img" onerror="this.src='https://via.placeholder.com/100'"><h4 class="mem-name">${m.name}</h4><p class="mem-ban">${roleDisplay}</p></div>`; }
+
+        function createBoardCard(m) {
+            let c = m.roleLevel === 1 ? "#ef5350" : (m.roleLevel === 3 ? "var(--accent-yellow)" : "var(--accent-orange)");
+            return `<div class="board-card" onclick="openProfile('${m.id}')"><img src="${m.image}" class="bc-img" style="border-color: ${c};" onerror="this.src='https://via.placeholder.com/300'"><div class="bc-info"><span class="bc-role" style="color:${c}; background:${c}15;">${m.roleTitle}</span><h3 class="bc-name">${m.name}</h3></div></div>`;
+        }
+
+        function createMemCard(m) {
+            let roleDisplay = m.status === 'ALUMNI' ? m.roleTitle : m.ban;
+            return `<div class="mem-card" onclick="openProfile('${m.id}')"><img src="${m.image}" class="mem-img" onerror="this.src='https://via.placeholder.com/100'"><h4 class="mem-name">${m.name}</h4><p class="mem-ban">${roleDisplay}</p></div>`;
+        }
 
         function renderSystem() {
             const boardLevel1 = globalMembers.filter(m => m.roleLevel === 1 && m.status !== 'ALUMNI');
@@ -597,10 +2167,9 @@
             const boardLevel5 = globalMembers.filter(m => m.roleLevel === 5 && m.status !== 'ALUMNI');
 
             document.getElementById('homeBoardContainer').innerHTML = [...boardLevel1].slice(0,4).map(createBoardCard).join('');
-            
+
             document.getElementById('boardRow0').innerHTML = boardLevel1.map(createBoardCard).join('');
-            
-            // Xếp Chủ nhiệm vào giữa nếu có 3 người
+
             let bcn = [...boardLevel2to3];
             let cnIndex = bcn.findIndex(m => m.roleLevel === 2);
             if(cnIndex !== -1 && bcn.length >= 3) {
@@ -611,7 +2180,6 @@
             document.getElementById('boardRow2').innerHTML = boardLevel4.map(createBoardCard).join('');
             document.getElementById('boardRow3').innerHTML = boardLevel5.map(createBoardCard).join('');
 
-            // Cố vấn (Level 1) không hiện ở danh sách thành viên nữa
             const activeMems = globalMembers.filter(m => m.status === 'ACTIVE' && m.roleLevel > 1).sort(() => Math.random() - 0.5);
             const ctvMems = globalMembers.filter(m => m.status === 'CTV').sort(() => Math.random() - 0.5);
             const alumniMems = globalMembers.filter(m => m.status === 'ALUMNI').sort(() => Math.random() - 0.5);
@@ -626,23 +2194,62 @@
             document.getElementById('mem-active-container').innerHTML = activeMems.map(createMemCard).join('');
             document.getElementById('mem-ctv-container').innerHTML = ctvMems.map(createMemCard).join('');
             document.getElementById('mem-alumni-container').innerHTML = alumniMems.map(createMemCard).join('');
+
+            // Animate stats
+            animateCounter('statMembers', totalMembers);
         }
 
-        const deptDesc = { 'Truyền Thông': "Sáng tạo nội dung.", 'Kỹ Thuật': "Hỗ trợ công nghệ.", 'Đối Ngoại & Tổ chức sự kiện': "Đại diện liên hệ doanh nghiệp.", 'Chuyên Môn': "Nghiên cứu tài liệu." };
-        function openDeptDetail(banName) { document.getElementById('dept-grid-view').style.display = 'none'; document.getElementById('dept-detail-view').style.display = 'block'; window.scrollTo(0, 0); document.getElementById('d-title').innerText = "Ban " + banName; document.getElementById('d-desc').innerText = deptDesc[banName] || "Mô tả đang cập nhật..."; document.getElementById('deptMembersContainer').innerHTML = globalMembers.filter(m => m.ban.includes(banName) && (m.status === 'ACTIVE' || m.status === 'CTV')).sort((a,b) => a.roleLevel - b.roleLevel).map(createBoardCard).join(''); }
-        function closeDeptDetail() { document.getElementById('dept-grid-view').style.display = 'block'; document.getElementById('dept-detail-view').style.display = 'none'; }
-        function openProfile(id) { const m = globalMembers.find(x => x.id === id); if(m) { document.getElementById('m-name').innerText = m.name; document.getElementById('m-role').innerText = m.roleTitle; document.getElementById('m-slogan').innerText = m.slogan || "Gắn kết và cống hiến."; document.getElementById('m-bio').innerText = m.bio || "Thành viên CLB LSCM."; document.getElementById('m-img').src = m.image; document.getElementById('m-fb').href = m.fb || "#"; openModal('profileModal'); } }
+        // ============================================
+        // 11. DEPARTMENTS (ORIGINAL LOGIC)
+        // ============================================
+        const deptDesc = {
+            'Truyền Thông': "Sáng tạo nội dung.",
+            'Kỹ Thuật': "Hỗ trợ công nghệ.",
+            'Đối Ngoại & Tổ chức sự kiện': "Đại diện liên hệ doanh nghiệp.",
+            'Chuyên Môn': "Nghiên cứu tài liệu."
+        };
 
-        // LOGIN SYSTEM
+        function openDeptDetail(banName) {
+            document.getElementById('dept-grid-view').style.display = 'none';
+            document.getElementById('dept-detail-view').style.display = 'block';
+            window.scrollTo(0, 0);
+            document.getElementById('d-title').innerText = "Ban " + banName;
+            document.getElementById('d-desc').innerText = deptDesc[banName] || "Mô tả đang cập nhật...";
+            document.getElementById('deptMembersContainer').innerHTML = globalMembers
+                .filter(m => m.ban.includes(banName) && (m.status === 'ACTIVE' || m.status === 'CTV'))
+                .sort((a,b) => a.roleLevel - b.roleLevel)
+                .map(createBoardCard).join('');
+        }
+
+        function closeDeptDetail() {
+            document.getElementById('dept-grid-view').style.display = 'block';
+            document.getElementById('dept-detail-view').style.display = 'none';
+        }
+
+        function openProfile(id) {
+            const m = globalMembers.find(x => x.id === id);
+            if(m) {
+                document.getElementById('m-name').innerText = m.name;
+                document.getElementById('m-role').innerText = m.roleTitle;
+                document.getElementById('m-slogan').innerText = m.slogan || "Gắn kết và cống hiến.";
+                document.getElementById('m-bio').innerText = m.bio || "Thành viên CLB LSCM.";
+                document.getElementById('m-img').src = m.image;
+                document.getElementById('m-fb').href = m.fb || "#";
+                openModal('profileModal');
+            }
+        }
+
+        // ============================================
+        // 12. LOGIN SYSTEM (ORIGINAL LOGIC)
+        // ============================================
         let currentLoginRole = 'member';
+
         function selectLoginRole(role) {
             currentLoginRole = role;
-            document.getElementById('btnRoleMem').className = role === 'member' ? 'role-btn active' : 'role-btn';
-            document.getElementById('btnRoleAdm').className = role === 'admin' ? 'role-btn active' : 'role-btn';
-            document.getElementById('btnRoleMem').style.background = role === 'member' ? 'var(--primary)' : 'transparent';
-            document.getElementById('btnRoleMem').style.color = role === 'member' ? 'white' : 'var(--text-muted)';
-            document.getElementById('btnRoleAdm').style.background = role === 'admin' ? 'var(--primary)' : 'transparent';
-            document.getElementById('btnRoleAdm').style.color = role === 'admin' ? 'white' : 'var(--text-muted)';
+            const memBtn = document.getElementById('btnRoleMem');
+            const admBtn = document.getElementById('btnRoleAdm');
+            memBtn.className = role === 'member' ? 'role-active' : 'role-inactive';
+            admBtn.className = role === 'admin' ? 'role-active' : 'role-inactive';
         }
 
         function executeLogin() {
@@ -652,18 +2259,30 @@
 
             if(!email || !pass) return alert("Vui lòng nhập Email và mật khẩu!");
 
-            const ADMIN_EMAIL = "chunhiem@lscm.vn"; 
+            const ADMIN_EMAIL = "chunhiem@lscm.vn";
 
             if (currentLoginRole === 'admin' && email !== ADMIN_EMAIL) return alert("TRUY CẬP TỪ CHỐI: Đây không phải là tài khoản của Ban Chủ Nhiệm!");
             if (currentLoginRole === 'member' && email === ADMIN_EMAIL) return alert("Vui lòng gạt sang tab Ban Chủ Nhiệm để đăng nhập tài khoản này!");
 
-            btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xác thực...'; btnSubmit.disabled = true;
+            btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xác thực...';
+            btnSubmit.disabled = true;
 
             auth.signInWithEmailAndPassword(email, pass).then((userCredential) => {
                 localStorage.setItem('isLoggedIn', 'true');
-                if (email === ADMIN_EMAIL) { localStorage.setItem('userRole', 'ADMIN'); localStorage.setItem('userName', 'Ban Chủ Nhiệm LSCM'); window.location.href = 'admin.html'; } 
-                else { localStorage.setItem('userRole', 'MEMBER'); localStorage.setItem('userName', email.split('@')[0]); window.location.href = 'thanh-vien.html'; }
-            }).catch((error) => { alert("Sai tài khoản hoặc mật khẩu! Vui lòng kiểm tra lại."); btnSubmit.innerHTML = 'Xác Nhận Đăng Nhập'; btnSubmit.disabled = false; });
+                if (email === ADMIN_EMAIL) {
+                    localStorage.setItem('userRole', 'ADMIN');
+                    localStorage.setItem('userName', 'Ban Chủ Nhiệm LSCM');
+                    window.location.href = 'admin.html';
+                } else {
+                    localStorage.setItem('userRole', 'MEMBER');
+                    localStorage.setItem('userName', email.split('@')[0]);
+                    window.location.href = 'thanh-vien.html';
+                }
+            }).catch((error) => {
+                alert("Sai tài khoản hoặc mật khẩu! Vui lòng kiểm tra lại.");
+                btnSubmit.innerHTML = 'Xác Nhận Đăng Nhập';
+                btnSubmit.disabled = false;
+            });
         }
     </script>
 </body>

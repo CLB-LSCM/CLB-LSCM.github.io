@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tin tức LSCM</title>
+    <meta property="og:image" content="https://lscm-hunre.web.app/images/logo.jpg"> 
+    
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #050B18; color: #E8ECF4; font-family: 'Inter', sans-serif; }
+        h1 { font-family: 'Oswald', sans-serif; }
+        .glass-panel { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); backdrop-filter: blur(10px); }
+        .article-content img { width: 100%; border-radius: 12px; margin: 20px 0; border: 1px solid rgba(255,255,255,0.1); }
+        .article-content p { margin-bottom: 16px; line-height: 1.8; color: #7E8CA0; font-size: 16px; }
+    </style>
+</head>
+<body>
+    <div class="glass-panel sticky top-0 z-50 px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3 cursor-pointer" onclick="window.location.href='index_FIXED.html'">
+            <img src="images/logo.jpg" alt="LSCM" class="w-10 h-10 rounded-lg">
+            <span class="font-bold text-lg hidden sm:block">LSCM HUNRE</span>
+        </div>
+        <button onclick="window.location.href='index_FIXED.html'" class="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-md text-sm font-semibold transition">
+            <i class="fas fa-home mr-2"></i> Về Trang chủ
+        </button>
+    </div>
+
+    <div class="max-w-3xl mx-auto px-4 py-10" id="article-container">
+        <div class="text-center text-gray-400 py-20">
+            <i class="fas fa-spinner fa-spin text-3xl mb-4 text-[#F58220]"></i>
+            <p>Đang tải bài viết...</p>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script>
+        // CẤU HÌNH FIREBASE CỦA BẠN (Copy y hệt bên index qua)
+        const firebaseConfig = {
+            apiKey: "AIzaSyAtKGpwqCA71JcPWxnQGZ_sFWWquADZKdk",
+            authDomain: "lscm-hunre.firebaseapp.com",
+            projectId: "lscm-hunre",
+            storageBucket: "lscm-hunre.firebasestorage.app",
+            messagingSenderId: "529740128242",
+            appId: "1:529740128242:web:9436a1c4d5c2257b71d56b"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // 1. Lấy ID bài viết từ đường link (Ví dụ: bai-viet.html?id=ABC)
+        const urlParams = new URLSearchParams(window.location.search);
+        const articleId = urlParams.get('id');
+
+        // 2. Kéo dữ liệu bài viết đó về và hiển thị
+        if (articleId) {
+            db.collection("news").doc(articleId).get().then(doc => {
+                if (doc.exists) {
+                    const data = doc.data();
+                    const dParts = data.date.split('-');
+                    const displayDate = `${dParts[2]}/${dParts[1]}/${dParts[0]}`;
+                    
+                    // Xử lý ảnh trong nội dung
+                    let fullContent = data.desc;
+                    const urlRegex = /(https?:\/\/[^\s]+(?:\.jpg|\.jpeg|\.png|\.gif|\.webp))/gi;
+                    fullContent = fullContent.replace(urlRegex, function(url) {
+                        return `<img src="${url}" alt="LSCM">`;
+                    });
+                    const paragraphs = fullContent.split('\n').filter(p => p.trim() !== '');
+                    let contentHtml = paragraphs.map(p => p.includes('<img') ? p : `<p>${p}</p>`).join('');
+
+                    // Link để Share
+                    const shareUrl = encodeURIComponent(window.location.href);
+
+                    // Đổ dữ liệu vào giao diện
+                    document.getElementById('article-container').innerHTML = `
+                        <div class="mb-6 flex items-center gap-4 text-sm text-[#F58220] font-semibold">
+                            <span><i class="far fa-calendar-alt"></i> ${displayDate}</span>
+                            <span class="w-1.5 h-1.5 bg-[#1B8A4A] rounded-full"></span>
+                            <span>Ban Truyền Thông</span>
+                        </div>
+                        <h1 class="text-3xl md:text-5xl font-bold mb-8 text-white leading-tight uppercase">${data.title}</h1>
+                        <img src="${data.image}" alt="Cover" class="w-full rounded-2xl mb-10 shadow-2xl border border-gray-800">
+                        <div class="article-content">${contentHtml}</div>
+                        
+                        <div class="mt-12 pt-8 border-t border-gray-800 flex flex-wrap justify-between items-center gap-4">
+                            <span class="text-gray-400 font-semibold">Chia sẻ thông tin này:</span>
+                            <div class="flex gap-3">
+                                <button onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${shareUrl}', '_blank')" class="w-10 h-10 rounded-full bg-[#1877f2] bg-opacity-20 text-[#1877f2] hover:bg-opacity-100 hover:text-white transition"><i class="fab fa-facebook-f"></i></button>
+                                <button onclick="window.open('https://sp.zalo.me/plugins/share?url=${shareUrl}', '_blank')" class="w-10 h-10 rounded-full bg-[#0068ff] bg-opacity-20 text-[#0068ff] font-bold text-xs hover:bg-opacity-100 hover:text-white transition">Zalo</button>
+                                <button onclick="navigator.clipboard.writeText(window.location.href); alert('Đã sao chép link!');" class="w-10 h-10 rounded-full bg-gray-800 text-gray-400 hover:bg-white hover:text-black transition"><i class="fas fa-link"></i></button>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    document.getElementById('article-container').innerHTML = `<h1 class="text-center text-2xl text-red-500 py-20">Bài viết không tồn tại hoặc đã bị xóa!</h1>`;
+                }
+            }).catch(err => {
+                document.getElementById('article-container').innerHTML = `<h1 class="text-center text-2xl text-red-500 py-20">Lỗi kết nối máy chủ!</h1>`;
+            });
+        } else {
+            document.getElementById('article-container').innerHTML = `<h1 class="text-center text-2xl text-yellow-500 py-20">Không tìm thấy mã bài viết!</h1>`;
+        }
+    </script>
+</body>
+</html>
